@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 项目概况!qqqq[image-20211217195108738](C:\Study\java\ProjectItem\bookManage\img\image-20211217195108738.png)
 =======
 # 项目概况!bbbbb[image-20211217195108738](C:\Study\java\ProjectItem\bookManage\img\image-20211217195108738.png)
