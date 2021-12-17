@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 项目概况!aaaaaaa[image-20211217195108738](C:\Study\java\ProjectItem\bookManage\img\image-20211217195108738.png)
+=======
+# 项目概况!sbsb[image-20211217195108738](C:\Study\java\ProjectItem\bookManage\img\image-20211217195108738.png)
+>>>>>>> 4f5154bdd0562d59f85f5f5be0b972831d3ba86f
 
 ## 前端规范
 
