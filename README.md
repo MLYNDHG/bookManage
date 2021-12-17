@@ -1,6 +1,6 @@
 # 项目概况!aaaaaaa[image-20211217195108738](C:\Study\java\ProjectItem\bookManage\img\image-20211217195108738.png)
 
-## 前端规范
+## 前端规范111
 
 阅读bookManageFrontDev中readme.md
 
