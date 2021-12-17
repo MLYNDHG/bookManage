@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PersistentConfig">
+    <option name="historyConfigList">
+      <map>
+        <entry key="stuffinfo">
+          <value>
+            <Config>
+              <option name="comment" value="true" />
+              <option name="daoMvnPath" value="src/main/java" />
+              <option name="daoName" value="StuffinfoDao" />
+              <option name="daoPackage" value="com.mlyndhg.luckdraw.mbg.dao" />
+              <option name="daoPostfix" value="Dao" />
+              <option name="modelMvnPath" value="src/main/java" />
+              <option name="modelName" value="Stuffinfo" />
+              <option name="modelPackage" value="com.mlyndhg.luckdraw.mbg.model" />
+              <option name="name" value="stuffinfo" />
+              <option name="overrideJava" value="true" />
+              <option name="overrideXML" value="true" />
+              <option name="primaryKey" value="Sid" />
+              <option name="projectFolder" value="$PROJECT_DIR$" />
+              <option name="tableName" value="stuffinfo" />
+              <option name="useLombokPlugin" value="true" />
+              <option name="useSchemaPrefix" value="true" />
+              <option name="useSwaggerPlugin" value="true" />
+              <option name="xmlMvnPath" value="src/main/resources" />
+              <option name="xmlPackage" value="mbg" />
+            </Config>
+          </value>
+        </entry>
+        <entry key="userinfo">
+          <value>
+            <Config>
+              <option name="comment" value="true" />
+              <option name="daoMvnPath" value="src/main/java" />
+              <option name="daoName" value="UserinfoDao" />
+              <option name="daoPackage" value="com.mlyndhg.luckdraw.mbg.dao" />
+              <option name="daoPostfix" value="Dao" />
+              <option name="modelMvnPath" value="src/main/java" />
+              <option name="modelName" value="Userinfo" />
+              <option name="modelPackage" value="com.mlyndhg.luckdraw.mbg.model" />
+              <option name="name" value="userinfo" />
+              <option name="overrideJava" value="true" />
+              <option name="overrideXML" value="true" />
+              <option name="primaryKey" value="Uid" />
+              <option name="projectFolder" value="$PROJECT_DIR$" />
+              <option name="tableName" value="userinfo" />
+              <option name="useLombokPlugin" value="true" />
+              <option name="useSchemaPrefix" value="true" />
+              <option name="useSwaggerPlugin" value="true" />
+              <option name="xmlMvnPath" value="src/main/resources" />
+              <option name="xmlPackage" value="mbg" />
+            </Config>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
