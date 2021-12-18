@@ -15,7 +15,7 @@ const router = new Router({
 });
 
 // 导航守卫
-// 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
+// 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆。
 router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
         next();
