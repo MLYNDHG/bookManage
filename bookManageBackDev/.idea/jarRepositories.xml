@@ -7,8 +7,8 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="aliyun-repos" />
-      <option name="name" value="aliyun-repos" />
+      <option name="id" value="aliyunmaven" />
+      <option name="name" value="aliyunmaven" />
       <option name="url" value="https://maven.aliyun.com/repository/public" />
     </remote-repository>
     <remote-repository>
