@@ -10,10 +10,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 //添加下面这一行
 import '@/assets/icons'
 import '@/assets/styles/global.css'
-//引入组件
-import adminHead from '@/components/adminHead/adminHead.vue' // adminHead组件
-// 注册为全局组件
-Vue.component('adminHead', adminHead)
+// //引入组件
+// import adminHead from '@/components/adminHead/adminHead.vue' // adminHead组件
+// // 注册为全局组件
+// Vue.component('adminHead', adminHead)
 
 Vue.use(Element)
 Vue.use(less)
