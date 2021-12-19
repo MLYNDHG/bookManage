@@ -4,13 +4,28 @@ import com.Httb.bookManage.dao.UserExtDao;
 import com.Httb.bookManage.exception.NoDataFoundException;
 import com.Httb.bookManage.exception.UserExistsException;
 import com.Httb.bookManage.mbg.entity.User;
+import com.Httb.bookManage.model.UserVO;
+import com.Httb.bookManage.util.ConstantPath;
 import com.Httb.bookManage.util.CreateRandomCharData;
+import com.Httb.bookManage.util.JWTUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
+@Slf4j
 @Service
 public class UserService {
+
+    // 照片访问网络地址
+    @Value("${image.path}")
+    private String image_path;
 
     @Resource
     private UserExtDao userExtDao;
@@ -21,15 +36,18 @@ public class UserService {
     public String UserLogin(User user) {
         // 通过用户名和密码查找用户
         User user1 = userExtDao.selectUserByUP(user);
-        if (user1 == null) {
+        // 判断是否存在用户 或 用户是否已软删除
+        if (user1 == null || user1.getStatus()) {
             throw new NoDataFoundException("用户名或密码错误!");
         }
+//        return JWTUtils.getToken(user);
         return CreateRandomCharData.createRandomCharData(30);
     }
 
     /**
      * 用户注册，修改用户信息
      * 分管理员和普通用户，密码已加密.
+     * 用户软删除，修改status.
      * 需要传入 is_super: 1 管理员,0 普通用户.
      * status: 1 软删除, 0 存在.
      */
@@ -40,7 +58,7 @@ public class UserService {
 
         if (user.getId() != null) {
             // 修改用户信息
-            return userExtDao.updateByPrimaryKeySelective(user);
+            return userExtDao.updateUser(user);
         } else {
             // 用户注册
             return userExtDao.insertUser(user);
@@ -66,4 +84,55 @@ public class UserService {
             throw new UserExistsException("用户名重复！");
         }
     }
+
+    /**
+     * 用户头像上传
+     */
+    public String uploadImage(MultipartFile file) throws IOException {
+        if (file != null) {
+            String fileName = file.getOriginalFilename();
+            String[] strings = fileName != null ? fileName.split("\\.") : null;
+            if (strings != null) {
+                String suffix = strings[strings.length - 1];
+                String name = System.currentTimeMillis() + "." + suffix;
+
+                // 文件上传的本机地址
+                String dest = ConstantPath.DIR + name;
+
+                // 通过字节流的形式输入输出文件
+                InputStream fis = file.getInputStream();
+                File newFile = new File(dest);
+                FileOutputStream fos = new FileOutputStream(newFile);
+
+                // 一次读 1MB
+                byte[] bytes = new byte[1024];
+                int temp;
+                while ((temp = fis.read(bytes)) != -1) {
+                    // 将字节读入文件
+                    fos.write(bytes, 0, temp);
+                }
+
+                // 刷新
+                fos.flush();
+
+                // 关闭IO流
+                fos.close();
+                fis.close();
+
+                return image_path + name;
+            }
+        }
+        return "false";
+    }
+
+    // 修改密码
+    public Integer updatePassword(UserVO userVO) {
+
+        User user1 = userExtDao.selectUserByUP(userVO);
+        if (user1 == null) {
+            throw new NoDataFoundException("用户名或密码错误！");
+        }
+        return userExtDao.updatePassword(userVO);
+    }
+
 }
