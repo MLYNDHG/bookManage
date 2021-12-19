@@ -42,7 +42,6 @@
 
 <script>
 import { mapMutations } from "vuex";
-import { login } from "@/services/UserInfoController.js";
 export default {
   data() {
     return {
@@ -63,25 +62,25 @@ export default {
     login(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          login(this.user.name, this.user.password).then((res) => {
-            let token = res.data;
-            console.log(token);
-            this.userToken = token;
+          // login(this.user.name, this.user.password).then((res) => {
+          //   let token = res.data;
+          //   console.log(token);
+          //   this.userToken = token;
 
-            sessionStorage.setItem("user", this.user.name);
-            sessionStorage.setItem("userToken", token);
-            //将用户名放入vuex中  actiond调用
-            this.$store.dispatch("setUser", this.user.name);
-            this.$store.dispatch("setToken", token);
+          //   sessionStorage.setItem("user", this.user.name);
+          //   sessionStorage.setItem("userToken", token);
+          //   //将用户名放入vuex中  actiond调用
+          //   this.$store.dispatch("setUser", this.user.name);
+          //   this.$store.dispatch("setToken", token);
 
-            // 将用户token保存到vuex中
-            // this.changeLogin({ Authorization: token });
-            this.changeLogin(token);
-            //打印login状态
-            console.log(this.$store.state.isLogin);
-            this.$router.push("/login");
-            this.success("登录成功");
-          });
+          //   // 将用户token保存到vuex中
+          //   // this.changeLogin({ Authorization: token });
+          //   this.changeLogin(token);
+          //   //打印login状态
+          //   console.log(this.$store.state.isLogin);
+          //   this.$router.push("/login");
+          //   this.success("登录成功");
+          // });
         } else {
           this.fail("账号密码错误");
           return false;
