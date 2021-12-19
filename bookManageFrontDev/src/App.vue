@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    ss
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
     <!-- <h1>Welcom to LuckDraw</h1>
     <svg-icon iconClass="畅游花市" className="wuhu" /> -->

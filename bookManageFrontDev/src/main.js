@@ -8,12 +8,9 @@ import Element from 'element-ui'
 import less from 'less'
 import 'element-ui/lib/theme-chalk/index.css';
 //添加下面这一行
-import '@/assets/icons'
 import '@/assets/styles/global.css'
-//引入组件
-import adminHead from '@/components/adminHead/adminHead.vue' // adminHead组件
-// 注册为全局组件
-Vue.component('adminHead', adminHead)
+import '@/assets/icons'
+
 
 Vue.use(Element)
 Vue.use(less)
@@ -31,5 +28,6 @@ new Vue({
     router,
     store,
     // axios,
-    render: h => h(App)
-}).$mount('#app')
+    render: h => h(App)//render渲染     h => h(App):语法糖js
+}).$mount('#app')      //挂载app到vue上
+                        //js id选择器是# class选择器是. 
