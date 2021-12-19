@@ -2,6 +2,7 @@ package com.Httb.bookManage.dao;
 
 import com.Httb.bookManage.mbg.dao.UserDao;
 import com.Httb.bookManage.mbg.entity.User;
+import com.Httb.bookManage.model.UserVO;
 
 public interface UserExtDao extends UserDao {
 
@@ -18,4 +19,9 @@ public interface UserExtDao extends UserDao {
     // 用户注册 用户插入
     Integer insertUser(User user);
 
+    // 修改用户信息
+    Integer updateUser(User user);
+
+    // 修改用户密码
+    Integer updatePassword(UserVO userVO);
 }

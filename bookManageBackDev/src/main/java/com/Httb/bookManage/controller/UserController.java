@@ -1,10 +1,13 @@
 package com.Httb.bookManage.controller;
 
 import com.Httb.bookManage.mbg.entity.User;
+import com.Httb.bookManage.model.UserVO;
 import com.Httb.bookManage.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
@@ -29,5 +32,23 @@ public class UserController {
     public Integer save(@RequestBody User user) {
 
         return userService.saveUser(user);
+    }
+
+    /**
+     * 用户头像上传
+     */
+    @PostMapping("/uploadImage")
+    public String uploadImage(@RequestBody MultipartFile file) throws IOException {
+
+        return userService.uploadImage(file);
+    }
+
+    /**
+     * 通过用户名修改密码
+     */
+    @PostMapping("/updatePassword")
+    public Integer updatePassword(@RequestBody UserVO userVO) {
+
+        return userService.updatePassword(userVO);
     }
 }
