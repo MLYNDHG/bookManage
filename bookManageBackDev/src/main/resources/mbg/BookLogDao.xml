@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.mbg.dao.BookLogDao">
+  <resultMap id="BaseResultMap" type="com.Httb.bookManage.mbg.entity.BookLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="bid" jdbcType="INTEGER" property="bid" />
+    <result column="timeStart" jdbcType="TIMESTAMP" property="timestart" />
+    <result column="timeEnd" jdbcType="TIMESTAMP" property="timeend" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `uid`, bid, timeStart, timeEnd
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from book_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.BookLog" useGeneratedKeys="true">
+    insert into book_log (`uid`, bid, timeStart, 
+      timeEnd)
+    values (#{uid,jdbcType=INTEGER}, #{bid,jdbcType=INTEGER}, #{timestart,jdbcType=TIMESTAMP}, 
+      #{timeend,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.BookLog" useGeneratedKeys="true">
+    insert into book_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="bid != null">
+        bid,
+      </if>
+      <if test="timestart != null">
+        timeStart,
+      </if>
+      <if test="timeend != null">
+        timeEnd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null">
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="timestart != null">
+        #{timestart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeend != null">
+        #{timeend,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Httb.bookManage.mbg.entity.BookLog">
+    update book_log
+    <set>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null">
+        bid = #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="timestart != null">
+        timeStart = #{timestart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeend != null">
+        timeEnd = #{timeend,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Httb.bookManage.mbg.entity.BookLog">
+    update book_log
+    set `uid` = #{uid,jdbcType=INTEGER},
+      bid = #{bid,jdbcType=INTEGER},
+      timeStart = #{timestart,jdbcType=TIMESTAMP},
+      timeEnd = #{timeend,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
