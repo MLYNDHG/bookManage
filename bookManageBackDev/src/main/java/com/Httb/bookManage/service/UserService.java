@@ -1,6 +1,7 @@
 package com.Httb.bookManage.service;
 
 import com.Httb.bookManage.dao.UserExtDao;
+import com.Httb.bookManage.exception.FileNotFoundException;
 import com.Httb.bookManage.exception.NoDataFoundException;
 import com.Httb.bookManage.exception.UserExistsException;
 import com.Httb.bookManage.mbg.entity.User;
@@ -8,6 +9,7 @@ import com.Httb.bookManage.model.UserVO;
 import com.Httb.bookManage.util.ConstantPath;
 import com.Httb.bookManage.util.CreateRandomCharData;
 import com.Httb.bookManage.util.JWTUtils;
+import com.Httb.bookManage.util.UploadImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,6 @@ import java.io.InputStream;
 @Slf4j
 @Service
 public class UserService {
-
-    // 照片访问网络地址
-    @Value("${image.path}")
-    private String image_path;
 
     @Resource
     private UserExtDao userExtDao;
@@ -89,40 +87,12 @@ public class UserService {
      * 用户头像上传
      */
     public String uploadImage(MultipartFile file) throws IOException {
-        if (file != null) {
-            String fileName = file.getOriginalFilename();
-            String[] strings = fileName != null ? fileName.split("\\.") : null;
-            if (strings != null) {
-                String suffix = strings[strings.length - 1];
-                String name = System.currentTimeMillis() + "." + suffix;
-
-                // 文件上传的本机地址
-                String dest = ConstantPath.DIR + name;
-
-                // 通过字节流的形式输入输出文件
-                InputStream fis = file.getInputStream();
-                File newFile = new File(dest);
-                FileOutputStream fos = new FileOutputStream(newFile);
-
-                // 一次读 1MB
-                byte[] bytes = new byte[1024];
-                int temp;
-                while ((temp = fis.read(bytes)) != -1) {
-                    // 将字节读入文件
-                    fos.write(bytes, 0, temp);
-                }
-
-                // 刷新
-                fos.flush();
-
-                // 关闭IO流
-                fos.close();
-                fis.close();
-
-                return image_path + name;
-            }
+        // 上传照片工具类
+        String result = UploadImageUtil.uploadImage(file);
+        if (result == null) {
+            throw new FileNotFoundException("文件未提交！");
         }
-        return "false";
+        return result;
     }
 
     // 修改密码
