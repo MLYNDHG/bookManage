@@ -56,12 +56,8 @@
 
 <!--    图书查阅 借阅信息-->
     <select id="selectBookInfoList" parameterType="com.Httb.bookManage.model.BookVO" resultMap="BookList">
-        select b.id,
-               b.name,
-               b.author,
-               b.description,
-               u.id as uid,
-               b.time
+        select b.*,
+               u.id as uid
         from book b
             left join (
                 select * from (
@@ -72,5 +68,38 @@
             on b.id = k.bid and b.log = 1
         left join `user` u
         on u.id = k.uid
+        <where>
+            <if test="id != null">
+                b.id = #{id}
+            </if>
+            <if test="name != null">
+                <bind name="nameLike" value="'%' + name + '%'"/>
+                and b.`name` like #{nameLike}
+            </if>
+            <if test="description != null">
+                <bind name="descriptionLike" value="'%' + description + '%'"/>
+                and b.`description` like #{descriptionLike}
+            </if>
+            <if test="author != null">
+                <bind name="authorLike" value="'%' + author + '%'"/>
+                and b.`author` like #{authorLike}
+            </if>
+            <if test="status != null">
+                and b.`status` = #{status}
+            </if>
+            <if test="log != null">
+                and b.`log` = #{log}
+            </if>
+            <if test="timeFrom != null">
+                <![CDATA[
+                        and #{timeFrom} <= b.`time`
+                ]]>
+            </if>
+            <if test="timeTo != null">
+                <![CDATA[
+                        and #{timeTo} >= b.`time`
+                ]]>
+            </if>
+        </where>
     </select>
 </mapper>
