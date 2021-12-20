@@ -3,6 +3,8 @@ package com.Httb.bookManage.controller;
 import com.Httb.bookManage.mbg.entity.User;
 import com.Httb.bookManage.model.UserVO;
 import com.Httb.bookManage.service.UserService;
+import com.Httb.bookManage.util.RequestPageData;
+import com.Httb.bookManage.util.ResponsePageData;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,5 +52,14 @@ public class UserController {
     public Integer updatePassword(@RequestBody UserVO userVO) {
 
         return userService.updatePassword(userVO);
+    }
+
+    /**
+     * 用户列表
+     */
+    @PostMapping("/selectUserList")
+    public ResponsePageData<User> selectUserList(@RequestBody RequestPageData<User> requestPageData) {
+
+        return userService.selectUserList(requestPageData);
     }
 }

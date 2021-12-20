@@ -6,20 +6,16 @@ import com.Httb.bookManage.exception.NoDataFoundException;
 import com.Httb.bookManage.exception.UserExistsException;
 import com.Httb.bookManage.mbg.entity.User;
 import com.Httb.bookManage.model.UserVO;
-import com.Httb.bookManage.util.ConstantPath;
-import com.Httb.bookManage.util.CreateRandomCharData;
-import com.Httb.bookManage.util.JWTUtils;
-import com.Httb.bookManage.util.UploadImageUtil;
+import com.Httb.bookManage.util.*;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -95,14 +91,25 @@ public class UserService {
         return result;
     }
 
-    // 修改密码
+    /**
+     * 修改密码
+     */
     public Integer updatePassword(UserVO userVO) {
-
         User user1 = userExtDao.selectUserByUP(userVO);
         if (user1 == null) {
             throw new NoDataFoundException("用户名或密码错误！");
         }
         return userExtDao.updatePassword(userVO);
+    }
+
+    /**
+     * 用户列表
+     */
+    public ResponsePageData<User> selectUserList(RequestPageData<User> requestPageData) {
+        // 分页查询
+        Page<Object> page = PageHelper.startPage(requestPageData.getPageCondition().getPageNo(),requestPageData.getPageCondition().getPageSize());
+        userExtDao.selectUser(requestPageData.getCondition());
+        return new ResponsePageData<>(page);
     }
 
 }
