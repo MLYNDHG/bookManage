@@ -26,11 +26,14 @@ CREATE TABLE `book` (
   `description` text COMMENT '图书描述',
   `author` varchar(20) NOT NULL COMMENT '图书作者',
   `status` tinyint(1) NOT NULL COMMENT '图书状态',
+  `log` tinyint(1) NOT NULL COMMENT '图书借阅状态',
   `time` datetime NOT NULL COMMENT '图书添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `book` */
+
+insert  into `book`(`id`,`name`,`description`,`author`,`status`,`log`,`time`) values (1,'西游记','哈哈哈','吴承恩',0,1,'2021-12-20 11:00:00'),(2,'红楼梦','红楼梦','曹雪芹',0,1,'2021-12-12 12:00:00'),(3,'水浒传','hhh','施耐庵',0,0,'2021-12-20 08:00:00'),(4,'三国演义','三国演义','罗贯中',0,0,'2021-12-20 15:21:23');
 
 /*Table structure for table `book_log` */
 
@@ -43,9 +46,11 @@ CREATE TABLE `book_log` (
   `timeStart` datetime NOT NULL COMMENT '借阅时间',
   `timeEnd` datetime DEFAULT NULL COMMENT '还书时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `book_log` */
+
+insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00',NULL),(2,1,2,'2021-11-13 14:13:00',NULL),(3,4,3,'2021-12-12 13:00:00','2021-12-20 14:12:12');
 
 /*Table structure for table `user` */
 
