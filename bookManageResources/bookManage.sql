@@ -55,7 +55,7 @@ CREATE TABLE `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `username` varchar(30) NOT NULL COMMENT '用户名',
   `nickname` varchar(30) DEFAULT NULL COMMENT '用户昵称',
-  `password` varchar(255) NOT NULL COMMENT '用户密码',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户密码',
   `head` varchar(255) DEFAULT NULL COMMENT '用户头像',
   `tel` varchar(30) DEFAULT NULL COMMENT '用户电话',
   `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户邮箱',
