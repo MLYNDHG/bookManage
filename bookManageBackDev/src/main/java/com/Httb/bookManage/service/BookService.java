@@ -25,7 +25,7 @@ public class BookService {
     public ResponsePageData<BookVO> selectBookList(RequestPageData<BookVO> requestPageData) {
         // 分页查询
         Page<Object> page = PageHelper.startPage(requestPageData.getPageCondition().getPageNo(), requestPageData.getPageCondition().getPageSize());
-        List<BookVO> bookVOS = bookExtDao.selectBookList(requestPageData.getCondition());
+        List<BookVO> bookVOS = bookExtDao.selectBookInfoList(requestPageData.getCondition());
         // 时间格式化
         for (BookVO b :
             bookVOS) {

@@ -15,6 +15,8 @@ public class BookVO extends Book {
 
     private Date timeTo;
 
+    private Integer uid;
+
     /**
      * 解决返回的时间格式是时间戳的问题
      */

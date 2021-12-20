@@ -7,8 +7,9 @@
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="uid" jdbcType="INTEGER" property="uid" />
         <result column="status" jdbcType="BOOLEAN" property="status" />
-        <result column="log" jdbcType="BOOLEAN" property="log"/>
+        <result column="log" jdbcType="BOOLEAN" property="log" />
         <result column="time" jdbcType="TIMESTAMP" property="time" />
         <result column="date" jdbcType="TIMESTAMP" property="date"/>
     </resultMap>
@@ -51,5 +52,25 @@
                 ]]>
             </if>
         </where>
+    </select>
+
+<!--    图书查阅 借阅信息-->
+    <select id="selectBookInfoList" parameterType="com.Httb.bookManage.model.BookVO" resultMap="BookList">
+        select b.id,
+               b.name,
+               b.author,
+               b.description,
+               u.id as uid,
+               b.time
+        from book b
+            left join (
+                select * from (
+                              select MAX(timeStart) m from book_log group by bid
+                                ) s,book_log l
+                                where l.timeStart = s.m
+                                  ) k
+            on b.id = k.bid and b.log = 1
+        left join `user` u
+        on u.id = k.uid
     </select>
 </mapper>

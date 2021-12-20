@@ -12,4 +12,9 @@ public interface BookExtDao extends BookDao {
      * 图书列表
      */
     List<BookVO> selectBookList(BookVO bookVO);
+
+    /**
+     * 图书查阅，借阅信息
+     */
+    List<BookVO> selectBookInfoList(BookVO bookVO);
 }
