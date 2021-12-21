@@ -244,7 +244,7 @@ export default {
         .el-submenu {
           padding-right: 0px !important;
         }
-        .el-submenu__title {
+        /deep/.el-submenu__title {
           padding-right: 55px !important;
         }
       }
@@ -254,7 +254,7 @@ export default {
       background-color: #e9eef3;
       color: #333;
       text-align: center;
-      .el-tabs__item {
+      /deep/.el-tabs__item {
         color: white;
         background-color: #409eff !important;
         border-radius: 20% 10% 0 0 !important;

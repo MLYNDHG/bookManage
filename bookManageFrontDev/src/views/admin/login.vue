@@ -94,7 +94,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .login {
   /* background-image:url(../../assets/img/1.gif) ; */
 
