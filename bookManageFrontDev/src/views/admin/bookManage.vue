@@ -20,7 +20,7 @@
         v-model="book.des"
       ></el-input>
       <el-button class="dalfBut" >查询</el-button>
-      <el-button type="primary" class="butT" 
+      <el-button type="danger" class="butT" 
         >添加图书</el-button
       >
     </div>
