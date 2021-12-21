@@ -42,7 +42,7 @@ public class BookService {
      */
     public Integer saveBook(Book book) {
         if (book.getId() != null) {
-            // 修改图书信息
+            // 修改图
             return bookExtDao.updateByPrimaryKeySelective(book);
         } else {
             // 新增图书
