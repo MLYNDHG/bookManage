@@ -38,7 +38,7 @@ public class BookService {
      * save 图书
      * 新增图书
      * 修改图书
-     * status：1 软删除，0 存在
+     * status：1 软删除，0 存在。
      */
     public Integer saveBook(Book book) {
         if (book.getId() != null) {
