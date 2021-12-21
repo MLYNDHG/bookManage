@@ -20,7 +20,9 @@
         v-model="queryInfo.condition.description"
       ></el-input>
       <el-button class="dalfBut" @click="bookSearch">查询</el-button>
-      <el-button type="danger" class="butT" @click="addBookBto">添加图书</el-button>
+      <el-button type="danger" class="butT" @click="addBookBto"
+        >添加图书</el-button
+      >
     </div>
 
     <!-- table区域 -->
@@ -30,11 +32,13 @@
       <el-table-column label="图书名" prop="name"></el-table-column>
       <el-table-column label="作者" prop="author"></el-table-column>
       <el-table-column label="描述" prop="description"></el-table-column>
-      <el-table-column
-        ><el-button size="small" type="primary"
-          >借阅</el-button
-        ></el-table-column
-      >
+      <el-table-column>
+        <template slot-scope="scope">
+          <el-button size="small" type="primary" @click="getUser(scope.row.id)"
+            >借阅</el-button
+          >
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作" header-align="center" align="center">
         <template slot-scope="scope">
@@ -114,17 +118,46 @@
         <el-button type="primary" @click="editBook">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 借阅图书对话框 -->
+    <el-dialog title="收货地址" :visible.sync="borrowBookDialog" width="30%">
+      <el-form :model="userForm">
+        <el-form-item label="请指定用户" label-width="100px">
+          <el-select v-model="userForm.username" placeholder="请选择活动区域">
+            <el-option
+              v-for="item in userList"
+              :key="item.id"
+              :value="item.username"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="borrowBookDialog = false">取 消</el-button>
+        <el-button type="primary" @click="borrowBook">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { selectBookList,saveBook } from "@/services/bookcontroller.js";
+import { selectBookList, saveBook } from "@/services/bookcontroller.js";
+import { selectUserList } from "@/services/UserController.js";
+import { saveBookLog } from "@/services/bookLogController.js";
 import requestPageData from "@/model/RequestPageData.js";
-import addBookForm from "@/model/addBookForm.js";
+import addBookForm from "@/model/addBookForm";
+import userList from "@/model/User.js";
+import BookLogVO from "@/model/bookLogModel.js";
 export default {
   data() {
     return {
+      //查询书籍用的模型
       requestPageData: new requestPageData(),
+      //添加书籍用的模型
       addBookForm: new addBookForm(),
+      //查用户信息用的模型
+      user: new userList(),
+      //借阅信息的模型
+      bookLogVO: new BookLogVO(),
       //获取图书列表的参数对象
       queryInfo: {
         condition: {
@@ -158,8 +191,20 @@ export default {
       //编辑图书对话框
       editBookDialog: false,
 
+      //借阅图书对话框
+      borrowBookDialog: false,
+
       //编辑图书展示信息
-      editBookList: []
+      editBookList: [],
+
+      //用户信息
+      userList: [],
+
+      //用户表单
+      userForm: {
+        id: 0,
+        username: "",
+      },
     };
   },
 
@@ -184,6 +229,23 @@ export default {
         });
     },
 
+    //查询所有用户
+    getUser(bid) {
+      //console.log(bid)
+      this.userForm.id = bid;
+      this.requestPageData.condition = this.user;
+      selectUserList(this.requestPageData)
+        .then((res) => {
+          console.log(res);
+          this.userList = res.data.resultPages;
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+
+      this.borrowBookDialog = true;
+    },
+
     //匹配查询
     bookSearch() {
       this.getAll();
@@ -205,50 +267,67 @@ export default {
 
     //新增图书
     addBook() {
-        saveBook(this.addBookForm).then(res=>{
-            console.log(res)
-            this.addBookFormDialog = false
-            this.$message({ message: "添加成功", type: "success" });
-        }).catch(res=>{
-            console.log(res)
+      saveBook(this.addBookForm)
+        .then((res) => {
+          console.log(res);
+          this.addBookFormDialog = false;
+          this.$message({ message: "添加成功", type: "success" });
+          this.getAll();
         })
+        .catch((res) => {
+          console.log(res);
+        });
     },
 
     //点击弹出新增对话框
     addBookBto() {
-        this.addBookFormDialog = true
+      this.addBookFormDialog = true;
     },
 
     //监听新增对话框关闭
     addBookClose() {
-        this.$refs.addBookRef.resetFields()
+      this.$refs.addBookRef.resetFields();
     },
 
     //点击编辑展示编辑信息
     showEditDialog(bid) {
-        this.requestPageData.condition.id = bid
-        selectBookList(this.requestPageData).then(res=>{
-            //console.log(res)
-            this.editBookList = res.data.resultPages[0];
-            this.requestPageData.condition.id = ""
-        }).catch(res=>{
-            console.log(res)
+      this.requestPageData.condition.id = bid;
+      selectBookList(this.requestPageData)
+        .then((res) => {
+          //console.log(res)
+          this.editBookList = res.data.resultPages[0];
+          this.requestPageData.condition.id = "";
         })
-        this.editBookDialog = true
-        console.log(bid)
+        .catch((res) => {
+          console.log(res);
+        });
+      this.editBookDialog = true;
+      //console.log(bid);
     },
 
     //点击修改编辑信息
     editBook() {
-        saveBook(this.editBookList).then(res=>{
-            console.log(res)
-            this.editBookDialog = false
-            this.$message({ message: "修改成功", type: "success" });
-            this.getAll()
-        }).catch(res=>{
-            console.log(res)
+      saveBook(this.editBookList)
+        .then((res) => {
+          console.log(res);
+          this.editBookDialog = false;
+          this.$message({ message: "修改成功", type: "success" });
+          this.getAll();
         })
-    }
+        .catch((res) => {
+          console.log(res);
+        });
+    },
+
+    //点击借书给指定用户
+    borrowBook() {
+      //console.log(this.userForm);
+      saveBookLog(this.userForm).then(res=>{
+          console.log(res)
+      }).catch(res=>{
+          console.log(res)
+      })
+    },
   },
 };
 </script>
