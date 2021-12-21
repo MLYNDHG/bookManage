@@ -21,7 +21,7 @@ const store = new Vuex.Store({
             close:false,
           }],
         // 存储token
-        Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
+        Authorization: sessionStorage.getItem('Authorization') ? sessionStorage.getItem('Authorization') : ''
     },
     //关联着其他三个目录，目的松耦合
     getters,

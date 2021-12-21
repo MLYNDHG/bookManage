@@ -4,7 +4,6 @@ import Login from "@/views/admin/login.vue";
 import AdminHome from "@/views/admin/adminHome.vue"
 import BookManage from "@/views/admin/bookManage.vue"
 import BookInfo from "@/views/admin/bookInfo.vue"
-import adminIndex from "@/views/admin/adminIndex.vue"
 
 Vue.use(Router);
 
@@ -18,16 +17,11 @@ const router = new Router({
     routes: [{
         path: "/login",
         component: Login,
-        children: [
-
-        ]},
+        children: []},
         {
             path: "/home",
             component: AdminHome,
-            children: [{
-                path: "/",
-                component: adminIndex
-            },
+            children: [
                 {
                     path: "/home/bookmanage",
                     component: BookManage
@@ -36,8 +30,9 @@ const router = new Router({
                     path: "/home/bookinfo",
                     component: BookInfo
                 }
-            ]
-    }]
+            ],
+    },
+]
 });
 
 // 导航守卫

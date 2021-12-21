@@ -48,7 +48,7 @@ export const outList = (state, name) => {
     // 修改token，并将token存入localStorage
 export const changeLogin = (state, token) => {
         state.Authorization = token;
-        localStorage.setItem('Authorization', token);
+        sessionStorage.setItem('Authorization', token);
     }
     // 修改token，并将token存入localStorage
     // export const realSetToken = (state, user) => {

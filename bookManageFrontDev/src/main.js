@@ -10,7 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 //添加下面这一行
 import '@/assets/styles/global.css'
 import '@/assets/icons'
-
+// import axios from 'axios';
 
 Vue.use(Element)
 Vue.use(less)
@@ -31,3 +31,8 @@ new Vue({
     render: h => h(App)//render渲染     h => h(App):语法糖js
 }).$mount('#app')      //挂载app到vue上
                         //js id选择器是# class选择器是. 
+
+//配置请求的根路径
+// axios.defaults.baseURL = '';
+//把配置在axios上的路径挂载到全局
+// Vue.prototype.$http = axios
