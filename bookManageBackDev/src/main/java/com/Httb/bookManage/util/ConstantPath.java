@@ -12,11 +12,11 @@ import javax.annotation.PostConstruct;
 public class ConstantPath {
 
     // 照片访问网络地址
-    @Value("${image.path}")
+    @Value("${image.relative.path}")
     private String image_path;
 
     // 图片存放的绝对路径
-    public static final String DIR = "C:\\Users\\休比\\Desktop\\finallyTest\\bookManage\\image_resource\\";
+    public static final String DIR = "..\\image_resource\\";
 
     // 读取图片的网络路径
     public static String PATH;

@@ -36,6 +36,7 @@
             <el-menu-item index="/home" @click="home('/home')">
               <span slot="title">首&nbsp;&nbsp;&nbsp;&nbsp;页</span>
             </el-menu-item>
+
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -47,6 +48,7 @@
                 >{{ name }}</el-menu-item
               >
             </el-submenu>
+
             <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -58,6 +60,7 @@
                 >{{ name2 }}</el-menu-item
               >
             </el-submenu>
+
             <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -65,6 +68,7 @@
               </template>
               <el-menu-item index="1-1">选项1</el-menu-item>
             </el-submenu>
+
             <el-submenu index="4">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -72,8 +76,12 @@
               </template>
               <el-menu-item index="1-1">选项1</el-menu-item>
             </el-submenu>
+
           </el-menu>
         </el-aside>
+
+
+
         <el-main>
           <el-tabs
             v-model="editableTabsValue"
@@ -97,6 +105,7 @@
     </el-container>
   </div>
 </template>
+
 <script>
 export default {
   data() {
