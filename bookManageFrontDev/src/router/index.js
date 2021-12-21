@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import login from "@/views/admin/login.vue";
 import adminHome from "@/views/admin/adminHome.vue"
+import adminHomex from "@/views/admin/adminHomex.vue"
 
 Vue.use(Router);
 
@@ -17,6 +18,10 @@ const router = new Router({
         path: "/home",
         component: adminHome,
 
+    },
+    {
+        path:"/homex",
+        component:adminHomex,
     }]
 });
 

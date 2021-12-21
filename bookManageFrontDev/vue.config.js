@@ -30,7 +30,7 @@ module.exports = {
         host: "localhost",
         proxy: { //跨域配置
             '/luckdraw': {
-                target: "http://localhost:8080/luckdraw",
+                target: "http://192.168.0.50:9090",
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {

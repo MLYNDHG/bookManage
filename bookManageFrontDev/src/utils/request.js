@@ -5,12 +5,12 @@ import router from '@/router/index.js'
 const service = axios.create({
     timeout: 7000, // 超过7秒提示超时
 })
-service.baseUrl = '/yourbaseurl';
+service.baseUrl = 'http://192.168.0.50:9090';//跨域用的
 // 请求拦截器
 service.interceptors.request.use(
     config => {
-        if (localStorage.getItem('Authorization')) {
-            config.headers.Authorization = localStorage.getItem('Authorization');
+        if (sessionStorage.getItem('Authorization')) {
+            config.headers.Authorization = sessionStorage.getItem('Authorization');
         }
         return config;
     },
