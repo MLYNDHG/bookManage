@@ -8,12 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="finallyTest" />
-        <module name="bookManageBackDev" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="bookManageBackDev" target="1.8" />
-      <module name="finallyTest" target="11" />
+      <module name="finallyTest" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

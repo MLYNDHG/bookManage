@@ -16,7 +16,7 @@ public class ConstantPath {
     private String image_path;
 
     // 图片存放的绝对路径
-    public static final String DIR = "C:\\Users\\休比\\Desktop\\finallyTest\\bookManage\\image_resource\\";
+    public static final String DIR = "D:\\Vue\\bookManage\\image_resource\\";
 
     // 读取图片的网络路径
     public static String PATH;
