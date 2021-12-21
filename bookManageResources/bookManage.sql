@@ -46,11 +46,11 @@ CREATE TABLE `book_log` (
   `timeStart` datetime NOT NULL COMMENT '借阅时间',
   `timeEnd` datetime DEFAULT NULL COMMENT '还书时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `book_log` */
 
-insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00',NULL),(2,1,2,'2021-11-13 14:13:00','2021-12-12 12:00:00'),(3,4,3,'2021-12-12 13:00:00','2021-12-20 14:12:12'),(4,1,3,'2021-12-20 12:00:00',NULL);
+insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00',NULL),(2,1,2,'2021-11-13 14:13:00','2021-12-12 12:00:00'),(3,4,3,'2021-12-12 13:00:00','2021-12-20 14:12:12'),(4,1,3,'2021-12-20 12:00:00','2021-12-21 14:18:54'),(5,4,3,'2021-12-21 14:19:35',NULL);
 
 /*Table structure for table `primarytype` */
 
