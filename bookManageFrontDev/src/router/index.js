@@ -4,7 +4,6 @@ import Login from "@/views/admin/login.vue";
 import AdminHome from "@/views/admin/adminHome.vue"
 import BookManage from "@/views/admin/bookManage.vue"
 import BookInfo from "@/views/admin/bookInfo.vue"
-import adminIndex from "@/views/admin/adminIndex.vue"
 
 Vue.use(Router);
 
@@ -16,19 +15,13 @@ Router.prototype.push = function push(location) {
 
 const router = new Router({
     routes: [{
-<<<<<<< HEAD
         path: "/login",
         component: Login,
-        children: [
-
-        ]},
+        children: []},
         {
             path: "/home",
             component: AdminHome,
-            children: [{
-                path: "/",
-                component: adminIndex
-            },
+            children: [
                 {
                     path: "/home/bookmanage",
                     component: BookManage
@@ -37,34 +30,15 @@ const router = new Router({
                     path: "/home/bookinfo",
                     component: BookInfo
                 }
-            ]
-=======
-        path: "/",
-        component: login,
-        children: [
-
-        ]
+            ],
     },
-    {
-        path: "/home",
-        component: adminHome,
-
-<<<<<<< HEAD
-    },
-    {
-        path:"/homex",
-        component:adminHomex,
-=======
->>>>>>> 0a7112e9a205acc03463093ae46e4df173f90705
->>>>>>> 9a9c7cb9969768694ad77c5355af077e51aca963
-    }]
+]
 });
 
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 
 // router.beforeEach((to, from, next) => {
-<<<<<<< HEAD
     // if (to.path === '/login') {
     //     next();
     // }else{
@@ -75,19 +49,6 @@ const router = new Router({
     //     } else {
     //         next();
     //     }
-=======
-//     if (to.path === '/login') {
-//         next();
-//     } else {
-//         let token = localStorage.getItem('Authorization');
-
-        //         if (token === null || token === '') {
-        //             next('/login');
-        //         } else {
-        //             next();
-        //         }
-        //     }
->>>>>>> 0a7112e9a205acc03463093ae46e4df173f90705
     // }
 // });
 export default router;
