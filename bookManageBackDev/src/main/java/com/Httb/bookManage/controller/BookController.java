@@ -39,8 +39,8 @@ public class BookController {
     /**
      * 删除图书
      */
-    @GetMapping("/deleteBook/{id}")
-    public Integer delete(@PathVariable Integer id) {
+    @GetMapping("/deleteBook")
+    public Integer delete(@RequestParam Integer id) {
 
         return bookService.deleteBook(id);
     }

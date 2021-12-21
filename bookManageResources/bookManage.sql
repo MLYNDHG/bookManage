@@ -25,15 +25,15 @@ CREATE TABLE `book` (
   `name` varchar(30) NOT NULL COMMENT '图书名称',
   `description` text COMMENT '图书描述',
   `author` varchar(20) NOT NULL COMMENT '图书作者',
-  `status` tinyint(1) NOT NULL COMMENT '图书状态',
-  `log` tinyint(1) NOT NULL COMMENT '图书借阅状态',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '图书状态',
+  `log` tinyint(1) NOT NULL DEFAULT '0' COMMENT '图书借阅状态',
   `time` datetime NOT NULL COMMENT '图书添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `book` */
 
-insert  into `book`(`id`,`name`,`description`,`author`,`status`,`log`,`time`) values (1,'西游记','哈哈哈','吴承恩',0,1,'2021-12-20 11:00:00'),(2,'红楼梦','红楼梦','曹雪芹',0,1,'2021-12-12 12:00:00'),(3,'水浒传','hhh','施耐庵',0,0,'2021-12-20 08:00:00'),(4,'三国演义','三国演义','罗贯中',0,0,'2021-12-20 15:21:23');
+insert  into `book`(`id`,`name`,`description`,`author`,`status`,`log`,`time`) values (1,'西游记','哈哈哈','吴承恩',0,1,'2021-12-20 11:00:00'),(2,'红楼梦','红楼梦','曹雪芹',0,0,'2021-12-12 12:00:00'),(3,'水浒传','hhh','施耐庵',0,1,'2021-12-20 08:00:00'),(4,'三国演义','三国演义','罗贯中',0,0,'2021-12-20 15:21:23'),(5,'三国演义','三国演义','罗贯中',1,0,'2021-12-21 12:08:48');
 
 /*Table structure for table `book_log` */
 
@@ -46,11 +46,88 @@ CREATE TABLE `book_log` (
   `timeStart` datetime NOT NULL COMMENT '借阅时间',
   `timeEnd` datetime DEFAULT NULL COMMENT '还书时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `book_log` */
 
-insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00',NULL),(2,1,2,'2021-11-13 14:13:00',NULL),(3,4,3,'2021-12-12 13:00:00','2021-12-20 14:12:12');
+insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00',NULL),(2,1,2,'2021-11-13 14:13:00','2021-12-12 12:00:00'),(3,4,3,'2021-12-12 13:00:00','2021-12-20 14:12:12'),(4,1,3,'2021-12-20 12:00:00',NULL);
+
+/*Table structure for table `primarytype` */
+
+DROP TABLE IF EXISTS `primarytype`;
+
+CREATE TABLE `primarytype` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '一级类型id',
+  `name` varchar(30) NOT NULL COMMENT '一级类型名称',
+  `time` datetime NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `primarytype` */
+
+/*Table structure for table `redis` */
+
+DROP TABLE IF EXISTS `redis`;
+
+CREATE TABLE `redis` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'redisid',
+  `rid` int NOT NULL COMMENT '资源id',
+  `cluterAddress` varchar(100) NOT NULL COMMENT '集群主机地址',
+  `maxJumps` timestamp NOT NULL COMMENT '最大跳转次数',
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `timeout` timestamp NOT NULL COMMENT '超时时间',
+  `maxThreadActivities` int NOT NULL COMMENT '线程最大活动数',
+  `maxThreadIdles` int NOT NULL COMMENT '线程最大空闲数',
+  `minThreadIdles` int NOT NULL COMMENT '线程最小空闲数',
+  `maxThreadWaits` int NOT NULL COMMENT '线程最大等待数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `redis` */
+
+/*Table structure for table `resource` */
+
+DROP TABLE IF EXISTS `resource`;
+
+CREATE TABLE `resource` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '资源id',
+  `sid` int NOT NULL COMMENT '二级类型id',
+  `englishName` varchar(30) NOT NULL COMMENT '英文名称',
+  `chineseName` varchar(30) NOT NULL COMMENT '中文名称',
+  `description` text COMMENT '描述',
+  `time` datetime NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `resource` */
+
+/*Table structure for table `rocketmq` */
+
+DROP TABLE IF EXISTS `rocketmq`;
+
+CREATE TABLE `rocketmq` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'RocketMQid',
+  `rid` int NOT NULL COMMENT '资源id',
+  `nameServer` varchar(100) NOT NULL COMMENT '服务地址名称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `rocketmq` */
+
+/*Table structure for table `secondarytype` */
+
+DROP TABLE IF EXISTS `secondarytype`;
+
+CREATE TABLE `secondarytype` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '二级类型id',
+  `pid` int NOT NULL COMMENT '一级类型id',
+  `name` varchar(30) NOT NULL COMMENT '类型名称',
+  `image` varchar(100) NOT NULL COMMENT '类型照片',
+  `time` datetime NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `secondarytype` */
 
 /*Table structure for table `user` */
 
