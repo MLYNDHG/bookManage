@@ -58,11 +58,14 @@
 
 
 <script>
-import { login } from "@/services/UserController.js"; //services写接口
+
+import  {login}  from "@/services/UserController.js"; //services写接口//JS6 解构赋值{login}，login是方法所以需要解构使用
 import User from "@/model/User.js"; //modle里写数据
+
 export default {
   data() {
     return {
+
       User: new User(),
 
       ruleForm: {
@@ -87,7 +90,9 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.User.username = this.ruleForm.name; //get不用this,get只请求一两个参数；如果是push会有很多参数，而User是一个对象，所以要用this.调用
+          //get不用this,get只请求一两个参数；
+          //如果是post会有很多参数，而User是一个对象，所以要用this.调用
+          this.User.username = this.ruleForm.name;         
           this.User.password = this.ruleForm.password;
 
           console.log(this.User);
@@ -97,8 +102,10 @@ export default {
             console.log(token);
             this.userToken = token;
 
+            //会话存储
             sessionStorage.setItem("user", this.ruleForm.name);
             sessionStorage.setItem("userToken", token);
+            
             //将用户名放入vuex中  actiond调用
             this.$store.dispatch("setUser", this.ruleForm.name);
             this.$store.dispatch("setToken", token);

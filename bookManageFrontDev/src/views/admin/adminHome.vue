@@ -55,8 +55,8 @@
                 <span>会员管理</span>
               </template>
               <el-menu-item
-                index="/home/bookinfo"
-                @click="saveNavState('/home/bookinfo', name2)"
+                index="/home/userlist"
+                @click="saveNavState('/home/userlist', name2)"
                 >{{ name2 }}</el-menu-item
               >
             </el-submenu>

@@ -6,9 +6,9 @@
 export const userStatus = (state, user) => {
         //判断用户是否存在
         if (user != null) {
-            state.userName = JSON.parse(user).userName;
-            state.roleName = JSON.parse(user).roleName;
-            state.isLogin = true;
+            state.userName = user;
+            // state.roleName = JSON.parse(user).roleName;
+            // state.isLogin = true;
         } else if (user == null) {
             //登出时清空sessionStroage里面的参数
             sessionStorage.setItem("user", null);

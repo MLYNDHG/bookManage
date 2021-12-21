@@ -12,12 +12,13 @@ export function save(user) {
 }
 /*
 *@param: user:class com.Httb.bookManage.mbg.entity.User
+参数
 */
-export function login(user) {
-    return request({
+export function login(user) {//user：自己命名的形参，是User传过来的值
+    return request({//{}括起来的是对象
         url: request.baseUrl + `/login`,
         method: 'POST',
-        data:user
+        data:user//data User数据
     })
 }
 /*
