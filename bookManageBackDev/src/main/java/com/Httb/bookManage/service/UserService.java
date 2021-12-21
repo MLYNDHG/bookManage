@@ -34,8 +34,8 @@ public class UserService {
         if (user1 == null || user1.getStatus()) {
             throw new NoDataFoundException("用户名或密码错误!");
         }
-//        return JWTUtils.getToken(user);
-        return CreateRandomCharData.createRandomCharData(30);
+        return JWTUtils.getToken(user);
+//        return CreateRandomCharData.createRandomCharData(30);
     }
 
     /**
