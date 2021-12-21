@@ -14,6 +14,12 @@ const store = new Vuex.Store({
         roleName: null, //用户相关的信息
         isLogin: false, //登录状态
         token: '', //用户登录成功后持有的token
+        list:[{
+            name: "/home/",
+            title: "首页",
+            path: "/home/",
+            close:false,
+          }],
         // 存储token
         Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
     },
