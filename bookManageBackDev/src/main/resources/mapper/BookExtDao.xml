@@ -20,18 +20,18 @@
         <include refid="com.Httb.bookManage.mbg.dao.BookDao.Base_Column_List"/>
         from book
         <where>
-            <if test="id != null">
+            <if test="id != null and id != ''">
                 id = #{id}
             </if>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 <bind name="nameLike" value="'%' + name + '%'"/>
                 and `name` like #{nameLike}
             </if>
-            <if test="description != null">
+            <if test="description != null and description != ''">
                 <bind name="descriptionLike" value="'%' + description + '%'"/>
                 and `description` like #{descriptionLike}
             </if>
-            <if test="author != null">
+            <if test="author != null and author != ''">
                 <bind name="authorLike" value="'%' + author + '%'"/>
                 and `author` like #{authorLike}
             </if>
@@ -41,12 +41,12 @@
             <if test="log != null">
                 and `log` = #{log}
             </if>
-            <if test="timeFrom != null">
+            <if test="timeFrom != null and timeFrom != ''">
                 <![CDATA[
                         and #{timeFrom} <= `time`
                 ]]>
             </if>
-            <if test="timeTo != null">
+            <if test="timeTo != null and timeTo != ''">
                 <![CDATA[
                         and #{timeTo} >= `time`
                 ]]>
@@ -69,37 +69,61 @@
         left join `user` u
         on u.id = k.uid
         <where>
-            <if test="id != null">
+            <if test="id != null and id != ''">
                 b.id = #{id}
             </if>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 <bind name="nameLike" value="'%' + name + '%'"/>
                 and b.`name` like #{nameLike}
             </if>
-            <if test="description != null">
+            <if test="description != null and description != ''">
                 <bind name="descriptionLike" value="'%' + description + '%'"/>
                 and b.`description` like #{descriptionLike}
             </if>
-            <if test="author != null">
+            <if test="author != null and author != ''">
                 <bind name="authorLike" value="'%' + author + '%'"/>
                 and b.`author` like #{authorLike}
             </if>
-            <if test="status != null">
-                and b.`status` = #{status}
-            </if>
+                and b.`status` = 0
             <if test="log != null">
                 and b.`log` = #{log}
             </if>
-            <if test="timeFrom != null">
+            <if test="timeFrom != null and timeFrom != ''">
                 <![CDATA[
                         and #{timeFrom} <= b.`time`
                 ]]>
             </if>
-            <if test="timeTo != null">
+            <if test="timeTo != null and timeTo != ''">
                 <![CDATA[
                         and #{timeTo} >= b.`time`
                 ]]>
             </if>
         </where>
     </select>
+
+<!--    修改图书-->
+    <update id="updateBookInfo" parameterType="com.Httb.bookManage.mbg.entity.Book">
+        update book
+        <set>
+            <if test="name != null and name != ''">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="log != null">
+                log = #{log,jdbcType=BOOLEAN},
+            </if>
+            <if test="time != null and time != ''">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

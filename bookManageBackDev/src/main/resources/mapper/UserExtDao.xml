@@ -37,26 +37,23 @@
                 <if test="id != null">
                     id = #{id}
                 </if>
-                <if test="username != null">
+                <if test="username != null and username != ''">
                     and username = #{username}
                 </if>
-                <if test="nickname != null">
+                <if test="nickname != null and nickname != ''">
                     and nickname = #{nickname}
                 </if>
-                <if test="password != null">
+                <if test="password != null and password != ''">
                     and password = MD5(#{password})
                 </if>
-                <if test="tel != null">
+                <if test="tel != null and tel != ''">
                     and tel = #{tel}
                 </if>
-                <if test="email != null">
+                <if test="email != null and email != ''">
                     and email = #{email}
                 </if>
                 <if test="status != null">
                     and status = #{status}
-                </if>
-                <if test="isSuper != null">
-                    and is_super = #{isSuper}
                 </if>
             </trim>
         </where>
@@ -66,22 +63,22 @@
     <insert id="insertUser" parameterType="com.Httb.bookManage.mbg.entity.User">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="username != null">
+            <if test="username != null and username != ''">
                 username,
             </if>
-            <if test="nickname != null">
+            <if test="nickname != null and nickname != ''">
                 nickname,
             </if>
-            <if test="password != null">
+            <if test="password != null and password != ''">
                 `password`,
             </if>
-            <if test="head != null">
+            <if test="head != null and head != ''">
                 head,
             </if>
-            <if test="tel != null">
+            <if test="tel != null and tel != ''">
                 tel,
             </if>
-            <if test="email != null">
+            <if test="email != null and email != ''">
                 email,
             </if>
             <if test="status != null">
@@ -92,22 +89,22 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="username != null">
+            <if test="username != null and username != ''">
                 #{username,jdbcType=VARCHAR},
             </if>
-            <if test="nickname != null">
+            <if test="nickname != null and nickname != ''">
                 #{nickname,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
+            <if test="password != null and password != ''">
                 MD5(#{password,jdbcType=VARCHAR}),
             </if>
-            <if test="head != null">
+            <if test="head != null and head != ''">
                 #{head,jdbcType=VARCHAR},
             </if>
-            <if test="tel != null">
+            <if test="tel != null and tel != ''">
                 #{tel,jdbcType=VARCHAR},
             </if>
-            <if test="email != null">
+            <if test="email != null and email != ''">
                 #{email,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
@@ -123,22 +120,22 @@
     <update id="updateUser" parameterType="com.Httb.bookManage.model.UserVO">
         update user
         <set>
-            <if test="username != null">
+            <if test="username != null and username != ''">
                 username = #{username,jdbcType=VARCHAR},
             </if>
-            <if test="nickname != null">
+            <if test="nickname != null and nickname != ''">
                 nickname = #{nickname,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
+            <if test="password != null and password != ''">
                 `password` = MD5(#{password,jdbcType=VARCHAR}),
             </if>
-            <if test="head != null">
+            <if test="head != null and head != ''">
                 head = #{head,jdbcType=VARCHAR},
             </if>
-            <if test="tel != null">
+            <if test="tel != null and tel != ''">
                 tel = #{tel,jdbcType=VARCHAR},
             </if>
-            <if test="email != null">
+            <if test="email != null and email != ''">
                 email = #{email,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
