@@ -16,6 +16,7 @@ Router.prototype.push = function push(location) {
 
 const router = new Router({
     routes: [{
+<<<<<<< HEAD
         path: "/login",
         component: Login,
         children: [
@@ -37,6 +38,18 @@ const router = new Router({
                     component: BookInfo
                 }
             ]
+=======
+        path: "/",
+        component: login,
+        children: [
+
+        ]
+    },
+    {
+        path: "/home",
+        component: adminHome,
+
+>>>>>>> 0a7112e9a205acc03463093ae46e4df173f90705
     }]
 });
 
@@ -44,6 +57,7 @@ const router = new Router({
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 
 // router.beforeEach((to, from, next) => {
+<<<<<<< HEAD
     // if (to.path === '/login') {
     //     next();
     // }else{
@@ -54,6 +68,19 @@ const router = new Router({
     //     } else {
     //         next();
     //     }
+=======
+//     if (to.path === '/login') {
+//         next();
+//     } else {
+//         let token = localStorage.getItem('Authorization');
+
+        //         if (token === null || token === '') {
+        //             next('/login');
+        //         } else {
+        //             next();
+        //         }
+        //     }
+>>>>>>> 0a7112e9a205acc03463093ae46e4df173f90705
     // }
 // });
 export default router;

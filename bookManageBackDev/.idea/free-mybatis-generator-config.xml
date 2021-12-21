@@ -9,11 +9,11 @@
               <option name="comment" value="true" />
               <option name="daoMvnPath" value="src/main/java" />
               <option name="daoName" value="BookDao" />
-              <option name="daoPackage" value="com.Httb.finallytest.mbg.dao" />
+              <option name="daoPackage" value="com.Httb.bookManage.mbg.dao" />
               <option name="daoPostfix" value="Dao" />
               <option name="modelMvnPath" value="src/main/java" />
               <option name="modelName" value="Book" />
-              <option name="modelPackage" value="com.Httb.finallytest.mbg.entity" />
+              <option name="modelPackage" value="com.Httb.bookManage.mbg.entity" />
               <option name="name" value="book" />
               <option name="overrideJava" value="true" />
               <option name="overrideXML" value="true" />

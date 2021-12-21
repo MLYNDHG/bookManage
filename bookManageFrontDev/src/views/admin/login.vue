@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <!-- 字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -7,14 +8,18 @@
       rel="stylesheet"
     />
 
+    <!-- 封面图片 -->
     <div class="container">
       <div class="left">
         <img src="../../assets/img/6.jpg" alt="" class="img-1" />
       </div>
 
+      <!-- 右边的块 -->
       <div class="right">
-        <div class="right-dev">
+        <div class="right-div">
           <div class="word-login">L O G I N</div>
+          <div class="word-login-1">L O G I N</div>
+
           <el-form
             :model="ruleForm"
             :rules="rules"
@@ -36,6 +41,7 @@
               ></el-input>
             </el-form-item>
 
+            <!-- button按钮 -->
             <el-row>
               <el-button size="medium" @click="submitForm('ruleForm')"
                 >LOGIN</el-button
@@ -85,6 +91,9 @@ export default {
   },
 };
 </script>
+
+
+
 <style>
 .login {
   /* background-image:url(../../assets/img/1.gif) ; */
@@ -93,7 +102,10 @@ export default {
 
   width: 100%;
   height: 100%;
+
+  /* 字体 */
   font-family: "Open Sans Condensed", sans-serif;
+
   text-align: center;
 
   display: flex;
@@ -109,22 +121,37 @@ export default {
   margin: 0 auto;
 }
 
-.word-lorgin {
-  margin-bottom: 7px;
-  font-size: 21px;
-  font-weight: 650;
+.word-login {
+  width: 438px;
+  position: absolute;
+  left: 62px;
+  top: 45px;
+  z-index: 1;
 }
 
+.word-login-1 {
+  font-size: 111px;
+  font-weight: 111;
+  padding-bottom: 25px;
+}
+
+.right-div {
+  width: 86%;
+  padding: 0px 54px !important;
+}
+
+/* 右边背景 */
 .right {
   background-color: rgb(255, 255, 255);
   width: 67% !important;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-around;
 }
+
+/* 左边背景 */
 .left {
   background-color: rgb(42, 99, 144);
   width: 33% !important;
@@ -135,9 +162,20 @@ export default {
 .img-1 {
   width: 438px;
   position: absolute;
-  left: -23px;
-  top: 48px;
+  left: 66px;
+  top: 44px;
   z-index: 1;
+}
+
+/* 登录按钮 */
+.el-button {
+  width: 490.94px;
+  margin-left: 99px;
+  font-family: "Open Sans Condensed", sans-serif;
+  width: 709px;
+  margin-left: 100px !important;
+  background: #2a6390 !important;
+  color: #ecf5ff !important;
 }
 
 /* .right-dev{

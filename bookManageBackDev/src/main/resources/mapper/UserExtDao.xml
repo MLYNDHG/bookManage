@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Httb.bookManage.dao.UserExtDao">
 
+    <sql id="User_List">
+        id, username, nickname, `password`, head, tel, email, `status`, is_super
+    </sql>
+
 <!--    用户登录 根据username,password-->
     <select id="selectUserByUP" resultMap="com.Httb.bookManage.mbg.dao.UserDao.BaseResultMap" parameterType="com.Httb.bookManage.mbg.entity.User">
         select
@@ -26,7 +30,7 @@
 <!--    查找用户-->
     <select id="selectUser" parameterType="com.Httb.bookManage.mbg.entity.User" resultMap="com.Httb.bookManage.mbg.dao.UserDao.BaseResultMap">
         select
-        <include refid="com.Httb.bookManage.mbg.dao.UserDao.Base_Column_List"/>
+        <include refid="User_List"/>
         from user
         <where>
             <trim prefixOverrides="and">
@@ -40,13 +44,19 @@
                     and nickname = #{nickname}
                 </if>
                 <if test="password != null">
-                    and password = #{password}
+                    and password = MD5(#{password})
                 </if>
                 <if test="tel != null">
                     and tel = #{tel}
                 </if>
                 <if test="email != null">
                     and email = #{email}
+                </if>
+                <if test="status != null">
+                    and status = #{status}
+                </if>
+                <if test="isSuper != null">
+                    and is_super = #{isSuper}
                 </if>
             </trim>
         </where>
@@ -108,4 +118,47 @@
             </if>
         </trim>
     </insert>
+
+<!--    修改用户信息-->
+    <update id="updateUser" parameterType="com.Httb.bookManage.model.UserVO">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = MD5(#{password,jdbcType=VARCHAR}),
+            </if>
+            <if test="head != null">
+                head = #{head,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                tel = #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="isSuper != null">
+                is_super = #{isSuper,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+<!--    修改用户密码-->
+    <update id="updatePassword" parameterType="com.Httb.bookManage.model.UserVO">
+        update user
+        <set>
+            password = MD5(#{newPassword})
+        </set>
+        <where>
+            username = #{username}
+        </where>
+    </update>
 </mapper>

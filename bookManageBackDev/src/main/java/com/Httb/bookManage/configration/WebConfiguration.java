@@ -1,6 +1,7 @@
 package com.Httb.bookManage.configration;
 
 import com.Httb.bookManage.interceptor.DemoInterceptor;
+import com.Httb.bookManage.interceptor.JWTInterceptor;
 import com.Httb.bookManage.util.ConstantPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import javax.annotation.Resource;
+import java.util.Collections;
 
 /**
  * 跨站请求配置
@@ -56,14 +60,26 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
-//    @Autowired
-//    private DemoInterceptor demoInterceptor;
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        /**
-//         * js拦截器
-//         */
-//        registry.addInterceptor(demoInterceptor);
-//    }
+    @Resource
+    private DemoInterceptor demoInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        /**
+         * js拦截器
+         */
+        registry.addInterceptor(demoInterceptor);
+
+        /**
+         * JWT拦截器
+         */
+//        registry.addInterceptor(new JWTInterceptor())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/user/login")
+//                .excludePathPatterns(Collections.singletonList("/swagger-ui.html"))
+//                .excludePathPatterns("/swagger-resources/**")
+//                .excludePathPatterns("/error")
+//                .excludePathPatterns("/doc.html")
+//                .excludePathPatterns("/webjars/**");
+    }
 }
