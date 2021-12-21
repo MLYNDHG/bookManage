@@ -7,10 +7,11 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="log" jdbcType="BOOLEAN" property="log" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, `name`, description, author, `status`, `time`
+    id, `name`, description, author, `status`, log, `time`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,9 +25,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Book" useGeneratedKeys="true">
     insert into book (`name`, description, author, 
-      `status`, `time`)
+      `status`, log, `time`
+      )
     values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
-      #{status,jdbcType=BOOLEAN}, #{time,jdbcType=TIMESTAMP})
+      #{status,jdbcType=BOOLEAN}, #{log,jdbcType=BOOLEAN}, #{time,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Book" useGeneratedKeys="true">
     insert into book
@@ -42,6 +45,9 @@
       </if>
       <if test="status != null">
         `status`,
+      </if>
+      <if test="log != null">
+        log,
       </if>
       <if test="time != null">
         `time`,
@@ -59,6 +65,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BOOLEAN},
+      </if>
+      <if test="log != null">
+        #{log,jdbcType=BOOLEAN},
       </if>
       <if test="time != null">
         #{time,jdbcType=TIMESTAMP},
@@ -80,6 +89,9 @@
       <if test="status != null">
         `status` = #{status,jdbcType=BOOLEAN},
       </if>
+      <if test="log != null">
+        log = #{log,jdbcType=BOOLEAN},
+      </if>
       <if test="time != null">
         `time` = #{time,jdbcType=TIMESTAMP},
       </if>
@@ -92,6 +104,7 @@
       description = #{description,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=BOOLEAN},
+      log = #{log,jdbcType=BOOLEAN},
       `time` = #{time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

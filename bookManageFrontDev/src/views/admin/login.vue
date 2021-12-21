@@ -36,7 +36,7 @@
 
             <el-form-item label="密码" prop="password">
               <el-input
-                v-model="ruleForm.name"
+                v-model="ruleForm.password"
                 placeholder="Enter your Password"
               ></el-input>
             </el-form-item>
@@ -58,32 +58,66 @@
 
 
 <script>
+import { login } from "@/services/UserController.js"; //services写接口
+import User from "@/model/User.js"; //modle里写数据
 export default {
   data() {
     return {
+      User: new User(),
+
       ruleForm: {
         name: "",
         password: "",
       },
+
       rules: {
         name: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+          { min: 1, max: 5, message: "长度在 1 到 5 个字符", trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+          { min: 1, max: 5, message: "长度在 1 到 5 个字符", trigger: "blur" },
         ],
       },
     };
   },
+
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.User.username = this.ruleForm.name; //get不用this,get只请求一两个参数；如果是push会有很多参数，而User是一个对象，所以要用this.调用
+          this.User.password = this.ruleForm.password;
+
+          console.log(this.User);
+          // debugger
+          login(this.User).then((res) => {
+            let token = res.data;
+            console.log(token);
+            this.userToken = token;
+
+            sessionStorage.setItem("user", this.ruleForm.name);
+            sessionStorage.setItem("userToken", token);
+            //将用户名放入vuex中  actiond调用
+            this.$store.dispatch("setUser", this.ruleForm.name);
+            this.$store.dispatch("setToken", token);
+
+            // 将用户token保存到vuex中
+            // this.changeLogin({ Authorization: token });
+            this.$store.dispatch("setLogin", token);
+
+            //打印login状态
+            console.log(this.$store.state.isLogin);
+            this.$message({
+              message: "登录成功",
+              type: "success",
+            });
+
+            this.$router.push("/home");
+          });
         } else {
-          console.log("error submit!!");
+          this.$message.error("登陆失败");
           return false;
         }
       });
@@ -94,7 +128,7 @@ export default {
 
 
 
-<style>
+<style scoped>
 .login {
   /* background-image:url(../../assets/img/1.gif) ; */
 
