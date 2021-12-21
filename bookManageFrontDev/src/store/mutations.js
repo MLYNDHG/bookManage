@@ -26,6 +26,25 @@ export const setToken = (state, token) => {
             state.token = '';
         }
     }
+    //更改list
+export const setList = (state, route) => {
+    if (route == null || (state.list.some(item=>item.path == route.path))) {
+        return
+    } 
+    state.list.push({
+        name: route.name,
+        title: route.title,
+        path: route.path,
+        close: route.close
+    });
+}
+
+//删除List
+export const outList = (state, name) => {
+    if (state.list != null) {
+        state.list =  state.list.filter(item => item.name !== name);
+    } 
+}
     // 修改token，并将token存入localStorage
 export const changeLogin = (state, token) => {
         state.Authorization = token;

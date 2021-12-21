@@ -11,6 +11,14 @@ export const setUser = ({ commit }, user) => {
 export const setToken = ({ commit }, token) => {
     commit("setToken", token);
 }
+<<<<<<< HEAD
 export const setLogin = ({ commit }, token) => {
     commit("changeLogin", token);
+=======
+export const setList = ({ commit }, route) => {
+    commit("setList", route);
+}
+export const outList = ({ commit }, name) => {
+    commit("outList", name);
+>>>>>>> 9a9c7cb9969768694ad77c5355af077e51aca963
 }

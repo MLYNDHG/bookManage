@@ -1,12 +1,14 @@
 package com.Httb.bookManage.util;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 /**
  * 用于存放项目中的常量
  */
+@Component
 public class ConstantPath {
 
     // 照片访问网络地址

@@ -10,7 +10,7 @@ import lombok.Data;
  * book
  * @author 
  */
-@ApiModel(value="com.Httb.finallytest.mbg.entity.Book")
+@ApiModel(value="com.Httb.bookManage.mbg.entity.Book")
 @Data
 public class Book implements Serializable {
     /**
@@ -42,6 +42,12 @@ public class Book implements Serializable {
      */
     @ApiModelProperty(value="图书状态")
     private Boolean status;
+
+    /**
+     * 图书借阅状态
+     */
+    @ApiModelProperty(value="图书借阅状态")
+    private Boolean log;
 
     /**
      * 图书添加时间
