@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/book")
+//@RequestMapping("/book")
 public class BookController {
 
     @Resource

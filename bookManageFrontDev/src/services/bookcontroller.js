@@ -1,22 +1,12 @@
-import {request,baseUrl} from '@/utils/request' 
+import request from '@/utils/request' 
 
-/*
-*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.model.BookVO>
-*/
-export function selectBookList(requestPageData) {
-    return request({
-        url: baseUrl + `/selectBookList`,
-        method: 'POST',
-        data:requestPageData
-    })
-}
 /*
 *@param: id:class java.lang.Integer
 
 */
 export function deleteBook(id) {
     return request({
-        url: baseUrl + `/deleteBook/`+id,
+        url: request.baseUrl + `/deleteBook`,
         method: 'GET',
         params:{
             id:id,
@@ -29,8 +19,18 @@ export function deleteBook(id) {
 */
 export function saveBook(book) {
     return request({
-        url: baseUrl + `/saveBook`,
+        url: request.baseUrl + `/saveBook`,
         method: 'POST',
         data:book
+    })
+}
+/*
+*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.model.BookVO>
+*/
+export function selectBookList(requestPageData) {
+    return request({
+        url: request.baseUrl + `/selectBookList`,
+        method: 'POST',
+        data:requestPageData
     })
 }
