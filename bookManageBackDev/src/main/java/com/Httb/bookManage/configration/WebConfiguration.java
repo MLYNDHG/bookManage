@@ -23,8 +23,8 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     @Override
     protected void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080", "http://localhost:8081")
-//                .allowedOriginPatterns("*") //允许跨域的域名，可以用*表示允许任何域名使用
+//                .allowedOrigins("http://localhost:8080", "http://localhost:8081")
+                .allowedOriginPatterns("*") //允许跨域的域名，可以用*表示允许任何域名使用
                 .allowedMethods("*")
 //                .allowedMethods("POST", "GET", "OPTIONS", "DELETE", "PUT", "PATCH")
                 .allowedHeaders("*")

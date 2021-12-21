@@ -62,7 +62,7 @@ public class DemoInterceptor implements HandlerInterceptor {
 
                 String ControllerName = getRequestControlloerName(httpServletRequest);
                 StringBuffer javaScript = new StringBuffer();
-                if (ControllerName.contains("model") || ControllerName.contains("Model")) {
+                if (ControllerName.contains("entity") || ControllerName.contains("model")) {
                     javaScript = resetModel(ControllerName);
                 } else if (ControllerName.contains(".") && ControllerName.contains("Controller")) {
                     ControllerMap controllerMap = getControllerMap(ControllerName);
@@ -131,7 +131,7 @@ public class DemoInterceptor implements HandlerInterceptor {
          * *@param1:  id：int
          *  export function getHero(id) {
          *      return request({
-         *          url:baseUrl + `/spring / get`,
+         *          url:request.baseUrl + `/spring / get`,
          *          method:'GET',
          *          params:{
          *              id:id
@@ -145,7 +145,7 @@ public class DemoInterceptor implements HandlerInterceptor {
          *@data: com.example.spring.util.QueryRequest<com.example.spring.mbg.model.Realhero>
          *export function vueTest(data) {
          *  return request({
-         *      url:baseUrl + `/spring / vueTest`,
+         *      url:request.baseUrl + `/spring / vueTest`,
          *        method:'POST',
          *      data:data
          *  })
@@ -158,7 +158,7 @@ public class DemoInterceptor implements HandlerInterceptor {
                 "*/<br>" +
                 "export function %s(%s) {<br>" +
                 "    return request({<br>" +
-                "        url: baseUrl + `%s`,<br>" +
+                "        url: request.baseUrl + `%s`,<br>" +
                 "        method: 'POST',<br>" +
                 "        data:%s<br>" +
                 "    })<br>" +
@@ -170,14 +170,14 @@ public class DemoInterceptor implements HandlerInterceptor {
                 "*/<br>" +
                 "export function %s(%s) {<br>" +
                 "    return request({<br>" +
-                "        url: baseUrl + `%s`,<br>" +
+                "        url: request.baseUrl + `%s`,<br>" +
                 "        method: 'GET',<br>" +
                 "        params:{<br>" +
                 "            %s<br>" +
                 "        }<br>" +
                 "    })<br>" +
                 "}<br></pre>";
-        StringBuffer sb = new StringBuffer("<pre>import {request,baseUrl} from '@/utils/request' <br><br></pre>");
+        StringBuffer sb = new StringBuffer("<pre>import request from '@/utils/request' <br><br></pre>");
 //        for (ControllerMap controllerMapItem : listControllers) {
         String MethodString = "";
 //            if (controllerMapItem.getControlleName().equals(controllerName)) {
