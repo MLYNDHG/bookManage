@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 public class ConstantPath {
 
     // 照片访问网络地址
-    @Value("${image.path}")
+    @Value("${image.relative.path}")
     private String image_path;
 
     // 图片存放的绝对路径
