@@ -31,9 +31,9 @@ public class UserService {
         // 通过用户名和密码查找用户
         User user1 = userExtDao.selectUserByUP(user);
         // 判断是否存在用户 或 用户是否已软删除
-//        if (user1 == null || user1.getStatus()x) {
-//            throw new NoDataFoundException("用户名或密码错误!");
-//        }
+        if (user1 == null || user1.getStatus()) {
+            throw new NoDataFoundException("用户名或密码错误!");
+        }
         return JWTUtils.getToken(user);
 //        return CreateRandomCharData.createRandomCharData(30);
     }

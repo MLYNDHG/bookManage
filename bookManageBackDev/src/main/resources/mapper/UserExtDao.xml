@@ -34,29 +34,26 @@
         from user
         <where>
             <trim prefixOverrides="and">
-                <if test="id != null">
+                <if test="id != null and id!=''">
                     id = #{id}
                 </if>
-                <if test="username != null">
+                <if test="username != null and username!=''">
                     and username = #{username}
                 </if>
-                <if test="nickname != null">
+                <if test="nickname != null and nickname!=''">
                     and nickname = #{nickname}
                 </if>
-                <if test="password != null">
+                <if test="password != null and password!=''">
                     and password = MD5(#{password})
                 </if>
-                <if test="tel != null">
+                <if test="tel != null and tel!=''">
                     and tel = #{tel}
                 </if>
-                <if test="email != null">
+                <if test="email != null and email!=''">
                     and email = #{email}
                 </if>
                 <if test="status != null">
                     and status = #{status}
-                </if>
-                <if test="isSuper != null">
-                    and is_super = #{isSuper}
                 </if>
             </trim>
         </where>
