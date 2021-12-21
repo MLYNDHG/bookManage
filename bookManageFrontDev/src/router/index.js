@@ -1,16 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-<<<<<<< HEAD
-import login from "@/views/admin/login.vue";
-import adminHome from "@/views/admin/adminHome.vue"
-import adminHomex from "@/views/admin/adminHomex.vue"
-=======
 import Login from "@/views/admin/login.vue";
 import AdminHome from "@/views/admin/adminHome.vue"
 import BookManage from "@/views/admin/bookManage.vue"
 import BookInfo from "@/views/admin/bookInfo.vue"
 import adminIndex from "@/views/admin/adminIndex.vue"
->>>>>>> 9a9c7cb9969768694ad77c5355af077e51aca963
 
 Vue.use(Router);
 
