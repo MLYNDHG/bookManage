@@ -59,7 +59,6 @@ public class UserController {
      */
     @PostMapping("/selectUserList")
     public ResponsePageData<User> selectUserList(@RequestBody RequestPageData<User> requestPageData) {
-
         return userService.selectUserList(requestPageData);
     }
 }
