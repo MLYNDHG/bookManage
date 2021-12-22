@@ -20,7 +20,7 @@
         v-model="queryInfo.condition.description"
       ></el-input>
       <el-button class="dalfBut" @click="bookSearch">查询</el-button>
-      <el-button type="danger" class="butT" @click="addBookBto"
+      <el-button type="primary" class="butT" @click="addBookBto"
         >添加图书</el-button
       >
     </div>
@@ -41,7 +41,11 @@
             @click="getUser(scope.row.id)"
             >借阅</el-button
           >
-          <el-button v-else size="small" type="warning" @click="returnBook"
+          <el-button
+            v-else
+            size="small"
+            type="warning"
+            @click="returnBook(scope.row.id, scope.row.uid)"
             >还书</el-button
           >
         </template>
@@ -55,7 +59,7 @@
           <el-button
             size="small"
             type="danger"
-            @click="deleteBook(scope.row.id)"
+            @click="deleteBook(scope.row.id, scope.row.log)"
             >删除</el-button
           >
         </template>
@@ -355,36 +359,20 @@ export default {
     },
 
     //点击还书
-    returnBook() {
+    returnBook(bid, uid) {
+      //console.log(id)
       this.$confirm("确定归还此图书吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
+          this.bookLog.bid = bid;
+          this.bookLog.uid = uid;
 
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
-    },
-
-    //删除图书
-    deleteBook(bid) {
-      //console.log(bid)
-      this.$confirm("确定删除此图书吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          deleteBook(bid)
+          saveBookLog(this.bookLog)
             .then((res) => {
               console.log(res);
-
               this.getAll();
             })
             .catch((res) => {
@@ -398,10 +386,56 @@ export default {
           });
         });
     },
+
+    //删除图书
+    deleteBook(bid, log) {
+      //console.log(bid)
+      if (log == 0) {
+        this.$confirm("确定删除此图书吗?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            deleteBook(bid)
+              .then((res) => {
+                console.log(res);
+
+                this.getAll();
+              })
+              .catch((res) => {
+                console.log(res);
+              });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+            });
+          });
+      } else {
+        this.$alert("此书已借出,待归还后再删除", {
+          confirmButtonText: "确定",
+          type: "warning",
+        });
+      }
+    },
   },
 };
 </script>
 <style lang="less">
+/deep/.el-button--danger {
+  color: #fff;
+  background-color: #7e70bf !important;
+  border-color: #7e70bf !important;
+}
+
+.el-button--primary {
+  color: #fff;
+  background-color: #00919d;
+  border-color: #00919d;
+}
+
 .vueContainer {
   .filter-container {
     height: 50px;
