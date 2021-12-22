@@ -12,14 +12,14 @@
 //ES6的语法,类和对象面向对象语言
 export default class User {
     constructor() {
-    this.id=''
-this.username=''
-this.nickname=''
-this.password=''
-this.head=''
-this.tel=''
-this.email=''
-this.status=''
-this.isSuper=''
+        this.id = ''
+        this.username = ''
+        this.nickname = ''
+        this.password = ''
+        this.head = ''
+        this.tel = ''
+        this.email = ''
+        this.status = ''
+        this.isSuper = ''
     }
 }

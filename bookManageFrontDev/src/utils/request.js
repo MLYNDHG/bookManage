@@ -5,10 +5,12 @@ import router from '@/router/index.js'
 const service = axios.create({
     timeout: 7000, // 超过7秒提示超时
 })
-service.baseUrl = 'http://localhost:9090';//跨域用的
+// service.baseUrl = 'http://192.168.0.50:9090';//跨域用的
+service.baseUrl = 'http://localhost:9090';
+
 // 请求拦截器
 service.interceptors.request.use(
-    config => {
+    config => {//config配置
         if (sessionStorage.getItem('Authorization')) {
             config.headers.Authorization = sessionStorage.getItem('Authorization');
         }
@@ -69,4 +71,4 @@ service.interceptors.response.use(
         }
     }
 )
-export default service;
+export default service;//暴露变量，导出，别人可以引用
