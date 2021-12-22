@@ -120,14 +120,15 @@
     </el-dialog>
 
     <!-- 借阅图书对话框 -->
-    <el-dialog title="收货地址" :visible.sync="borrowBookDialog" width="30%">
+    <el-dialog :visible.sync="borrowBookDialog" width="30%">
       <el-form :model="userForm">
         <el-form-item label="请指定用户" label-width="100px">
-          <el-select v-model="userForm.username" placeholder="请选择活动区域">
+          <el-select v-model="userForm.uid" placeholder="请选择用户">
             <el-option
               v-for="item in userList"
               :key="item.id"
-              :value="item.username"
+              :label="item.username"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -142,7 +143,7 @@
 <script>
 import { selectBookList, saveBook } from "@/services/bookcontroller.js";
 import { selectUserList } from "@/services/UserController.js";
-import { saveBookLog } from "@/services/bookLogController.js";
+//import { saveBookLog } from "@/services/bookLogController.js";
 import requestPageData from "@/model/RequestPageData.js";
 import addBookForm from "@/model/addBookForm";
 import userList from "@/model/User.js";
@@ -202,7 +203,8 @@ export default {
 
       //用户表单
       userForm: {
-        id: 0,
+        uid: "",
+        bid: 0,
         username: "",
       },
     };
@@ -229,10 +231,10 @@ export default {
         });
     },
 
-    //查询所有用户
+    //点击借阅查询所有用户
     getUser(bid) {
       //console.log(bid)
-      this.userForm.id = bid;
+      this.userForm.bid = bid;
       this.requestPageData.condition = this.user;
       selectUserList(this.requestPageData)
         .then((res) => {
@@ -244,6 +246,7 @@ export default {
         });
 
       this.borrowBookDialog = true;
+      console.log(this.userForm)
     },
 
     //匹配查询
@@ -321,12 +324,16 @@ export default {
 
     //点击借书给指定用户
     borrowBook() {
-      //console.log(this.userForm);
-      saveBookLog(this.userForm).then(res=>{
-          console.log(res)
-      }).catch(res=>{
-          console.log(res)
-      })
+        console.log(this.userForm)
+        this.BookLogVO.bid = this.userForm.bid
+        this.BookLogVO.uid = this.userForm.uid
+        console.log(this.saveBookLog)
+    //   console.log(this.userForm);
+    //   saveBookLog(this.BookLogVO).then(res=>{
+    //       console.log(res)
+    //   }).catch(res=>{
+    //       console.log(res)
+    //   })
     },
   },
 };
