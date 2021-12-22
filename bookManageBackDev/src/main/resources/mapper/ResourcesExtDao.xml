@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.ResourcesExtDao">
+
+    <resultMap id="ResourceBasicMap" type="com.Httb.bookManage.model.ResourcesVO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sid" jdbcType="INTEGER" property="sid"/>
+        <result column="englishName" jdbcType="VARCHAR" property="englishname"/>
+        <result column="chineseName" jdbcType="VARCHAR" property="chinesename"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="sName" jdbcType="VARCHAR" property="sname"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="pName" jdbcType="VARCHAR" property="pname"/>
+    </resultMap>
+
+    <!--    应用资源基本信息列表-->
+    <select id="selectResourceBasicList" parameterType="com.Httb.bookManage.model.ResourcesVO"
+            resultMap="ResourceBasicMap">
+        SELECT r.*,
+               s.pid,
+               s.name AS sName,
+               s.image,
+               p.name AS pName
+        FROM resources r
+                 LEFT JOIN (SELECT * FROM secondarytype) s
+                           ON r.sid = s.id
+                            and s.status = 0
+                 LEFT JOIN (SELECT * FROM primarytype) p
+                           ON s.pid = p.id
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    r.id = #{id}
+                </if>
+                <if test="sid != null">
+                    and r.sid = #{sid}
+                </if>
+                <if test="englishname != null and englishname != ''">
+                    <bind name="englishnameLike" value="'%' + englishname + '%'"/>
+                    and r.englishName like #{englishnameLike}
+                </if>
+                <if test="chinesename != null and chinesename != ''">
+                    <bind name="chinesenameLike" value="'%' + chinesename + '%'"/>
+                    and r.chineseName like #{chinesenameLike}
+                </if>
+                <if test="description != null and description != ''">
+                    <bind name="descriptionLike" value="'%' + description + '%'"/>
+                    and r.`description` like #{descriptionLike}
+                </if>
+                <if test="pid != null">
+                    and s.pid = #{pid}
+                </if>
+                <if test="sname != null and sname != ''">
+                    <bind name="snameLike" value="'%' + sname + '%'"/>
+                    and s.name like #{snameLike}
+                </if>
+                <if test="pname != null and pname != ''">
+                    <bind name="pnameLike" value="'%' + pname + '%'"/>
+                    and p.name like #{pnameLike}
+                </if>
+            </trim>
+        </where>
+    </select>
+</mapper>
