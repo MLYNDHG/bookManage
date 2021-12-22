@@ -3,7 +3,7 @@ import Router from "vue-router";
 import Login from "@/views/admin/login.vue";
 import AdminHome from "@/views/admin/adminHome.vue"
 import BookManage from "@/views/admin/bookManage.vue"
-import BookInfo from "@/views/admin/bookInfo.vue"
+import UserList from "@/views/userManage/userList.vue"
 
 Vue.use(Router);
 
@@ -15,7 +15,7 @@ Router.prototype.push = function push(location) {
 
 const router = new Router({
     routes: [{
-        path: "/login",
+        path: "/",
         component: Login,
         children: []},
         {
@@ -27,8 +27,8 @@ const router = new Router({
                     component: BookManage
                 },
                 {
-                    path: "/home/bookinfo",
-                    component: BookInfo
+                    path:"/home/userlist",
+                    component:UserList
                 }
             ],
     },

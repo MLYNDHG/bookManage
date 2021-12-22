@@ -3,9 +3,9 @@
  @param pageSize:class java.lang.Integer
 */
 class pageCondition {
-    constructor() {
-        this.pageNo = ''
-        this.pageSize = ''
+    constructor() {//ES6构造器
+        this.pageNo = 0
+        this.pageSize = 0
     }
 }
 
@@ -16,6 +16,6 @@ class pageCondition {
 export default class RequestPageData {
     constructor() {
         this.pageCondition = new pageCondition();
-        this.condition = ''
+        this.condition = '';
     }
 }
