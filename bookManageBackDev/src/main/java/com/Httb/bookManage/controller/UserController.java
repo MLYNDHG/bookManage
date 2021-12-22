@@ -30,8 +30,8 @@ public class UserController {
     /**
      * 用户注册,修改用户信息
      */
-    @PostMapping("/save")
-    public Integer save(@RequestBody User user) {
+    @PostMapping("/saveUser")
+    public Integer saveUser(@RequestBody User user) {
 
         return userService.saveUser(user);
     }

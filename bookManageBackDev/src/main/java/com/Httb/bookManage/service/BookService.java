@@ -43,7 +43,7 @@ public class BookService {
     public Integer saveBook(Book book) {
         if (book.getId() != null) {
             // 修改图
-            return bookExtDao.updateByPrimaryKeySelective(book);
+            return bookExtDao.updateBookInfo(book);
         } else {
             // 新增图书
             // 添加图书时间
@@ -60,7 +60,7 @@ public class BookService {
         Book book = new Book();
         book.setId(id);
         book.setStatus(true);
-        return bookExtDao.updateByPrimaryKeySelective(book);
+        return bookExtDao.updateBookInfo(book);
     }
 
 }

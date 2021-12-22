@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/book")
+//@RequestMapping("/book")
 public class BookController {
 
     @Resource
@@ -31,7 +31,7 @@ public class BookController {
      * 修改图书
      */
     @PostMapping("/saveBook")
-    public Integer save(@RequestBody Book book) {
+    public Integer saveBook(@RequestBody Book book) {
 
         return bookService.saveBook(book);
     }
@@ -40,7 +40,7 @@ public class BookController {
      * 删除图书
      */
     @GetMapping("/deleteBook")
-    public Integer delete(@RequestParam Integer id) {
+    public Integer deleteBook(@RequestParam Integer id) {
 
         return bookService.deleteBook(id);
     }
