@@ -17,7 +17,17 @@
       <el-header>
         <div class="headLeft">Book Manage</div>
         <div class="headRight">
-          <div class="avatar">头像</div>
+          <div class="avatar">
+            <el-upload
+              class="avatar-uploader"
+              action="http://localhost:9090/uploadImage"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
           NickName
           <el-button
             class="logout"
@@ -110,7 +120,11 @@
 </template>
 
 <script>
+import { saveUser,selectUserList } from "@/services/UserController.js";
+import user from "@/model/User.js";
+import requestPageData from "@/model/RequestPageData.js"
 export default {
+  
   data() {
     return {
       show: true,
@@ -131,6 +145,12 @@ export default {
         path: "",
         close: true,
       },
+
+      //头像地址
+      imageUrl: "",
+
+      //用户信息
+      userLog: new(user)
     };
   },
   created() {
@@ -151,6 +171,9 @@ export default {
     }
     //console.log(this.editableTabs);
     this.editableTabs = this.$store.state.list;
+
+    //查询用户信息
+    this.getUser()
   },
   methods: {
     //删除标签
@@ -202,6 +225,37 @@ export default {
       this.activePath = path;
       this.$router.push(path);
     },
+
+    //头像上传
+    handleAvatarSuccess(res) {
+        console.log(res)
+        this.userLog.head = res.data
+        this.userLog.id = 1
+        this.userLog.username = 'root'
+        //console.log(this.userLog)
+        saveUser(this.userLog).then(res=>{
+          console.log(res)
+          //console.log(this.imageUrl)
+        })
+          this.imageUrl = "http://127.0.0.1:9090"+res.data
+        // console.log(this.imageUrl)
+        // this.imageUrl = "127.0.0.1:9090"
+    },
+
+    //页面渲染时查用户数据
+    getUser() {
+      const userModel = new requestPageData()
+      this.userLog.id = 1
+      userModel.condition = this.userLog
+      userModel.pageCondition.pageNo = 1
+      userModel.pageCondition.pageSize = 1
+
+      //console.log(userModel)
+      selectUserList(userModel).then(res=>{
+        console.log(res)
+        this.imageUrl = "http://127.0.0.1:9090"+res.data.resultPages[0].head
+      })
+    }
   },
 };
 </script>
@@ -232,7 +286,9 @@ export default {
         font-family: "Ubuntu", sans-serif;
         .avatar {
           background-color: rgb(56 82 108);
-          width: 100px;
+          width: 50px;
+          height: 50px;
+          line-height: 98px;
           border-radius: 50%;
           margin-right: 30px;
         }
