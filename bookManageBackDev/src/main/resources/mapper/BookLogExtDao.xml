@@ -49,12 +49,6 @@
     <update id="updateBookLog" parameterType="com.Httb.bookManage.mbg.entity.BookLog">
         update book_log
         <set>
-            <if test="uid != null">
-                `uid` = #{uid,jdbcType=INTEGER},
-            </if>
-            <if test="bid != null">
-                bid = #{bid,jdbcType=INTEGER},
-            </if>
             <if test="timestart != null">
                 timeStart = #{timestart,jdbcType=TIMESTAMP},
             </if>
@@ -62,7 +56,11 @@
                 timeEnd = #{timeend,jdbcType=TIMESTAMP},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        <where>
+            uid = #{uid}
+            and bid = #{bid}
+            and timeEnd = '0000-00-00 00:00:00'
+        </where>
     </update>
 
     <!--    新增借阅信息-->

@@ -33,7 +33,7 @@ CREATE TABLE `book` (
 
 /*Data for the table `book` */
 
-insert  into `book`(`id`,`name`,`description`,`author`,`status`,`log`,`time`) values (1,'西游记','哈哈哈','吴承恩',0,1,'2021-12-20 11:00:00'),(2,'红楼梦','红楼梦','曹雪芹',0,0,'2021-12-12 12:00:00'),(3,'水浒传','hhh','施耐庵',0,1,'2021-12-20 08:00:00'),(4,'三国演义','三国演义','罗贯中',0,0,'2021-12-20 15:21:23'),(5,'三国演义','三国演义','罗贯中',1,0,'2021-12-21 12:08:48');
+insert  into `book`(`id`,`name`,`description`,`author`,`status`,`log`,`time`) values (1,'西游记','哈哈哈','吴承恩',0,1,'2021-12-20 11:00:00'),(2,'红楼梦','红楼梦','曹雪芹',0,0,'2021-12-12 12:00:00'),(3,'水浒传','hhh','施耐庵',0,0,'2021-12-20 08:00:00'),(4,'三国演义','三国演义','罗贯中',0,0,'2021-12-20 15:21:23'),(5,'三国演义','三国演义','罗贯中',1,0,'2021-12-21 12:08:48');
 
 /*Table structure for table `book_log` */
 
@@ -44,13 +44,13 @@ CREATE TABLE `book_log` (
   `uid` int NOT NULL COMMENT '借阅的用户id',
   `bid` int NOT NULL COMMENT '借阅的图书id',
   `timeStart` datetime NOT NULL COMMENT '借阅时间',
-  `timeEnd` datetime DEFAULT NULL COMMENT '还书时间',
+  `timeEnd` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '还书时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `book_log` */
 
-insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00',NULL),(2,1,2,'2021-11-13 14:13:00','2021-12-12 12:00:00'),(3,4,3,'2021-12-12 13:00:00','2021-12-20 14:12:12'),(4,1,3,'2021-12-20 12:00:00','2021-12-21 14:18:54'),(5,4,3,'2021-12-21 14:19:35',NULL);
+insert  into `book_log`(`id`,`uid`,`bid`,`timeStart`,`timeEnd`) values (1,1,1,'2021-12-12 11:00:00','0000-00-00 00:00:00'),(2,1,2,'2021-11-13 14:13:00','2021-12-12 12:00:00'),(3,4,3,'2021-12-12 13:00:00','2021-12-22 11:00:06'),(4,1,3,'2021-12-20 12:00:00','2021-12-21 14:18:54'),(5,4,3,'2021-12-21 14:19:35','2021-12-22 11:00:06'),(7,4,3,'2021-12-22 10:55:35','2021-12-22 11:00:06'),(8,4,3,'2021-12-22 11:04:22','2021-12-22 11:12:25');
 
 /*Table structure for table `primarytype` */
 
@@ -61,9 +61,11 @@ CREATE TABLE `primarytype` (
   `name` varchar(30) NOT NULL COMMENT '一级类型名称',
   `time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `primarytype` */
+
+insert  into `primarytype`(`id`,`name`,`time`) values (1,'内存数据库','2021-12-12 12:00:00'),(2,'数据库','2021-12-12 13:12:00'),(3,'信息中间件','2021-12-10 23:00:02'),(4,'文件服务器','2021-10-13 13:03:33'),(5,'应用资源','2021-12-02 08:14:11');
 
 /*Table structure for table `redis` */
 
@@ -125,9 +127,11 @@ CREATE TABLE `secondarytype` (
   `image` varchar(100) NOT NULL COMMENT '类型照片',
   `time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `secondarytype` */
+
+insert  into `secondarytype`(`id`,`pid`,`name`,`image`,`time`) values (1,1,'sqLite','/images/sqlite.png','2021-12-10 12:00:00'),(2,1,'altibase','/images/altibase.png','2021-12-10 13:00:01'),(3,1,'timesten','/images/timesten.png','2021-12-10 13:00:02'),(4,2,'mysql','/images/mysql.png','2021-12-20 12:00:02'),(5,2,'tdsql','/images/tdsql.png','2021-12-21 14:13:00'),(6,2,'oracle','/images/oracle.png','2021-12-21 14:14:13');
 
 /*Table structure for table `user` */
 

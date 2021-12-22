@@ -2,11 +2,8 @@ package com.Httb.bookManage.service;
 
 import com.Httb.bookManage.dao.BookExtDao;
 import com.Httb.bookManage.dao.BookLogExtDao;
-import com.Httb.bookManage.mbg.entity.Book;
-import com.Httb.bookManage.mbg.entity.BookLog;
 import com.Httb.bookManage.model.BookLogVO;
 import com.Httb.bookManage.model.BookVO;
-import com.Httb.bookManage.util.DateUtil;
 import com.Httb.bookManage.util.RequestPageData;
 import com.Httb.bookManage.util.ResponsePageData;
 import com.github.pagehelper.Page;
