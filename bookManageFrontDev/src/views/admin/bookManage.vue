@@ -34,8 +34,15 @@
       <el-table-column label="描述" prop="description"></el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button size="small" type="primary" @click="getUser(scope.row.id)"
+          <el-button
+            v-if="scope.row.log == 0"
+            size="small"
+            type="primary"
+            @click="getUser(scope.row.id)"
             >借阅</el-button
+          >
+          <el-button v-else size="small" type="warning" @click="returnBook"
+            >还书</el-button
           >
         </template>
       </el-table-column>
@@ -48,7 +55,7 @@
           <el-button
             size="small"
             type="danger"
-            @click="deleteBook(scope.row.bid)"
+            @click="deleteBook(scope.row.id)"
             >删除</el-button
           >
         </template>
@@ -141,9 +148,13 @@
   </div>
 </template>
 <script>
-import { selectBookList, saveBook } from "@/services/bookcontroller.js";
+import {
+  selectBookList,
+  saveBook,
+  deleteBook,
+} from "@/services/bookcontroller.js";
 import { selectUserList } from "@/services/UserController.js";
-//import { saveBookLog } from "@/services/bookLogController.js";
+import { saveBookLog } from "@/services/bookLogController.js";
 import requestPageData from "@/model/RequestPageData.js";
 import addBookForm from "@/model/addBookForm";
 import userList from "@/model/User.js";
@@ -158,7 +169,7 @@ export default {
       //查用户信息用的模型
       user: new userList(),
       //借阅信息的模型
-      bookLogVO: new BookLogVO(),
+      bookLog: new BookLogVO(),
       //获取图书列表的参数对象
       queryInfo: {
         condition: {
@@ -212,6 +223,8 @@ export default {
 
   created() {
     this.getAll();
+
+    //console.log(this.bookLog)
   },
 
   methods: {
@@ -246,7 +259,7 @@ export default {
         });
 
       this.borrowBookDialog = true;
-      console.log(this.userForm)
+      console.log(this.userForm);
     },
 
     //匹配查询
@@ -324,16 +337,66 @@ export default {
 
     //点击借书给指定用户
     borrowBook() {
-        console.log(this.userForm)
-        this.BookLogVO.bid = this.userForm.bid
-        this.BookLogVO.uid = this.userForm.uid
-        console.log(this.saveBookLog)
-    //   console.log(this.userForm);
-    //   saveBookLog(this.BookLogVO).then(res=>{
-    //       console.log(res)
-    //   }).catch(res=>{
-    //       console.log(res)
-    //   })
+      //console.log(this.userForm)
+      this.bookLog.bid = this.userForm.bid;
+      this.bookLog.uid = this.userForm.uid;
+      console.log(this.bookLog);
+      //console.log(this.userForm);
+      saveBookLog(this.bookLog)
+        .then((res) => {
+          console.log(res);
+          this.borrowBookDialog = false;
+          this.$message({ message: "借阅成功", type: "success" });
+          this.getAll();
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    },
+
+    //点击还书
+    returnBook() {
+      this.$confirm("确定归还此图书吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+
+    //删除图书
+    deleteBook(bid) {
+      //console.log(bid)
+      this.$confirm("确定删除此图书吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          deleteBook(bid)
+            .then((res) => {
+              console.log(res);
+
+              this.getAll();
+            })
+            .catch((res) => {
+              console.log(res);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
   },
 };
