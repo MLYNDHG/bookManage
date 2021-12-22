@@ -41,12 +41,12 @@
             <if test="log != null">
                 and `log` = #{log}
             </if>
-            <if test="timeFrom != null and timeFrom != ''">
+            <if test="timeFrom != null">
                 <![CDATA[
                         and #{timeFrom} <= `time`
                 ]]>
             </if>
-            <if test="timeTo != null and timeTo != ''">
+            <if test="timeTo != null">
                 <![CDATA[
                         and #{timeTo} >= `time`
                 ]]>
@@ -69,7 +69,7 @@
         left join `user` u
         on u.id = k.uid
         <where>
-            <if test="id != null and id != ''">
+            <if test="id != null">
                 b.id = #{id}
             </if>
             <if test="name != null and name != ''">
@@ -88,12 +88,12 @@
             <if test="log != null">
                 and b.`log` = #{log}
             </if>
-            <if test="timeFrom != null and timeFrom != ''">
+            <if test="timeFrom != null">
                 <![CDATA[
                         and #{timeFrom} <= b.`time`
                 ]]>
             </if>
-            <if test="timeTo != null and timeTo != ''">
+            <if test="timeTo != null">
                 <![CDATA[
                         and #{timeTo} >= b.`time`
                 ]]>
@@ -120,10 +120,20 @@
             <if test="log != null">
                 log = #{log,jdbcType=BOOLEAN},
             </if>
-            <if test="time != null and time != ''">
+            <if test="time != null">
                 `time` = #{time,jdbcType=TIMESTAMP},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+<!--    根据id查询图书信息-->
+    <select id="selectBookById" parameterType="java.lang.Integer" resultMap="BookList">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.BookDao.Base_Column_List"/>
+        from book
+        <where>
+            id = #{id}
+        </where>
+    </select>
 </mapper>
