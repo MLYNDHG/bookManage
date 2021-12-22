@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.mbg.dao.ResourcesDao">
+  <resultMap id="BaseResultMap" type="com.Httb.bookManage.mbg.entity.Resources">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="englishName" jdbcType="VARCHAR" property="englishname" />
+    <result column="chineseName" jdbcType="VARCHAR" property="chinesename" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sid, englishName, chineseName, description, `time`, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resources
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from resources
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Resources" useGeneratedKeys="true">
+    insert into resources (sid, englishName, chineseName, 
+      description, `time`, `status`
+      )
+    values (#{sid,jdbcType=INTEGER}, #{englishname,jdbcType=VARCHAR}, #{chinesename,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=BOOLEAN}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Resources" useGeneratedKeys="true">
+    insert into resources
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="englishname != null">
+        englishName,
+      </if>
+      <if test="chinesename != null">
+        chineseName,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="englishname != null">
+        #{englishname,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesename != null">
+        #{chinesename,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BOOLEAN},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Httb.bookManage.mbg.entity.Resources">
+    update resources
+    <set>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="englishname != null">
+        englishName = #{englishname,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesename != null">
+        chineseName = #{chinesename,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=BOOLEAN},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Httb.bookManage.mbg.entity.Resources">
+    update resources
+    set sid = #{sid,jdbcType=INTEGER},
+      englishName = #{englishname,jdbcType=VARCHAR},
+      chineseName = #{chinesename,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=BOOLEAN}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.mbg.dao.RedisDao">
+  <resultMap id="BaseResultMap" type="com.Httb.bookManage.mbg.entity.Redis">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="cluterAddress" jdbcType="VARCHAR" property="cluteraddress" />
+    <result column="maxJumps" jdbcType="INTEGER" property="maxjumps" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="timeout" jdbcType="INTEGER" property="timeout" />
+    <result column="maxThreadActivities" jdbcType="INTEGER" property="maxthreadactivities" />
+    <result column="maxThreadIdles" jdbcType="INTEGER" property="maxthreadidles" />
+    <result column="minThreadIdles" jdbcType="INTEGER" property="minthreadidles" />
+    <result column="maxThreadWaits" jdbcType="INTEGER" property="maxthreadwaits" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, rid, cluterAddress, maxJumps, `password`, timeout, maxThreadActivities, maxThreadIdles, 
+    minThreadIdles, maxThreadWaits, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from redis
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from redis
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Redis" useGeneratedKeys="true">
+    insert into redis (rid, cluterAddress, maxJumps, 
+      `password`, timeout, maxThreadActivities, 
+      maxThreadIdles, minThreadIdles, maxThreadWaits, 
+      `status`)
+    values (#{rid,jdbcType=INTEGER}, #{cluteraddress,jdbcType=VARCHAR}, #{maxjumps,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{timeout,jdbcType=INTEGER}, #{maxthreadactivities,jdbcType=INTEGER}, 
+      #{maxthreadidles,jdbcType=INTEGER}, #{minthreadidles,jdbcType=INTEGER}, #{maxthreadwaits,jdbcType=INTEGER}, 
+      #{status,jdbcType=BOOLEAN})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Redis" useGeneratedKeys="true">
+    insert into redis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="cluteraddress != null">
+        cluterAddress,
+      </if>
+      <if test="maxjumps != null">
+        maxJumps,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="timeout != null">
+        timeout,
+      </if>
+      <if test="maxthreadactivities != null">
+        maxThreadActivities,
+      </if>
+      <if test="maxthreadidles != null">
+        maxThreadIdles,
+      </if>
+      <if test="minthreadidles != null">
+        minThreadIdles,
+      </if>
+      <if test="maxthreadwaits != null">
+        maxThreadWaits,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="cluteraddress != null">
+        #{cluteraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="maxjumps != null">
+        #{maxjumps,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="timeout != null">
+        #{timeout,jdbcType=INTEGER},
+      </if>
+      <if test="maxthreadactivities != null">
+        #{maxthreadactivities,jdbcType=INTEGER},
+      </if>
+      <if test="maxthreadidles != null">
+        #{maxthreadidles,jdbcType=INTEGER},
+      </if>
+      <if test="minthreadidles != null">
+        #{minthreadidles,jdbcType=INTEGER},
+      </if>
+      <if test="maxthreadwaits != null">
+        #{maxthreadwaits,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BOOLEAN},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Httb.bookManage.mbg.entity.Redis">
+    update redis
+    <set>
+      <if test="rid != null">
+        rid = #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="cluteraddress != null">
+        cluterAddress = #{cluteraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="maxjumps != null">
+        maxJumps = #{maxjumps,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="timeout != null">
+        timeout = #{timeout,jdbcType=INTEGER},
+      </if>
+      <if test="maxthreadactivities != null">
+        maxThreadActivities = #{maxthreadactivities,jdbcType=INTEGER},
+      </if>
+      <if test="maxthreadidles != null">
+        maxThreadIdles = #{maxthreadidles,jdbcType=INTEGER},
+      </if>
+      <if test="minthreadidles != null">
+        minThreadIdles = #{minthreadidles,jdbcType=INTEGER},
+      </if>
+      <if test="maxthreadwaits != null">
+        maxThreadWaits = #{maxthreadwaits,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=BOOLEAN},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Httb.bookManage.mbg.entity.Redis">
+    update redis
+    set rid = #{rid,jdbcType=INTEGER},
+      cluterAddress = #{cluteraddress,jdbcType=VARCHAR},
+      maxJumps = #{maxjumps,jdbcType=INTEGER},
+      `password` = #{password,jdbcType=VARCHAR},
+      timeout = #{timeout,jdbcType=INTEGER},
+      maxThreadActivities = #{maxthreadactivities,jdbcType=INTEGER},
+      maxThreadIdles = #{maxthreadidles,jdbcType=INTEGER},
+      minThreadIdles = #{minthreadidles,jdbcType=INTEGER},
+      maxThreadWaits = #{maxthreadwaits,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=BOOLEAN}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

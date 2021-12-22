@@ -53,7 +53,7 @@
                     and email = #{email}
                 </if>
                 <if test="status != null">
-                    and status = #{status}
+                    and status = 0
                 </if>
             </trim>
         </where>

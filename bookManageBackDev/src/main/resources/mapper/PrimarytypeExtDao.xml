@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.PrimarytypeExtDao">
+
+    <resultMap id="AlltypeMap" type="com.Httb.bookManage.model.PrimarytypeVO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+    </resultMap>
+
+<!--    一级类型列表-->
+    <select id="selectPrimarytypeList" resultMap="AlltypeMap">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.PrimarytypeDao.Base_Column_List" />
+        from primarytype
+        where status = 0
+    </select>
+</mapper>
