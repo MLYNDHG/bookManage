@@ -53,22 +53,24 @@ public class BookLogService {
      */
     public Integer saveBookLog(BookLogVO bookLogVO) {
         // 判断图书是否已借阅
-        Book book = bookExtDao.selectByPrimaryKey(bookLogVO.getBid());
+        BookVO bookVO = new BookVO();
+        bookVO.setId(bookLogVO.getBid());
+        BookVO book = bookExtDao.selectBookInfoList(bookVO).get(0);
         if (book.getLog()) {
             // 图书已借阅，还书
             // 修改借阅记录的timeend
             bookLogVO.setTimeend(new Date());
-            bookLogExtDao.updateByPrimaryKeySelective(bookLogVO);
+            bookLogExtDao.updateBookLog(bookLogVO);
             // 修改图书的log为false
             book.setLog(false);
         } else {
             // 借阅图书
             // 添加借阅记录
             bookLogVO.setTimestart(new Date());
-            bookLogExtDao.insert(bookLogVO);
+            bookLogExtDao.insertBookLog(bookLogVO);
             // 修改图书的log为true
             book.setLog(true);
         }
-        return bookExtDao.updateByPrimaryKeySelective(book);
+        return bookExtDao.updateBookInfo(book);
     }
 }

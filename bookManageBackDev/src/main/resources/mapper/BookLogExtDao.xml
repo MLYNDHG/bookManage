@@ -3,29 +3,29 @@
 <mapper namespace="com.Httb.bookManage.dao.BookLogExtDao">
 
     <resultMap id="BookLogList" type="com.Httb.bookManage.model.BookLogVO">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="uid" jdbcType="INTEGER" property="uid" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
-        <result column="bid" jdbcType="INTEGER" property="bid" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="timeStart" jdbcType="TIMESTAMP" property="timestart" />
-        <result column="timeEnd" jdbcType="TIMESTAMP" property="timeend" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="bid" jdbcType="INTEGER" property="bid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="timeStart" jdbcType="TIMESTAMP" property="timestart"/>
+        <result column="timeEnd" jdbcType="TIMESTAMP" property="timeend"/>
     </resultMap>
 
     <sql id="BookLog_Column_List">
         id, `uid`, `name`, username, bid, timeStart, timeEnd
     </sql>
 
-<!--    借阅列表-->
+    <!--    借阅列表-->
     <select id="selectBookLogList" resultMap="BookLogList" parameterType="com.Httb.bookManage.model.BookLogVO">
         SELECT l.*,b.`name`,u.`username`
-            FROM book_log l
-          LEFT JOIN
-          (SELECT * FROM book) b
-          ON b.id = l.bid
-          LEFT JOIN
-          (SELECT * FROM `user`) u
-          ON u.id = l.uid
+        FROM book_log l
+        LEFT JOIN
+        (SELECT * FROM book) b
+        ON b.id = l.bid
+        LEFT JOIN
+        (SELECT * FROM `user`) u
+        ON u.id = l.uid
         <where>
             <trim prefixOverrides="and">
                 <if test="id != null">
@@ -44,4 +44,31 @@
             </trim>
         </where>
     </select>
+
+    <!--    修改借阅信息-->
+    <update id="updateBookLog" parameterType="com.Httb.bookManage.mbg.entity.BookLog">
+        update book_log
+        <set>
+            <if test="uid != null">
+                `uid` = #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="bid != null">
+                bid = #{bid,jdbcType=INTEGER},
+            </if>
+            <if test="timestart != null">
+                timeStart = #{timestart,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeend != null">
+                timeEnd = #{timeend,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--    新增借阅信息-->
+    <insert id="insertBookLog" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.BookLog"
+            useGeneratedKeys="true">
+        insert into book_log (`uid`, bid, timeStart)
+        values (#{uid,jdbcType=INTEGER}, #{bid,jdbcType=INTEGER}, #{timestart,jdbcType=TIMESTAMP})
+    </insert>
 </mapper>
