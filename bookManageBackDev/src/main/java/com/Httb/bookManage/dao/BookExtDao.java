@@ -22,4 +22,9 @@ public interface BookExtDao extends BookDao {
      * 编辑图书
      */
     Integer updateBookInfo(Book book);
+
+    /**
+     * 根据id查询图书信息
+     */
+    Book selectBookById(Integer id);
 }

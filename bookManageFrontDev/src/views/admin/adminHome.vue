@@ -6,7 +6,10 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
+<<<<<<< HEAD
 <!-- 字体2 -->
+=======
+>>>>>>> 3f86c140374b015f225d05d7a82fba088df27bbc
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,10 +19,20 @@
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div class="headLeft">HTTB 图书馆里系统</div>
+        <div class="headLeft">Book Manage</div>
         <div class="headRight">
-          <div class="avatar">头像</div>
-          NickName
+          <div class="avatar">
+            <el-upload
+              class="avatar-uploader"
+              action="http://localhost:9090/uploadImage"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+          {{nickname}}
           <el-button
             class="logout"
             type="primary"
@@ -41,37 +54,37 @@
             active-text-color="#ffd04b"
           >
             <el-menu-item index="/home" @click="home('/home')">
-              <span slot="title">首&nbsp;&nbsp;&nbsp;&nbsp;页</span>
+              <span slot="title">HOME</span>
             </el-menu-item>
 
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>书籍管理</span>
+                <span>BookManage</span>
               </template>
               <el-menu-item
                 index="/home/bookmanage"
-                @click="saveNavState('/home/bookmanage', name)"
-                >{{ name }}</el-menu-item
+                @click="saveNavState('/home/bookmanage', menuName1)"
+                >{{ menuName1 }}</el-menu-item
               >
             </el-submenu>
 
             <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>会员管理</span>
+                <span>MemberManage</span>
               </template>
               <el-menu-item
                 index="/home/userlist"
-                @click="saveNavState('/home/userlist', name2)"
-                >{{ name2 }}</el-menu-item
+                @click="saveNavState('/home/userlist', menuName2)"
+                >{{ menuName2 }}</el-menu-item
               >
             </el-submenu>
 
             <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>借阅管理</span>
+                <span>BorrowManage</span>
               </template>
               <el-menu-item index="/home/booklist"  @click="saveNavState('/home/booklist', name3)"
               >{{name3}}</el-menu-item>
@@ -80,15 +93,14 @@
             <el-submenu index="4">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>新晨作业</span>
+                <span>XinChen</span>
               </template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="/home/topic1" @click="saveNavState('/home/topic1', menuName4_1)">{{menuName4_1}}</el-menu-item>
+              <el-menu-item index="/home/topic2" @click="saveNavState('/home/topic2', menuName4_2)">{{menuName4_2}}</el-menu-item>
+              <el-menu-item index="/home/topic3" @click="saveNavState('/home/topic3', menuName4_3)">{{menuName4_3}}</el-menu-item>
             </el-submenu>
-
           </el-menu>
         </el-aside>
-
-
 
         <el-main>
           <el-tabs
@@ -115,7 +127,11 @@
 </template>
 
 <script>
+import { saveUser,selectUserList } from "@/services/UserController.js";
+import user from "@/model/User.js";
+import requestPageData from "@/model/RequestPageData.js"
 export default {
+  
   data() {
     return {
       show: true,
@@ -126,9 +142,16 @@ export default {
       //被激活的链接地址
       activePath: "",
 
-      name: "图书管理",
+      //菜单名
+      menuName1: "图书管理",
+      menuName2: "图书信息",
+      menuName3: "",
+      menuName4_1: "新晨考核1",
+      menuName4_2: "新晨考核2",
+      menuName4_3: "新晨考核3",
 
-      name2: "图书信息",
+      //管理员名字
+      nickname: sessionStorage.getItem('user'),
 
       name3:"Borrowing Management",
 
@@ -138,6 +161,12 @@ export default {
         path: "",
         close: true,
       },
+
+      //头像地址
+      imageUrl: "",
+
+      //用户信息
+      userLog: new(user)
     };
   },
   created() {
@@ -158,6 +187,9 @@ export default {
     }
     //console.log(this.editableTabs);
     this.editableTabs = this.$store.state.list;
+
+    //查询用户信息
+    this.getUser()
   },
   methods: {
     //删除标签
@@ -206,8 +238,39 @@ export default {
     },
 
     home(path) {
-      this.activePath=path
-      this.$router.push(path)
+      this.activePath = path;
+      this.$router.push(path);
+    },
+
+    //头像上传
+    handleAvatarSuccess(res) {
+        console.log(res)
+        this.userLog.head = res.data
+        this.userLog.id = 1
+        this.userLog.username = 'root'
+        //console.log(this.userLog)
+        saveUser(this.userLog).then(res=>{
+          console.log(res)
+          //console.log(this.imageUrl)
+        })
+          this.imageUrl = "http://127.0.0.1:9090"+res.data
+        // console.log(this.imageUrl)
+        // this.imageUrl = "127.0.0.1:9090"
+    },
+
+    //页面渲染时查用户数据
+    getUser() {
+      const userModel = new requestPageData()
+      this.userLog.id = 1
+      userModel.condition = this.userLog
+      userModel.pageCondition.pageNo = 1
+      userModel.pageCondition.pageSize = 1
+
+      //console.log(userModel)
+      selectUserList(userModel).then(res=>{
+        console.log(res)
+        this.imageUrl = "http://127.0.0.1:9090"+res.data.resultPages[0].head
+      })
     }
   },
 };
@@ -218,14 +281,14 @@ export default {
   .el-container {
     height: 100% !important;
     .el-header {
-      background-color: #b3c0d1;
-      color: #333;
+      background-color: rgb(56 82 108);
+      color: #fff7f7db;
       text-align: center;
       display: flex;
       justify-content: space-between;
 
       .headLeft {
-        background-color: aqua;
+        //background-color: aqua;
         line-height: 60px;
         font-size: 3rem;
         font-family: "Ubuntu", sans-serif;
@@ -234,12 +297,14 @@ export default {
       .headRight {
         display: flex;
         line-height: 60px;
-        background-color: antiquewhite;
-        width: 200px;
+        background-color: rgb(56 82 108);
+        width: 300px;
         font-family: "Ubuntu", sans-serif;
         .avatar {
-          background-color: blueviolet;
-          width: 1000px;
+          background-color: rgb(56 82 108);
+          width: 50px;
+          height: 50px;
+          line-height: 98px;
           border-radius: 50%;
           margin-right: 30px;
         }
@@ -248,6 +313,12 @@ export default {
           width: 100px;
           padding: 0px;
           margin-left: 30px;
+        }
+
+        .el-button--primary {
+          color: #fff;
+          background-color: #38526c;
+          border-color: #38526c;
         }
       }
     }
@@ -260,10 +331,17 @@ export default {
       .el-menu {
         height: 100%;
         border-right: solid 0px;
-        .el-submenu {
-          padding-right: 0px !important;
+        background-color: #0c356a87 !important;
+        .el-menu-item {
+          background-color: #6984a4 !important;
         }
+        // /deep/.el-submenu {
+        //   padding-right: 0px !important;
+        // }
         /deep/.el-submenu__title {
+          background-color: #6984a4 !important;
+          font-size: 15px;
+          font-family: "Open Sans Condensed", sans-serif;
           padding-right: 55px !important;
         }
       }
@@ -275,7 +353,7 @@ export default {
       text-align: center;
       /deep/.el-tabs__item {
         color: white;
-        background-color: #409eff !important;
+        background-color: #4d77a3 !important;
         border-radius: 20% 10% 0 0 !important;
       }
       // /deep/.el-tabs__item:hover {
