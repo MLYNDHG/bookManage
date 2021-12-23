@@ -6,10 +6,24 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
+<!-- 字体2 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
     <el-container>
@@ -28,7 +42,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>
-          {{nickname}}
+          {{ nickname }}
           <el-button
             class="logout"
             type="primary"
@@ -82,7 +96,8 @@
                 <i class="el-icon-location"></i>
                 <span>BorrowManage</span>
               </template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="/home/booklist"  @click="saveNavState('/home/booklist', name3)"
+              >{{name3}}</el-menu-item>
             </el-submenu>
 
             <el-submenu index="4">
@@ -90,9 +105,21 @@
                 <i class="el-icon-location"></i>
                 <span>XinChen</span>
               </template>
-              <el-menu-item index="/home/topic1" @click="saveNavState('/home/topic1', menuName4_1)">{{menuName4_1}}</el-menu-item>
-              <el-menu-item index="/home/topic2" @click="saveNavState('/home/topic2', menuName4_2)">{{menuName4_2}}</el-menu-item>
-              <el-menu-item index="/home/topic3" @click="saveNavState('/home/topic3', menuName4_3)">{{menuName4_3}}</el-menu-item>
+              <el-menu-item
+                index="/home/topic1"
+                @click="saveNavState('/home/topic1', menuName4_1)"
+                >{{ menuName4_1 }}</el-menu-item
+              >
+              <el-menu-item
+                index="/home/topic2"
+                @click="saveNavState('/home/topic2', menuName4_2)"
+                >{{ menuName4_2 }}</el-menu-item
+              >
+              <el-menu-item
+                index="/home/topic3"
+                @click="saveNavState('/home/topic3', menuName4_3)"
+                >{{ menuName4_3 }}</el-menu-item
+              >
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -122,11 +149,11 @@
 </template>
 
 <script>
-import { saveUser,selectUserList } from "@/services/UserController.js";
+import { saveUser, selectUserList } from "@/services/UserController.js";
 import user from "@/model/User.js";
-import requestPageData from "@/model/RequestPageData.js"
+import requestPageData from "@/model/RequestPageData.js";
+import request from "@/utils/request";
 export default {
-  
   data() {
     return {
       show: true,
@@ -146,7 +173,9 @@ export default {
       menuName4_3: "新晨考核3",
 
       //管理员名字
-      nickname: sessionStorage.getItem('user'),
+      nickname: sessionStorage.getItem("user"),
+
+      name3:"Borrowing Management",
 
       route: {
         name: "",
@@ -159,7 +188,7 @@ export default {
       imageUrl: "",
 
       //用户信息
-      userLog: new(user)
+      userLog: new user(),
     };
   },
   created() {
@@ -182,7 +211,7 @@ export default {
     this.editableTabs = this.$store.state.list;
 
     //查询用户信息
-    this.getUser()
+    this.getUser();
   },
   methods: {
     //删除标签
@@ -237,34 +266,34 @@ export default {
 
     //头像上传
     handleAvatarSuccess(res) {
-        console.log(res)
-        this.userLog.head = res.data
-        this.userLog.id = 1
-        this.userLog.username = 'root'
-        //console.log(this.userLog)
-        saveUser(this.userLog).then(res=>{
-          console.log(res)
-          //console.log(this.imageUrl)
-        })
-          this.imageUrl = "http://127.0.0.1:9090"+res.data
-        // console.log(this.imageUrl)
-        // this.imageUrl = "127.0.0.1:9090"
+      console.log(res);
+      this.userLog.head = res.data;
+      this.userLog.id = 1;
+      this.userLog.username = "root";
+      //console.log(this.userLog)
+      saveUser(this.userLog).then((res) => {
+        console.log(res);
+        //console.log(this.imageUrl)
+      });
+      this.imageUrl = "http://127.0.0.1:9090" + res.data;
+      // console.log(this.imageUrl)
+      // this.imageUrl = "127.0.0.1:9090"
     },
 
     //页面渲染时查用户数据
     getUser() {
-      const userModel = new requestPageData()
-      this.userLog.id = 1
-      userModel.condition = this.userLog
-      userModel.pageCondition.pageNo = 1
-      userModel.pageCondition.pageSize = 1
+      const userModel = new requestPageData();
+      this.userLog.id = 1;
+      userModel.condition = this.userLog;
+      userModel.pageCondition.pageNo = 1;
+      userModel.pageCondition.pageSize = 1;
 
       //console.log(userModel)
-      selectUserList(userModel).then(res=>{
-        console.log(res)
-        this.imageUrl = "http://127.0.0.1:9090"+res.data.resultPages[0].head
-      })
-    }
+      selectUserList(userModel).then((res) => {
+        console.log(res);
+        this.imageUrl = request.baseUrl + res.data.resultPages[0].head;
+      });
+    },
   },
 };
 </script>
@@ -334,7 +363,7 @@ export default {
         /deep/.el-submenu__title {
           background-color: #6984a4 !important;
           font-size: 15px;
-          font-family: "Open Sans Condensed", sans-serif;
+          font-family: "Ubuntu", sans-serif;
           padding-right: 55px !important;
         }
       }
