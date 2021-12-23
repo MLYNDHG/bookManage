@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.FirstitemsystemExtDao">
+    <resultMap id="BaseResultMap" type="com.Httb.bookManage.mbg.entity.Firstitemsystem">
+        <id column="mid" jdbcType="INTEGER" property="mid" />
+        <result column="systemName" jdbcType="VARCHAR" property="systemname" />
+        <result column="systemCOde" jdbcType="VARCHAR" property="systemcode" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        mid, systemName, systemCOde
+    </sql>
+    <select id="selectSystemList" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsystem" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from firstitemsystem
+        <where>
+            <if test="mid != null and mid != ''">
+                mid = #{mid}
+            </if>
+            <if test="systemname != null and systemname != ''">
+                <bind name="nameLike" value="'%' + systemname + '%'"/>
+                and `systemname` like #{nameLike}
+            </if>
+            <if test="systemcode != null and systemcode != ''">
+                <bind name="descriptionLike" value="'%' + systemcode + '%'"/>
+                and `systemcode` like #{descriptionLike}
+            </if>
+        </where>
+    </select>
+</mapper>
