@@ -3,6 +3,7 @@ package com.Httb.bookManage.mbg.entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -77,6 +78,12 @@ public class Redis implements Serializable {
      */
     @ApiModelProperty(value="配置是否删除")
     private Boolean status;
+
+    /**
+     * 配置添加时间
+     */
+    @ApiModelProperty(value="配置添加时间")
+    private Date time;
 
     private static final long serialVersionUID = 1L;
 }

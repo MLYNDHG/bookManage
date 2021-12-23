@@ -13,10 +13,11 @@
     <result column="minThreadIdles" jdbcType="INTEGER" property="minthreadidles" />
     <result column="maxThreadWaits" jdbcType="INTEGER" property="maxthreadwaits" />
     <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
   </resultMap>
   <sql id="Base_Column_List">
     id, rid, cluterAddress, maxJumps, `password`, timeout, maxThreadActivities, maxThreadIdles, 
-    minThreadIdles, maxThreadWaits, `status`
+    minThreadIdles, maxThreadWaits, `status`, `time`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,11 +33,11 @@
     insert into redis (rid, cluterAddress, maxJumps, 
       `password`, timeout, maxThreadActivities, 
       maxThreadIdles, minThreadIdles, maxThreadWaits, 
-      `status`)
+      `status`, `time`)
     values (#{rid,jdbcType=INTEGER}, #{cluteraddress,jdbcType=VARCHAR}, #{maxjumps,jdbcType=INTEGER}, 
       #{password,jdbcType=VARCHAR}, #{timeout,jdbcType=INTEGER}, #{maxthreadactivities,jdbcType=INTEGER}, 
       #{maxthreadidles,jdbcType=INTEGER}, #{minthreadidles,jdbcType=INTEGER}, #{maxthreadwaits,jdbcType=INTEGER}, 
-      #{status,jdbcType=BOOLEAN})
+      #{status,jdbcType=BOOLEAN}, #{time,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.Httb.bookManage.mbg.entity.Redis" useGeneratedKeys="true">
     insert into redis
@@ -71,6 +72,9 @@
       <if test="status != null">
         `status`,
       </if>
+      <if test="time != null">
+        `time`,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="rid != null">
@@ -102,6 +106,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BOOLEAN},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -138,6 +145,9 @@
       <if test="status != null">
         `status` = #{status,jdbcType=BOOLEAN},
       </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -152,7 +162,8 @@
       maxThreadIdles = #{maxthreadidles,jdbcType=INTEGER},
       minThreadIdles = #{minthreadidles,jdbcType=INTEGER},
       maxThreadWaits = #{maxthreadwaits,jdbcType=INTEGER},
-      `status` = #{status,jdbcType=BOOLEAN}
+      `status` = #{status,jdbcType=BOOLEAN},
+      `time` = #{time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
