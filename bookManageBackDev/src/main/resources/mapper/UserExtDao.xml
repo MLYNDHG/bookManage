@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.UserExtDao">
+
+    <sql id="User_List">
+        id, username, nickname, `password`, head, tel, email, `status`, is_super
+    </sql>
+
+<!--    用户登录 根据username,password-->
+    <select id="selectUserByUP" resultMap="com.Httb.bookManage.mbg.dao.UserDao.BaseResultMap" parameterType="com.Httb.bookManage.mbg.entity.User">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.UserDao.Base_Column_List"/>
+        from user
+        <where>
+            username = #{username}
+            and password = MD5(#{password})
+        </where>
+    </select>
+
+<!--    通过用户名查询用户-->
+    <select id="selectUserByUsername" parameterType="java.lang.String" resultMap="com.Httb.bookManage.mbg.dao.UserDao.BaseResultMap">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.UserDao.Base_Column_List"/>
+        from user
+        <where>
+            username = #{username}
+        </where>
+    </select>
+
+<!--    查找用户-->
+    <select id="selectUser" parameterType="com.Httb.bookManage.mbg.entity.User" resultMap="com.Httb.bookManage.mbg.dao.UserDao.BaseResultMap">
+        select
+        <include refid="User_List"/>
+        from user
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    id = #{id}
+                </if>
+                <if test="username != null and username != ''">
+                    and username = #{username}
+                </if>
+                <if test="nickname != null and nickname != ''">
+                    and nickname = #{nickname}
+                </if>
+                <if test="password != null and password != ''">
+                    and password = MD5(#{password})
+                </if>
+                <if test="tel != null and tel != ''">
+                    and tel = #{tel}
+                </if>
+                <if test="email != null and email != ''">
+                    and email = #{email}
+                </if>
+                <if test="status != null">
+                    and status = 0
+                </if>
+            </trim>
+        </where>
+    </select>
+
+<!--    用户注册 用户插入 密码加密-->
+    <insert id="insertUser" parameterType="com.Httb.bookManage.mbg.entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname,
+            </if>
+            <if test="password != null and password != ''">
+                `password`,
+            </if>
+            <if test="head != null and head != ''">
+                head,
+            </if>
+            <if test="tel != null and tel != ''">
+                tel,
+            </if>
+            <if test="email != null and email != ''">
+                email,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="isSuper != null">
+                is_super,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null and username != ''">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                MD5(#{password,jdbcType=VARCHAR}),
+            </if>
+            <if test="head != null and head != ''">
+                #{head,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null and tel != ''">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="isSuper != null">
+                #{isSuper,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+
+<!--    修改用户信息-->
+    <update id="updateUser" parameterType="com.Httb.bookManage.model.UserVO">
+        update user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                `password` = MD5(#{password,jdbcType=VARCHAR}),
+            </if>
+            <if test="head != null and head != ''">
+                head = #{head,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel = #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="isSuper != null">
+                is_super = #{isSuper,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+<!--    修改用户密码-->
+    <update id="updatePassword" parameterType="com.Httb.bookManage.model.UserVO">
+        update user
+        <set>
+            password = MD5(#{newPassword})
+        </set>
+        <where>
+            username = #{username}
+        </where>
+    </update>
+</mapper>
