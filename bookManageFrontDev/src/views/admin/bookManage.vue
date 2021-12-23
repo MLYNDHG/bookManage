@@ -174,6 +174,7 @@ export default {
       user: new userList(),
       //借阅信息的模型
       bookLog: new BookLogVO(),
+
       //获取图书列表的参数对象
       queryInfo: {
         condition: {
@@ -420,6 +421,7 @@ export default {
         });
       }
     },
+
   },
 };
 </script>

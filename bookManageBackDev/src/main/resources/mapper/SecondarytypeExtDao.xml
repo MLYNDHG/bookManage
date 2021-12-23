@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Httb.bookManage.dao.SecondarytypeExtDao">
+
+    <resultMap id="AlltypeList" type="com.Httb.bookManage.model.SecondarytypeVO">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="image" jdbcType="VARCHAR" property="image" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+        <result column="status" jdbcType="BOOLEAN" property="status" />
+        <result column="pName" jdbcType="VARCHAR" property="pname" />
+        <result column="pStatus" jdbcType="BOOLEAN" property="pstatus" />
+        <result column="pTime" jdbcType="TIMESTAMP" property="ptime" />
+    </resultMap>
+
 <!--    二级类型列表-->
     <select id="selectSecondarytypeList" resultMap="com.Httb.bookManage.mbg.dao.SecondarytypeDao.BaseResultMap">
         select
@@ -10,5 +23,17 @@
             status = 0
             and pid = #{pid}
         </where>
+    </select>
+
+<!--    一级二级类型联查-->
+    <select id="selectAlltypeList" resultMap="AlltypeList" parameterType="com.Httb.bookManage.model.SecondarytypeVO">
+        SELECT s.*,
+               p.name AS pName,
+               p.status AS pStatus,
+               p.time AS pTime
+        FROM secondarytype s,primarytype p
+        WHERE s.pid = p.id
+          AND s.status = 0
+          AND p.status = 0
     </select>
 </mapper>

@@ -6,10 +6,24 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
+<!-- 字体2 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
     <el-container>
@@ -17,8 +31,18 @@
       <el-header>
         <div class="headLeft">Book Manage</div>
         <div class="headRight">
-          <div class="avatar">头像</div>
-          NickName
+          <div class="avatar">
+            <el-upload
+              class="avatar-uploader"
+              action="http://localhost:9090/uploadImage"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+          {{ nickname }}
           <el-button
             class="logout"
             type="primary"
@@ -50,8 +74,8 @@
               </template>
               <el-menu-item
                 index="/home/bookmanage"
-                @click="saveNavState('/home/bookmanage', name)"
-                >{{ name }}</el-menu-item
+                @click="saveNavState('/home/bookmanage', menuName1)"
+                >{{ menuName1 }}</el-menu-item
               >
             </el-submenu>
 
@@ -62,8 +86,8 @@
               </template>
               <el-menu-item
                 index="/home/userlist"
-                @click="saveNavState('/home/userlist', name2)"
-                >{{ name2 }}</el-menu-item
+                @click="saveNavState('/home/userlist', menuName2)"
+                >{{ menuName2 }}</el-menu-item
               >
             </el-submenu>
 
@@ -72,7 +96,8 @@
                 <i class="el-icon-location"></i>
                 <span>BorrowManage</span>
               </template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="/home/booklist"  @click="saveNavState('/home/booklist', name3)"
+              >{{name3}}</el-menu-item>
             </el-submenu>
 
             <el-submenu index="4">
@@ -80,7 +105,21 @@
                 <i class="el-icon-location"></i>
                 <span>XinChen</span>
               </template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item
+                index="/home/topic1"
+                @click="saveNavState('/home/topic1', menuName4_1)"
+                >{{ menuName4_1 }}</el-menu-item
+              >
+              <el-menu-item
+                index="/home/topic2"
+                @click="saveNavState('/home/topic2', menuName4_2)"
+                >{{ menuName4_2 }}</el-menu-item
+              >
+              <el-menu-item
+                index="/home/topic3"
+                @click="saveNavState('/home/topic3', menuName4_3)"
+                >{{ menuName4_3 }}</el-menu-item
+              >
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -110,6 +149,10 @@
 </template>
 
 <script>
+import { saveUser, selectUserList } from "@/services/UserController.js";
+import user from "@/model/User.js";
+import requestPageData from "@/model/RequestPageData.js";
+import request from "@/utils/request";
 export default {
   data() {
     return {
@@ -121,9 +164,18 @@ export default {
       //被激活的链接地址
       activePath: "",
 
-      name: "图书管理",
+      //菜单名
+      menuName1: "图书管理",
+      menuName2: "图书信息",
+      menuName3: "",
+      menuName4_1: "新晨考核1",
+      menuName4_2: "新晨考核2",
+      menuName4_3: "新晨考核3",
 
-      name2: "图书信息",
+      //管理员名字
+      nickname: sessionStorage.getItem("user"),
+
+      name3:"Borrowing Management",
 
       route: {
         name: "",
@@ -131,6 +183,12 @@ export default {
         path: "",
         close: true,
       },
+
+      //头像地址
+      imageUrl: "",
+
+      //用户信息
+      userLog: new user(),
     };
   },
   created() {
@@ -151,6 +209,9 @@ export default {
     }
     //console.log(this.editableTabs);
     this.editableTabs = this.$store.state.list;
+
+    //查询用户信息
+    this.getUser();
   },
   methods: {
     //删除标签
@@ -202,6 +263,37 @@ export default {
       this.activePath = path;
       this.$router.push(path);
     },
+
+    //头像上传
+    handleAvatarSuccess(res) {
+      console.log(res);
+      this.userLog.head = res.data;
+      this.userLog.id = 1;
+      this.userLog.username = "root";
+      //console.log(this.userLog)
+      saveUser(this.userLog).then((res) => {
+        console.log(res);
+        //console.log(this.imageUrl)
+      });
+      this.imageUrl = "http://127.0.0.1:9090" + res.data;
+      // console.log(this.imageUrl)
+      // this.imageUrl = "127.0.0.1:9090"
+    },
+
+    //页面渲染时查用户数据
+    getUser() {
+      const userModel = new requestPageData();
+      this.userLog.id = 1;
+      userModel.condition = this.userLog;
+      userModel.pageCondition.pageNo = 1;
+      userModel.pageCondition.pageSize = 1;
+
+      //console.log(userModel)
+      selectUserList(userModel).then((res) => {
+        console.log(res);
+        this.imageUrl = request.baseUrl + res.data.resultPages[0].head;
+      });
+    },
   },
 };
 </script>
@@ -232,7 +324,9 @@ export default {
         font-family: "Ubuntu", sans-serif;
         .avatar {
           background-color: rgb(56 82 108);
-          width: 100px;
+          width: 50px;
+          height: 50px;
+          line-height: 98px;
           border-radius: 50%;
           margin-right: 30px;
         }
@@ -269,7 +363,7 @@ export default {
         /deep/.el-submenu__title {
           background-color: #6984a4 !important;
           font-size: 15px;
-          font-family: "Open Sans Condensed", sans-serif;
+          font-family: "Ubuntu", sans-serif;
           padding-right: 55px !important;
         }
       }

@@ -1,12 +1,10 @@
 package com.Httb.bookManage.controller;
 
+import com.Httb.bookManage.mbg.entity.Resources;
 import com.Httb.bookManage.model.PrimarytypeVO;
 import com.Httb.bookManage.model.ResourcesVO;
 import com.Httb.bookManage.service.ResourceService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,5 +31,23 @@ public class ResourcesController {
     public List<PrimarytypeVO> selectTypeList() {
 
         return resourceService.selectTypeList();
+    }
+
+    /**
+     * save 资源基本信息
+     */
+    @PostMapping("/saveResourcesBasic")
+    public Integer saveResourcesBasic(@RequestBody Resources resources) {
+
+        return resourceService.saveResourceBasic(resources);
+    }
+
+    /**
+     * 删除 资源的基本信息和配置信息
+     */
+    @GetMapping("/deleteResources")
+    public Integer deleteResources(@RequestParam Integer id) {
+
+        return resourceService.deleteResources(id);
     }
 }

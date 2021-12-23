@@ -1,24 +1,23 @@
 import request from '@/utils/request' 
 
 /*
-*@param: user:class com.Httb.bookManage.mbg.entity.User
+*@param: file:interface org.springframework.web.multipart.MultipartFile
 */
-export function save(user) {
+export function uploadImage(file) {
     return request({
-        url: request.baseUrl + `/save`,
+        url: request.baseUrl + `/uploadImage`,
         method: 'POST',
-        data:user
+        data:file
     })
 }
 /*
 *@param: user:class com.Httb.bookManage.mbg.entity.User
-参数
 */
-export function login(user) {//user：自己命名的形参，是User传过来的值
-    return request({//{}括起来的是对象
+export function login(user) {
+    return request({
         url: request.baseUrl + `/login`,
         method: 'POST',
-        data:user//data User数据
+        data:user
     })
 }
 /*
@@ -32,22 +31,12 @@ export function updatePassword(userVO) {
     })
 }
 /*
-*@param: file:interface org.springframework.web.multipart.MultipartFile
+*@param: user:class com.Httb.bookManage.mbg.entity.User
 */
-export function uploadImage(file) {
+export function saveUser(user) {
     return request({
-        url: request.baseUrl + `/uploadImage`,
+        url: request.baseUrl + `/saveUser`,
         method: 'POST',
-        data:file
-    })
-}
-/*
-*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.mbg.entity.User>
-*/
-export function selectUserList(requestPageData) {
-    return request({
-        url: request.baseUrl + `/selectUserList`,
-        method: 'POST',
-        data:requestPageData
+        data:user
     })
 }
