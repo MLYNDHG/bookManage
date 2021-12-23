@@ -3,16 +3,6 @@ import request from '@/utils/request'
 /*
 *@param: file:interface org.springframework.web.multipart.MultipartFile
 */
-export function saveUser(user) {
-    return request({
-        url: request.baseUrl + `/saveUser`,
-        method: 'POST',
-        data:file
-    })
-}
-/*
-*@param: file:interface org.springframework.web.multipart.MultipartFile
-*/
 export function uploadImage(file) {
     return request({
         url: request.baseUrl + `/uploadImage`,

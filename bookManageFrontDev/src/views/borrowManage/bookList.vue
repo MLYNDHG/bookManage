@@ -57,7 +57,7 @@
 
 
 <script>
-import { selectBookLogList } from "@/services/BookLogController";
+import { selectBookLogList } from "@/services/bookLogController.js";
 import requestPageData from "@/model/RequestPageData.js";
 import BookLogVO from "@/model/BookLogVO";
 
