@@ -6,10 +6,7 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
-<<<<<<< HEAD
 <!-- 字体2 -->
-=======
->>>>>>> 3f86c140374b015f225d05d7a82fba088df27bbc
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
