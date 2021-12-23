@@ -290,8 +290,9 @@ export default {
 
       //console.log(userModel)
       selectUserList(userModel).then((res) => {
-        console.log(res);
+        //console.log(res);
         this.imageUrl = request.baseUrl + res.data.resultPages[0].head;
+        console.log(this.imageUrl)
       });
     },
   },
