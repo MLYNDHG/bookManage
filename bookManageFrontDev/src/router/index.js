@@ -4,6 +4,9 @@ import Login from "@/views/admin/login.vue";
 import AdminHome from "@/views/admin/adminHome.vue"
 import BookManage from "@/views/admin/bookManage.vue"
 import UserList from "@/views/userManage/userList.vue"
+import Topic1 from "@/views/assess/topic1.vue"
+import Topic2 from "@/views/assess/topic2.vue"
+import Topic3 from "@/views/assess/topic3.vue"
 
 Vue.use(Router);
 
@@ -29,7 +32,19 @@ const router = new Router({
                 {
                     path:"/home/userlist",
                     component:UserList
-                }
+                },
+                {
+                    path:"/home/topic1",
+                    component:Topic1
+                },
+                {
+                    path:"/home/topic2",
+                    component:Topic2
+                },
+                {
+                    path:"/home/topic3",
+                    component:Topic3
+                },
             ],
     },
 ]
