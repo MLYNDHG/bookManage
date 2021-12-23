@@ -63,4 +63,75 @@
             </trim>
         </where>
     </select>
+
+<!--    新增 资源基本信息-->
+    <insert id="insertResourcesBasic" parameterType="com.Httb.bookManage.mbg.entity.Resources">
+        insert into resources
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="englishname != null and englishname != ''">
+                englishName,
+            </if>
+            <if test="chinesename != null and chinesename != ''">
+                chineseName,
+            </if>
+            <if test="description != null and description != ''">
+                `description`,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sid != null">
+                #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="englishname != null and englishname != ''">
+                #{englishname,jdbcType=VARCHAR},
+            </if>
+            <if test="chinesename != null and chinesename != ''">
+                #{chinesename,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+
+<!--    修改 资源基本信息-->
+    <update id="updateResourcesBasic" parameterType="com.Httb.bookManage.mbg.entity.Resources">
+        update resources
+        <set>
+            <if test="sid != null">
+                sid = #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="englishname != null and englishname != ''">
+                englishName = #{englishname,jdbcType=VARCHAR},
+            </if>
+            <if test="chinesename != null and chinesename != ''">
+                chineseName = #{chinesename,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                `description` = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

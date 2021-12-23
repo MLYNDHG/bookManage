@@ -1,8 +1,7 @@
 package com.Httb.bookManage.service;
 
-import com.Httb.bookManage.dao.PrimarytypeExtDao;
-import com.Httb.bookManage.dao.ResourcesExtDao;
-import com.Httb.bookManage.dao.SecondarytypeExtDao;
+import com.Httb.bookManage.dao.*;
+import com.Httb.bookManage.mbg.entity.Redis;
 import com.Httb.bookManage.mbg.entity.Resources;
 import com.Httb.bookManage.mbg.entity.Secondarytype;
 import com.Httb.bookManage.model.PrimarytypeVO;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 public class ResourceService {
 
     @Resource
-    private ResourcesExtDao resourceExtDao;
+    private ResourcesExtDao resourcesExtDao;
 
     @Resource
     private PrimarytypeExtDao primarytypeExtDao;
@@ -27,45 +27,41 @@ public class ResourceService {
     @Resource
     private SecondarytypeExtDao secondarytypeExtDao;
 
+    @Resource
+    private RedisExtDao redisExtDao;
+
+    @Resource
+    private RocketmqExtDao rocketmqExtDao;
+
     /**
      * 应用资源基本信息列表
      */
     public List<ResourcesVO> selectResourceBasicList(ResourcesVO resourcesVO) {
 
-        return resourceExtDao.selectResourceBasicList(resourcesVO);
+        return resourcesExtDao.selectResourceBasicList(resourcesVO);
     }
 
     /**
      * 类型列表
      */
     public List<PrimarytypeVO> selectTypeList() {
-        /*// 一级类型列表
+        // 一级类型列表
         List<PrimarytypeVO> primarytypeVOS = primarytypeExtDao.selectPrimarytypeList();
         // 根据一级类型获得二级类型
-        for (PrimarytypeVO p:
-                primarytypeVOS) {
-            p.setSList(secondarytypeExtDao.selectSecondarytypeList(p.getId()));
-        }*/
+//        for (PrimarytypeVO p:
+//                primarytypeVOS) {
+//            p.setSList(secondarytypeExtDao.selectSecondarytypeList(p.getId()));
+//        }
         List<SecondarytypeVO> secondarytypeVOS = secondarytypeExtDao.selectAlltypeList();
-        List<PrimarytypeVO> primarytypeVOS = new ArrayList<>();
-        PrimarytypeVO pv = new PrimarytypeVO();
-        List<Secondarytype> secondarytypes = new ArrayList<>();
-        Secondarytype st = new Secondarytype();
-        for (SecondarytypeVO s:
-             secondarytypeVOS) {
-            pv.setId(s.getPid());
-            pv.setName(s.getPname());
-            pv.setStatus(s.getPstatus());
-            pv.setTime(s.getPtime());
-            primarytypeVOS.add(pv);
-        }
-        for (SecondarytypeVO s:
-             secondarytypeVOS) {
-            int tag = s.getPid();
-            for (PrimarytypeVO p:
-                 primarytypeVOS) {
-                if (p.getId().equals(tag)) {
+        for (PrimarytypeVO p :
+                primarytypeVOS) {
+            List<Secondarytype> secondarytypes = new ArrayList<>();
+            for (SecondarytypeVO s :
+                    secondarytypeVOS) {
+                if (s.getPid().equals(p.getId())) {
+                    Secondarytype st = new Secondarytype();
                     st.setId(s.getId());
+                    st.setPid(s.getPid());
                     st.setName(s.getName());
                     st.setImage(s.getImage());
                     st.setStatus(s.getStatus());
@@ -73,12 +69,7 @@ public class ResourceService {
                     secondarytypes.add(st);
                 }
             }
-            for (PrimarytypeVO p:
-                 primarytypeVOS) {
-                if (p.getId().equals(tag)) {
-                    p.setSList(secondarytypes);
-                }
-            }
+            p.setSList(secondarytypes);
         }
 
         return primarytypeVOS;
@@ -89,6 +80,36 @@ public class ResourceService {
      */
     public Integer saveResourceBasic(Resources resources) {
 
-        return 1;
+        if (resources.getId() != null) {
+            // 修改 资源基本信息
+            return resourcesExtDao.updateResourcesBasic(resources);
+        } else {
+            // 新增 资源基本信息
+            resources.setTime(new Date());
+            return resourcesExtDao.insertResourcesBasic(resources);
+        }
+    }
+
+    /**
+     * 删除 资源的基本信息和配置信息
+     */
+    public Integer deleteResources(Integer id) {
+        // 查出资源基本信息
+        Resources resources = resourcesExtDao.selectByPrimaryKey(id);
+        // 查出二级类型
+        Secondarytype secondarytype = secondarytypeExtDao.selectByPrimaryKey(resources.getSid());
+        // 删除配置信息
+        if (secondarytype.getName().equals("redis")) {
+            // 如果是redis配置，则删除redis表相关配置
+            // 根据 资源id 删除 redis配置
+            redisExtDao.deleteRedis(resources.getId());
+        } else if (secondarytype.getName().equals("rocketMQ")) {
+            // 如果是rocketMQ配置，则删除rocketMQ表相关配置
+            // 根据 资源id 删除 rocketMQ配置
+            rocketmqExtDao.deleteRocketmq(resources.getId());
+        }
+        resources.setStatus(true);
+        // 删除 基本信息
+        return resourcesExtDao.updateResourcesBasic(resources);
     }
 }

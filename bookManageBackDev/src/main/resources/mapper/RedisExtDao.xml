@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.RedisExtDao">
+    <!--    新增redis配置-->
+    <insert id="insertRedis" parameterType="com.Httb.bookManage.mbg.entity.Redis">
+        insert into redis
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rid != null">
+                rid,
+            </if>
+            <if test="cluteraddress != null and cluteraddress != ''">
+                cluterAddress,
+            </if>
+            <if test="maxjumps != null">
+                maxJumps,
+            </if>
+            <if test="password != null and password != ''">
+                `password`,
+            </if>
+            <if test="timeout != null">
+                timeout,
+            </if>
+            <if test="maxthreadactivities != null">
+                maxThreadActivities,
+            </if>
+            <if test="maxthreadidles != null">
+                maxThreadIdles,
+            </if>
+            <if test="minthreadidles != null">
+                minThreadIdles,
+            </if>
+            <if test="maxthreadwaits != null">
+                maxThreadWaits,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rid != null">
+                #{rid,jdbcType=INTEGER},
+            </if>
+            <if test="cluteraddress != null and cluteraddress != ''">
+                #{cluteraddress,jdbcType=VARCHAR},
+            </if>
+            <if test="maxjumps != null">
+                #{maxjumps,jdbcType=INTEGER},
+            </if>
+            <if test="password != null and password != ''">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="timeout != null">
+                #{timeout,jdbcType=INTEGER},
+            </if>
+            <if test="maxthreadactivities != null">
+                #{maxthreadactivities,jdbcType=INTEGER},
+            </if>
+            <if test="maxthreadidles != null">
+                #{maxthreadidles,jdbcType=INTEGER},
+            </if>
+            <if test="minthreadidles != null">
+                #{minthreadidles,jdbcType=INTEGER},
+            </if>
+            <if test="maxthreadwaits != null">
+                #{maxthreadwaits,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--    修改redis配置-->
+    <update id="updateRedis" parameterType="com.Httb.bookManage.mbg.entity.Redis">
+        update redis
+        <set>
+            <if test="rid != null">
+                rid = #{rid,jdbcType=INTEGER},
+            </if>
+            <if test="cluteraddress != null and cluteraddress != ''">
+                cluterAddress = #{cluteraddress,jdbcType=VARCHAR},
+            </if>
+            <if test="maxjumps != null">
+                maxJumps = #{maxjumps,jdbcType=INTEGER},
+            </if>
+            <if test="password != null and password != ''">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="timeout != null">
+                timeout = #{timeout,jdbcType=INTEGER},
+            </if>
+            <if test="maxthreadactivities != null">
+                maxThreadActivities = #{maxthreadactivities,jdbcType=INTEGER},
+            </if>
+            <if test="maxthreadidles != null">
+                maxThreadIdles = #{maxthreadidles,jdbcType=INTEGER},
+            </if>
+            <if test="minthreadidles != null">
+                minThreadIdles = #{minthreadidles,jdbcType=INTEGER},
+            </if>
+            <if test="maxthreadwaits != null">
+                maxThreadWaits = #{maxthreadwaits,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--    根据 资源id 删除redis配置-->
+    <update id="deleteRedis" parameterType="java.lang.Integer">
+        update redis
+        <set>
+            `status` = 1
+        </set>
+        <where>
+            rid = #{rid}
+        </where>
+    </update>
+
+<!--    根据 资源id 查询redis配置-->
+    <select id="selectRedisByResourcesId" parameterType="com.Httb.bookManage.mbg.entity.Redis" resultMap="com.Httb.bookManage.mbg.dao.RedisDao.BaseResultMap">
+        select *
+        from redis
+        <where>
+            rid = #{rid}
+        </where>
+    </select>
+</mapper>
