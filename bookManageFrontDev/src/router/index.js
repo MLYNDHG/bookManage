@@ -4,6 +4,7 @@ import Login from "@/views/admin/login.vue";
 import AdminHome from "@/views/admin/adminHome.vue"
 import BookManage from "@/views/admin/bookManage.vue"
 import UserList from "@/views/userManage/userList.vue"
+import BookList from "@/views/borrowManage/bookList.vue"
 
 Vue.use(Router);
 
@@ -29,6 +30,10 @@ const router = new Router({
                 {
                     path:"/home/userlist",
                     component:UserList
+                },
+                {
+                    path:"/home/booklist",
+                    component:BookList
                 }
             ],
     },
