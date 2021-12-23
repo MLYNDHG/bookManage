@@ -28,7 +28,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>
-          NickName
+          {{nickname}}
           <el-button
             class="logout"
             type="primary"
@@ -60,8 +60,8 @@
               </template>
               <el-menu-item
                 index="/home/bookmanage"
-                @click="saveNavState('/home/bookmanage', name)"
-                >{{ name }}</el-menu-item
+                @click="saveNavState('/home/bookmanage', menuName1)"
+                >{{ menuName1 }}</el-menu-item
               >
             </el-submenu>
 
@@ -72,8 +72,8 @@
               </template>
               <el-menu-item
                 index="/home/userlist"
-                @click="saveNavState('/home/userlist', name2)"
-                >{{ name2 }}</el-menu-item
+                @click="saveNavState('/home/userlist', menuName2)"
+                >{{ menuName2 }}</el-menu-item
               >
             </el-submenu>
 
@@ -90,7 +90,9 @@
                 <i class="el-icon-location"></i>
                 <span>XinChen</span>
               </template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="/home/topic1" @click="saveNavState('/home/topic1', menuName4_1)">{{menuName4_1}}</el-menu-item>
+              <el-menu-item index="/home/topic2" @click="saveNavState('/home/topic2', menuName4_2)">{{menuName4_2}}</el-menu-item>
+              <el-menu-item index="/home/topic3" @click="saveNavState('/home/topic3', menuName4_3)">{{menuName4_3}}</el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -135,9 +137,16 @@ export default {
       //被激活的链接地址
       activePath: "",
 
-      name: "图书管理",
+      //菜单名
+      menuName1: "图书管理",
+      menuName2: "图书信息",
+      menuName3: "",
+      menuName4_1: "新晨考核1",
+      menuName4_2: "新晨考核2",
+      menuName4_3: "新晨考核3",
 
-      name2: "图书信息",
+      //管理员名字
+      nickname: sessionStorage.getItem('user'),
 
       route: {
         name: "",
