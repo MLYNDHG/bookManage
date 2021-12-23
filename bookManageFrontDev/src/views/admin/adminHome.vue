@@ -6,6 +6,7 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
+<!-- 字体2 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -95,7 +96,8 @@
                 <i class="el-icon-location"></i>
                 <span>BorrowManage</span>
               </template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="/home/booklist"  @click="saveNavState('/home/booklist', name3)"
+              >{{name3}}</el-menu-item>
             </el-submenu>
 
             <el-submenu index="4">
@@ -172,6 +174,8 @@ export default {
 
       //管理员名字
       nickname: sessionStorage.getItem("user"),
+
+      name3:"Borrowing Management",
 
       route: {
         name: "",
