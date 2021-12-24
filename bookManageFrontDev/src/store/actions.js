@@ -17,3 +17,6 @@ export const setList = ({ commit }, route) => {
 export const outList = ({ commit }, name) => {
     commit("outList", name);
 }
+export const clearStore = ({ commit }) => {
+    commit("clearStore");
+}

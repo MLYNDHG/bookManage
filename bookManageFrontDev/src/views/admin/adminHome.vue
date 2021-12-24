@@ -75,7 +75,7 @@
               content="点击上传或更新头像"
               placement="bottom"
             >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-tooltip>
               </el-upload>
@@ -86,7 +86,7 @@
             type="primary"
             round
             size="mini"
-            @click="tiaoshi"
+            @click="logOut"
             >退出</el-button
           >
         </div>
@@ -365,9 +365,14 @@ export default {
       //console.log(this.$store.state.list);
     },
 
-    tiaoshi() {
+    logOut() {
       //console.log(this.$route)
       //console.log(this.$store.state.list);
+
+      //退出时清空sessionStorage存的东西
+      sessionStorage.clear()
+      this.$store.dispatch("clearStore")
+      this.$router.push("/")
     },
 
     tabclick(tab) {
