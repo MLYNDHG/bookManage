@@ -19,19 +19,19 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
     @Value("${server.servlet.context-path:}")
     private String contextPath;
 
-    @Value("${response.exclude.uri}")
-    private String[] uris;
+//    @Value("${response.exclude.uri}")
+//    private String[] uris;
 
     @Override
     // 开关，是否使用ResponseResult包装类
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        if (uris != null) {
-            for (String uri : uris) {
-                if ((contextPath + uri).equals(ContextUtil.getRequest().getRequestURI())) {
-                    return false;
-                }
-            }
-        }
+//        if (uris != null) {
+//            for (String uri : uris) {
+//                if ((contextPath + uri).equals(ContextUtil.getRequest().getRequestURI())) {
+//                    return false;
+//                }
+//            }
+//        }
         return true;
     }
 

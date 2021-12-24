@@ -41,6 +41,9 @@
                 <if test="bid != null">
                     and bid = #{bid}
                 </if>
+                <if test="username != null and username != ''">
+                    and username = #{username}
+                </if>
             </trim>
         </where>
     </select>
