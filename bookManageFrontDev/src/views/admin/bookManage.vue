@@ -131,7 +131,7 @@
     </el-dialog>
 
     <!-- 借阅图书对话框 -->
-    <el-dialog :visible.sync="borrowBookDialog" width="30%">
+    <el-dialog :visible.sync="borrowBookDialog">
       <el-form :model="userForm">
         <el-form-item label="请指定用户" label-width="100px">
           <el-select v-model="userForm.uid" placeholder="请选择用户">

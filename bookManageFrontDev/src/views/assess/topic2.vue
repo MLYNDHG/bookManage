@@ -3,7 +3,9 @@
     <div class="title">
       <p>应用资源配置管理</p>
 
-      <el-button type="primary" round size="mini">+ 新建资源</el-button>
+      <el-button type="primary" round size="mini" @click="addResources"
+        >+ 新建资源</el-button
+      >
     </div>
     <!-- 卡片区域 -->
     <el-card
@@ -28,20 +30,122 @@
 
         <!-- 编辑区域 -->
         <div class="edit">
-          
-            <el-button type="text" @click="sss(s.id)">基本信息</el-button>
-            <el-button type="text">配置信息</el-button>
-            <el-button type="text" class="delete">删除</el-button>
-          
+          <el-button type="text" @click="sss(s.id)">基本信息</el-button>
+          <el-button type="text" @click="deploy(s.sid, id)">配置信息</el-button>
+          <el-button type="text" class="delete" @click="deletee(s.id)"
+            >删除</el-button
+          >
         </div>
       </div>
     </el-card>
+    <!-- 新增对话框 -->
+    <el-dialog
+      title="新建资源"
+      :visible.sync="addResourcesDialog"
+      @close="addDialogColse"
+    >
+      <el-form ref="insertResourcesRef" :model="addForm">
+        <el-form-item label="资源名称" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.englishname"></el-input>
+        </el-form-item>
+        <el-form-item label="中文名称" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.chinesename"></el-input>
+        </el-form-item>
+        <el-form-item label="资源类型" label-width="100px">
+          <el-cascader
+            v-model="addForm.sid"
+            :options="options"
+            :props="{ expandTrigger: 'hover' }"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="资源描述" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.description"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button>取 消</el-button>
+        <el-button type="primary" @click="add">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- Redis配置对话框 -->
+    <el-dialog title="Redis配置" :visible.sync="RedisDialog">
+      <el-form :inline="true" ref="insertResourcesRef" :model="redisForm">
+        <el-form-item label="集群主机地址" label-width="100px">
+          <el-input
+            autocomplete="off"
+            v-model="redisForm.cluteraddress"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="最大跳转次数" label-width="100px">
+          <el-input autocomplete="off" v-model="redisForm.maxjumps"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" label-width="100px">
+          <el-input autocomplete="off" v-model="redisForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="超时时间" label-width="100px">
+          <el-input autocomplete="off" v-model="redisForm.timeout"></el-input>
+        </el-form-item>
+        <el-form-item label="线程最大活动数" label-width="100px">
+          <el-input
+            autocomplete="off"
+            v-model="redisForm.maxthreadactivities"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="线程最大空闲数" label-width="100px">
+          <el-input
+            autocomplete="off"
+            v-model="redisForm.maxthreadidles"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="线程最小空闲数" label-width="100px">
+          <el-input
+            autocomplete="off"
+            v-model="redisForm.minthreadidles"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="线程最大等待" label-width="100px">
+          <el-input
+            autocomplete="off"
+            v-model="redisForm.maxthreadwaits"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button>取 消</el-button>
+        <el-button type="primary" @click="addRedis">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- Redis配置对话框 -->
+    <el-dialog title="Redis配置" :visible.sync="RocketMqDialog">
+      <el-form ref="insertResourcesRef" :model="addForm">
+        <el-form-item label="nameServer地址" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.englishname"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button>取 消</el-button>
+        <el-button type="primary">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { selectResourceBasicList } from "@/services/topicOneController.js";
+import {
+  selectResourceBasicList,
+  selectTypeList,
+  saveResourcesBasic,
+  deleteResources,
+} from "@/services/topicTwoController.js";
+import {
+  selectRedisByResourcesId,
+  saveRedis,
+} from "@/services/redisController.js";
 import resourcesLog from "@/model/resourcesLogModel.js";
 import request from "@/utils/request";
+import addModel from "@/model/addResourcesModel.js";
+import redisModel from "@/model/redisModel.js";
 export default {
   data() {
     return {
@@ -52,11 +156,42 @@ export default {
 
       //卡片内容
       cardContent: [],
+
+      //新增资源弹框
+      addResourcesDialog: false,
+
+      //新增资源下拉菜单
+      options: [],
+
+      //新增资源模型
+      addForm: {
+        englishname: "",
+        chinesename: "",
+        sid: [],
+        description: "",
+      },
+
+      //redis配置模型
+      redisForm: {
+        cluteraddress: "",
+        maxjumps: "",
+        password: "",
+        timeout: "",
+        maxthreadactivities: "",
+        maxthreadidles: "",
+        minthreadidles: "",
+        maxthreadwaits: "",
+      },
+
+      RedisDialog: false,
+
+      RocketMqDialog: false,
     };
   },
 
   created() {
     this.getAll();
+    this.getMenu();
   },
 
   methods: {
@@ -68,9 +203,117 @@ export default {
       });
     },
 
+    //获取当前卡片id
     sss(a) {
-        console.log(a)
-    }
+      console.log(a);
+    },
+
+    //点击新增资源
+    addResources() {
+      this.addResourcesDialog = true;
+    },
+
+    //获取二级联动菜单
+    getMenu() {
+      selectTypeList().then((res) => {
+        console.log(res.data);
+        for (var i = 0; i < res.data.length; i++) {
+          this.options.push({
+            value: res.data[i].id,
+            label: res.data[i].name,
+            children: [],
+          });
+          for (var j = 0; j < res.data[i].slist.length; j++) {
+            this.options[i].children.push({
+              value: res.data[i].slist[j].id,
+              label: res.data[i].slist[j].name,
+            });
+          }
+        }
+        //console.log(this.options)
+      });
+    },
+
+    //点击增加资源
+    add() {
+      //console.log(this.addForm)
+      const addForm = new addModel();
+      addForm.englishname = this.addForm.englishname;
+      addForm.chinesename = this.addForm.chinesename;
+      addForm.sid = this.addForm.sid[1];
+      addForm.description = this.addForm.description;
+      //console.log(addForm)
+      saveResourcesBasic(addForm).then((res) => {
+        console.log(res);
+        this.addResourcesDialog = false;
+        this.getAll();
+      });
+    },
+
+    //监听新增对话框关闭事件
+    addDialogColse() {
+      this.$refs.insertResourcesRef.resetFields();
+    },
+
+    //删除资源卡片
+    deletee(id) {
+      console.log(id);
+      this.$confirm("确定删除此资源吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          deleteResources(id)
+            .then((res) => {
+              console.log(res);
+              this.$message({
+                type: "success",
+                message: "删除成功",
+              });
+
+              this.getAll();
+            })
+            .catch((res) => {
+              console.log(res);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+
+    //Redis配置
+    deploy(sid) {
+      if (sid == 10) {
+        selectRedisByResourcesId(sid).then((res) => {
+          console.log(res);
+        });
+        this.RedisDialog = true;
+      } else {
+        this.RocketMqDialog = true;
+      }
+    },
+
+    //添加redis配置信息
+    addRedis() {
+      const model = new redisModel();
+      model.cluteraddress = this.redisForm.cluteraddress;
+      model.maxjumps = this.redisForm.maxjumps;
+      model.password = this.redisForm.password;
+      model.timeout = this.redisForm.timeout;
+      model.maxthreadactivities = this.redisForm.maxthreadactivities;
+      model.maxthreadidles = this.redisForm.maxthreadidles;
+      model.minthreadidles = this.redisForm.minthreadidles;
+      model.maxthreadwaits = this.redisForm.maxthreadwaits;
+
+      saveRedis(model).then((res) => {
+        console.log(res);
+      });
+    },
   },
 };
 </script>
