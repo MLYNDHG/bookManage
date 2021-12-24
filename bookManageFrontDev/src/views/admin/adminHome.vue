@@ -63,15 +63,22 @@
         </div>
         <div class="headRight">
           <div class="avatar">
-            <el-upload
-              class="avatar-uploader"
-              action="http://localhost:9090/uploadImage"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
+              <el-upload
+                class="avatar-uploader"
+                action="http://localhost:9090/uploadImage"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+              >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="点击上传或更新头像"
+              placement="bottom"
             >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-tooltip>
+              </el-upload>
           </div>
           {{ nickname }}
           <el-button
@@ -178,7 +185,6 @@
                 :label="item.title"
                 :name="item.name"
                 :closable="item.close"
-                
               >
               </el-tab-pane>
 
