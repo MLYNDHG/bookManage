@@ -8,7 +8,7 @@
       >
     </div>
     <!-- 卡片区域 -->
-    <transition name="slide-fade">
+    
       <el-card
         shadow="hover"
         :body-style="{ padding: '0px' }"
@@ -41,7 +41,7 @@
           </div>
         </div>
       </el-card>
-    </transition>
+    
     <!-- 新增对话框 -->
     <el-dialog
       title="新建资源"
