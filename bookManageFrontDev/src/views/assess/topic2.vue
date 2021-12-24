@@ -31,7 +31,7 @@
         <!-- 编辑区域 -->
         <div class="edit">
           <el-button type="text" @click="sss(s.id)">基本信息</el-button>
-          <el-button type="text" @click="deploy(s.sid,id)">配置信息</el-button>
+          <el-button type="text" @click="deploy(s.sid, id)">配置信息</el-button>
           <el-button type="text" class="delete" @click="deletee(s.id)"
             >删除</el-button
           >
@@ -244,7 +244,7 @@ export default {
       addForm.description = this.addForm.description;
       //console.log(addForm)
       saveResourcesBasic(addForm).then((res) => {
-        console.log(res)
+        console.log(res);
         this.addResourcesDialog = false;
         this.getAll();
       });
@@ -267,6 +267,10 @@ export default {
           deleteResources(id)
             .then((res) => {
               console.log(res);
+              this.$message({
+                type: "success",
+                message: "删除成功",
+              });
 
               this.getAll();
             })
@@ -285,9 +289,9 @@ export default {
     //Redis配置
     deploy(sid) {
       if (sid == 10) {
-          selectRedisByResourcesId(sid).then(res=>{
-              console.log(res)
-          })
+        selectRedisByResourcesId(sid).then((res) => {
+          console.log(res);
+        });
         this.RedisDialog = true;
       } else {
         this.RocketMqDialog = true;
@@ -306,9 +310,9 @@ export default {
       model.minthreadidles = this.redisForm.minthreadidles;
       model.maxthreadwaits = this.redisForm.maxthreadwaits;
 
-      saveRedis(model).then(res=>{
-          console.log(res)
-      })
+      saveRedis(model).then((res) => {
+        console.log(res);
+      });
     },
   },
 };
