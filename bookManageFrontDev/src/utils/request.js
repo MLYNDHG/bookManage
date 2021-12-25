@@ -3,15 +3,15 @@ import { Message } from 'element-ui' // 项目用的element ui
 import router from '@/router/index.js'
 
 const service = axios.create({
-    timeout: 7000, // 超过7秒提示超时
-})
-service.baseUrl = 'http://localhost:9090';//跨域用的
-// service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
-// service.baseUrl = 'http://192.168.0.102:9090';
+        timeout: 7000, // 超过7秒提示超时
+    })
+    // service.baseUrl = 'http://localhost:9090'; //跨域用的
+    // service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
+service.baseUrl = 'http://192.168.1.7:9090';
 
 // 请求拦截器
 service.interceptors.request.use(
-    config => {//config配置
+    config => { //config配置
         if (sessionStorage.getItem('Authorization')) {
             config.headers.Authorization = sessionStorage.getItem('Authorization');
         }
@@ -72,4 +72,4 @@ service.interceptors.response.use(
         }
     }
 )
-export default service;//暴露变量，导出，别人可以引用
+export default service; //暴露变量，导出，别人可以引用

@@ -25,12 +25,12 @@ if (process.env.NODE_ENV === "development") {
 Vue.config.productionTip = false
 
 new Vue({
-    router,
-    store,
-    // axios,
-    render: h => h(App)//render渲染     h => h(App):语法糖js
-}).$mount('#app')      //挂载app到vue上
-                        //js id选择器是# class选择器是. 
+        router,
+        store,
+        // axios,
+        render: h => h(App) //render渲染     h => h(App):语法糖js
+    }).$mount('#app') //挂载app到vue上
+    //js id选择器是# class选择器是. 
 
 //配置请求的根路径
 // axios.defaults.baseURL = '';
