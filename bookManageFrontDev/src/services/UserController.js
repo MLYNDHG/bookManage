@@ -50,13 +50,3 @@ export function login(user) {
         data:user
     })
 }
-/*
-*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.mbg.entity.User>
-*/
-export function selectUserList(requestPageData) {
-    return request({
-        url: request.baseUrl + `/selectUserList`,
-        method: 'POST',
-        data:requestPageData
-    })
-}

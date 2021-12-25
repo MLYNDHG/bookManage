@@ -8,45 +8,46 @@
       >
     </div>
     <!-- 卡片区域 -->
-    
-      <el-card
-        shadow="hover"
-        :body-style="{ padding: '0px' }"
-        v-for="s in cardContent"
-        :key="s.id"
-      >
-        <!-- 图片区域 -->
-        <div class="cardImage">
-          <img class="img" :src="imageUrl + s.image" alt="" />
+
+    <el-card
+      shadow="hover"
+      :body-style="{ padding: '0px' }"
+      v-for="s in cardContent"
+      :key="s.id"
+    >
+      <!-- 图片区域 -->
+      <div class="cardImage">
+        <img class="img" :src="imageUrl + s.image" alt="" />
+      </div>
+
+      <div class="log">
+        <p>{{ s.chinesename }}</p>
+
+        <!-- 标签 -->
+        <div>
+          <el-tag size="mini" type="success">{{ s.pname }}</el-tag>
+          <el-tag size="mini" type="warning">{{ s.sname }}</el-tag>
         </div>
 
-        <div class="log">
-          <p>{{ s.chinesename }}</p>
-
-          <!-- 标签 -->
-          <div>
-            <el-tag size="mini" type="success">{{ s.pname }}</el-tag>
-            <el-tag size="mini" type="warning">{{ s.sname }}</el-tag>
-          </div>
-
-          <!-- 编辑区域 -->
-          <div class="edit">
-            <el-button type="text" @click="basicMes(s.id)">基本信息</el-button>
-            <el-button type="text" @click="deploy(s.sid, s.id)"
-              >配置信息</el-button
-            >
-            <el-button type="text" class="delete" @click="deletee(s.id)"
-              >删除</el-button
-            >
-          </div>
+        <!-- 编辑区域 -->
+        <div class="edit">
+          <el-button type="text" @click="basicMes(s.id)">基本信息</el-button>
+          <el-button type="text" @click="deploy(s.sid, s.id)"
+            >配置信息</el-button
+          >
+          <el-button type="text" class="delete" @click="deletee(s.id)"
+            >删除</el-button
+          >
         </div>
-      </el-card>
-    
+      </div>
+    </el-card>
+
     <!-- 新增对话框 -->
     <el-dialog
       title="新建资源"
       :visible.sync="addResourcesDialog"
-      @close="addDialogColse"
+      @close="addDialogColse('insertResourcesRef')"
+      width="350px"
     >
       <el-form ref="insertResourcesRef" :model="addForm">
         <el-form-item label="资源名称" label-width="100px">
@@ -98,14 +99,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="basicMesDialog = false">取 消</el-button>
-        <el-button type="primary" @click="add">确 定</el-button>
+        <el-button type="primary" @click="editBasicMes">确 定</el-button>
       </div>
     </el-dialog>
 
     <!-- Redis配置对话框 -->
-    <el-dialog title="Redis配置" :visible.sync="RedisDialog">
+    <el-dialog title="Redis配置" :visible.sync="RedisDialog" @close="redisDialogClose" width="700px">
       <el-form :inline="true" ref="insertResourcesRef" :model="redisForm">
-        <el-form-item label="集群主机地址" label-width="100px">
+        <el-form-item label="集群主机地址">
           <el-input
             autocomplete="off"
             v-model="redisForm.cluteraddress"
@@ -152,7 +153,11 @@
     </el-dialog>
 
     <!-- RocketMQ配置对话框 -->
-    <el-dialog title="RocketMQ配置" :visible.sync="RocketMqDialog">
+    <el-dialog
+      title="RocketMQ配置"
+      :visible.sync="RocketMqDialog"
+      @close="rocketDialogClose"
+    >
       <label for="ddd">nameServer地址</label>
       <el-input
         class="RocketMQ"
@@ -239,6 +244,11 @@ export default {
       //获取当前弹出框id
       redisId: 0,
       rocketMQID: 0,
+
+      basicMesId: 0,
+
+      //判断查到的信息是否为空
+      configLog: {},
     };
   },
 
@@ -259,20 +269,22 @@ export default {
     //获取当前卡片id
     basicMes(a) {
       //console.log(a);
+      this.basicMesId = a;
       const log = new resourcesLog();
       log.id = a;
       selectResourceBasicList(log).then((res) => {
-        console.log(res);
+        //console.log(res);
         this.addForm.chinesename = res.data[0].chinesename;
         this.addForm.englishname = res.data[0].englishname;
         this.addForm.description = res.data[0].description;
         this.addForm.sid[0] = res.data[0].pid;
         this.addForm.sid[1] = res.data[0].sid;
+        console.log(this.addForm);
         this.basicMesDialog = true;
       });
     },
 
-    //点击新增资源
+    //点击弹出新增资源
     addResources() {
       this.addResourcesDialog = true;
     },
@@ -310,14 +322,58 @@ export default {
       saveResourcesBasic(addForm).then((res) => {
         console.log(res);
         this.addResourcesDialog = false;
-        this.basicMesDialog = false;
+        this.$message({ message: "新增成功", type: "success" });
         this.getAll();
       });
     },
 
+    editBasicMes() {
+      this.$confirm("确定编辑此资源吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          const edit = new addModel();
+          edit.id = this.basicMesId;
+          edit.englishname = this.addForm.englishname;
+          edit.chinesename = this.addForm.chinesename;
+          edit.sid = this.addForm.sid[1];
+          edit.description = this.addForm.description;
+          saveResourcesBasic(edit).then((res) => {
+            console.log(res);
+            this.basicMesDialog = false;
+            this.$message({ message: "修改成功", type: "success" });
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消编辑",
+          });
+        });
+    },
+
     //监听新增对话框关闭事件
-    addDialogColse() {
-      this.$refs.insertResourcesRef.resetFields();
+    addDialogColse(name) {
+      this.$refs[name].resetFields();
+    },
+
+    //监听rocket配置信息对话框关闭时间
+    rocketDialogClose() {
+      this.rocketMQForm = "";
+    },
+
+    //监听redis关闭事件
+    redisDialogClose() {
+      this.redisForm.cluteraddress = "";
+      this.redisForm.maxjumps = "";
+      this.redisForm.password = "";
+      this.redisForm.timeout = "";
+      this.redisForm.maxthreadactivities = "";
+      this.redisForm.maxthreadidles = "";
+      this.redisForm.minthreadidles = "";
+      this.redisForm.maxthreadwaits = "";
     },
 
     //删除资源卡片
@@ -351,49 +407,76 @@ export default {
         });
     },
 
-    //Redis配置
+    //Redis配置  Rocket配置
     deploy(sid, id) {
-      //console.log(id)
+      // this.redisId = id
+      // this.rocketMQID = id
       //console.log(this.redisId)
       if (sid == 10) {
         selectRedisByResourcesId(id).then((res) => {
-          //console.log(res);
-          this.redisId = res.data.id;
-          this.redisForm.cluteraddress = res.data.cluteraddress;
-          this.redisForm.maxjumps = res.data.maxjumps;
-          this.redisForm.password = res.data.password;
-          this.redisForm.timeout = res.data.timeout;
-          this.redisForm.maxthreadactivities = res.data.maxthreadactivities;
-          this.redisForm.maxthreadidles = res.data.maxthreadidles;
-          this.redisForm.minthreadidles = res.data.minthreadidles;
-          this.redisForm.maxthreadwaits = res.data.maxthreadwaits;
-          //console.log(this.redisId)
+          console.log(res);
+          if (res.data == null) {
+            this.redisId = id;
+            this.configLog = res.data;
+          } else {
+            this.configLog = res.data;
+            this.redisId = res.data.id;
+            this.redisForm.cluteraddress = res.data.cluteraddress;
+            this.redisForm.maxjumps = res.data.maxjumps;
+            this.redisForm.password = res.data.password;
+            this.redisForm.timeout = res.data.timeout;
+            this.redisForm.maxthreadactivities = res.data.maxthreadactivities;
+            this.redisForm.maxthreadidles = res.data.maxthreadidles;
+            this.redisForm.minthreadidles = res.data.minthreadidles;
+            this.redisForm.maxthreadwaits = res.data.maxthreadwaits;
+            //console.log(this.redisId)
+          }
+          this.RedisDialog = true;
         });
-        this.RedisDialog = true;
-      } else {
+      } else if (sid == 16) {
+        console.log(id);
         //console.log(id)
         selectRocketmqByResourcesId(id).then((res) => {
           console.log(res);
-          this.rocketMQForm = res.data.nameserver;
-          this.rocketMQID = res.data.id;
+          if (res.data == null) {
+            this.rocketMQID = id;
+            this.configLog = res.data;
+          } else {
+            this.configLog = res.data;
+            this.rocketMQForm = res.data.nameserver;
+            this.rocketMQID = res.data.id;
+            //console.log(this.rocketMQID)
+          }
+          this.RocketMqDialog = true;
         });
-        this.RocketMqDialog = true;
       }
     },
 
     //添加redis配置信息
     addRedis() {
       const model = new redisModel();
-      model.id = this.redisId;
-      model.cluteraddress = this.redisForm.cluteraddress;
-      model.maxjumps = this.redisForm.maxjumps;
-      model.password = this.redisForm.password;
-      model.timeout = this.redisForm.timeout;
-      model.maxthreadactivities = this.redisForm.maxthreadactivities;
-      model.maxthreadidles = this.redisForm.maxthreadidles;
-      model.minthreadidles = this.redisForm.minthreadidles;
-      model.maxthreadwaits = this.redisForm.maxthreadwaits;
-      //console.log(model)
+      if (this.configLog == null) {
+        model.rid = this.redisId;
+        model.cluteraddress = this.redisForm.cluteraddress;
+        model.maxjumps = this.redisForm.maxjumps;
+        model.password = this.redisForm.password;
+        model.timeout = this.redisForm.timeout;
+        model.maxthreadactivities = this.redisForm.maxthreadactivities;
+        model.maxthreadidles = this.redisForm.maxthreadidles;
+        model.minthreadidles = this.redisForm.minthreadidles;
+        model.maxthreadwaits = this.redisForm.maxthreadwaits;
+        //console.log(model);
+      } else {
+        model.id = this.redisId;
+        model.cluteraddress = this.redisForm.cluteraddress;
+        model.maxjumps = this.redisForm.maxjumps;
+        model.password = this.redisForm.password;
+        model.timeout = this.redisForm.timeout;
+        model.maxthreadactivities = this.redisForm.maxthreadactivities;
+        model.maxthreadidles = this.redisForm.maxthreadidles;
+        model.minthreadidles = this.redisForm.minthreadidles;
+        model.maxthreadwaits = this.redisForm.maxthreadwaits;
+      }
 
       this.$confirm("确定新增或修改配置吗?", "提示", {
         confirmButtonText: "确定",
@@ -417,15 +500,24 @@ export default {
 
     //新增 Rocket 配置
     addRocketMQ() {
+      const rocket = new rocketMQModel();
+      if (this.configLog == null) {
+        //console.log(this.rocketMQID)
+        rocket.rid = this.rocketMQID;
+        rocket.nameserver = this.rocketMQForm;
+        //console.log(rocket)
+      } else {
+        rocket.id = this.rocketMQID;
+        rocket.nameserver = this.rocketMQForm;
+        //console.log(rocket)
+      }
       this.$confirm("确定新增或修改配置吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          const rocket = new rocketMQModel();
-          rocket.id = this.rocketMQID;
-          rocket.nameserver = this.rocketMQForm;
+          //lconsole.log(rocket);
           saveRocketmq(rocket).then((res) => {
             console.log(res);
             this.$message({ message: "修改成功", type: "success" });
@@ -445,7 +537,7 @@ export default {
       this.$refs.basicMesRef.resetFields();
       this.addForm.englishname = "";
       this.addForm.chinesename = "";
-      this.addForm.sid = [];
+      this.addForm.sid.length = 0;
       this.addForm.description = "";
     },
   },
