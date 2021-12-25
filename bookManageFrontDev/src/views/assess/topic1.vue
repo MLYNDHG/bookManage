@@ -21,7 +21,25 @@
                   @click="buttonNewsystem = true"
                   >新增</el-button
                 >
-                <el-button plain icon="el-icon-download" round>导入</el-button>
+                 <el-button plain icon="el-icon-download" 
+                ><a href="#" :download="downFileOne">下载模板</a></el-button
+              >
+                
+                <el-button
+                  style="display: flex"
+                  class="upploadButton"
+                  plain
+                  icon="el-icon-right"
+                  round
+                >
+                  <el-upload
+                    class="upload-demo"
+                    :action="uploadLeftUrl"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    >导入
+                  </el-upload></el-button
+                >
               </el-button-group>
             </template>
 
@@ -51,7 +69,13 @@
         <!--        左       下      -->
         <el-main class="leftdown">
           <!-- 左下列表 -->
-          <el-table :data="leftData" border style="width: 100%" height="100%">
+          <el-table
+            :data="leftData"
+            border
+            style="width: 100%"
+            height="100%"
+            @row-click="rowclickleft"
+          >
             <el-table-column prop="systemname" label="系统名称">
             </el-table-column>
             <el-table-column prop="systemcode" label="系统编码">
@@ -63,7 +87,7 @@
             @size-change="lefthandleSizeChange"
             @current-change="lefthandleCurrentChange"
             :current-page="pageConditionLeft.pageNo"
-            :page-sizes="[1, 2, 3, 4]"
+            :page-sizes="[5, 10, 15, 20]"
             :page-size="pageConditionLeft.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalLeft"
@@ -85,7 +109,7 @@
         <!-- 右上 -->
         <el-header>
           <div class="rightup">
-            <div style="padding: 9px; color: #f2f6fc">渠道整合平台系统</div>
+            <div style="padding: 9px; color: #f2f6fc">{{ titleName }}</div>
             <!-- 右上按钮 -->
 
             <el-button-group>
@@ -96,48 +120,62 @@
                 @click="buttonNewreturnId = true"
                 >新增</el-button
               >
-              <el-button plain icon="el-icon-close">删除</el-button>
-              <el-button plain icon="el-icon-download">导入</el-button>
+              <el-button plain icon="el-icon-close" @click="delRightTable"
+                >删除</el-button
+              >
+              <el-button plain icon="el-icon-download" 
+                ><a href="#" :download="downFileSecond">下载模板</a></el-button
+              >
+                
+              <el-button plain icon="el-icon-right" style="display: flex">
+                <el-upload
+                  class="upload-demo"
+                  :action="uploadRightUrl + mid"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  >导入
+                </el-upload></el-button
+              >
               <el-button plain icon="el-icon-upload2" round>导出</el-button>
             </el-button-group>
 
-            <!-- 增加返回编码表单 -->
+            <!-- 新增返回编码表单 -->
             <el-dialog title="新增返回编码" :visible.sync="buttonNewreturnId">
-              <el-form :model="returnidForm">
+              <el-form :model="firstitemsysteminfo">
                 <el-form-item label="编码" label-width="80px">
                   <el-input
-                    v-model="returnidForm.encoding"
+                    v-model="firstitemsysteminfo.code"
                     auto-complete="off"
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="中文注释" label-width="80px">
                   <el-input
-                    v-model="returnidForm.chinesenote"
+                    v-model="firstitemsysteminfo.chinese"
                     auto-complete="off"
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="英文注释" label-width="80px">
                   <el-input
-                    v-model="returnidForm.englishnote"
+                    v-model="firstitemsysteminfo.english"
                     auto-complete="off"
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="繁体注释" label-width="80px">
                   <el-input
-                    v-model="returnidForm.traditionalchinesenote"
+                    v-model="firstitemsysteminfo.fanti"
                     auto-complete="off"
                   ></el-input>
                 </el-form-item>
               </el-form>
 
               <div slot="footer" class="dialog-footer">
-                <el-button @click="buttonNewreturnId = false"
+                <el-button @click="buttonAddencodingCancel()"
                   >Cancel
                 </el-button>
-                <el-button type="primary" @click="buttonEditencodingOk()"
+                <el-button type="primary" @click="buttonAddencodingOk()"
                   >Ok</el-button
                 >
-              </div>
+              </div>\
             </el-dialog>
           </div>
         </el-header>
@@ -152,7 +190,7 @@
             @selection-change="handleSelectionChange"
             height="100%"
           >
-            <el-table-column type="wid" width="55"> </el-table-column>
+            <el-table-column type="selection" width="55"> </el-table-column>
 
             <el-table-column prop="code" label="编码"> </el-table-column>
             <el-table-column
@@ -176,14 +214,49 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作">
               <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="handleEdit(scope.$index, scope.row)"
+                <el-button size="mini" @click="handleEdit(scope.row)"
                   >编辑</el-button
                 >
               </template>
             </el-table-column>
           </el-table>
+          
+          <!-- 编辑返回编码表单 -->
+          <el-dialog title="编辑返回编码" :visible.sync="buttonEditreturnId">
+            <el-form :model="firstitemsysteminfo">
+              <el-form-item label="编码" label-width="80px">
+                <el-input
+                  v-model="firstitemsysteminfo.code"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="中文注释" label-width="80px">
+                <el-input
+                  v-model="firstitemsysteminfo.chinese"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="英文注释" label-width="80px">
+                <el-input
+                  v-model="firstitemsysteminfo.english"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="繁体注释" label-width="80px">
+                <el-input
+                  v-model="firstitemsysteminfo.fanti"
+                  auto-complete="off"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="buttonEditencodingCancel()">Cancel </el-button>
+              <el-button type="primary" @click="buttonEditencodingOk()"
+                >Ok</el-button
+              >
+            </div>
+          </el-dialog>
         </el-main>
 
         <!-- 右下分页 -->
@@ -192,10 +265,10 @@
             @size-change="righthandleSizeChange"
             @current-change="righthandleCurrentChange"
             :current-page="pageConditionRight.pageNo"
-            :page-sizes="[1, 2, 3, 4]"
+            :page-sizes="[5, 10, 15, 20]"
             :page-size="pageConditionRight.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="totalLeft"
+            :total="totalRight"
           >
           </el-pagination>
         </div>
@@ -211,18 +284,31 @@ import {
   selectSystemList,
   insertSystem,
 } from "@/services/FirstItemSystemController.js";
-import {selectSystemInfoList} from "@/services/FirstItemSystemInfoController.js";
-
+import {
+  selectSystemInfoList,
+  deleteSystemInfoOfList,
+  updateSystemInfo,
+  insertSystemInfo,
+} from "@/services/FirstItemSystemInfoController.js";
+import request from "@/utils/request";
 import requestPageData from "@/model/RequestPageData.js";
 import firstitemsystem from "@/model/firstitemsystem.js";
+//后端类model-class里写的是什么大小写 这里引入的就是同样的大小写
 import Firstitemsysteminfo from "@/model/Firstitemsysteminfo.js";
 // import file from '';
 export default {
   data() {
     return {
-      // 默认隐藏新增用户的表单
+      downFileOne:'',
+      downFileSecond:'',
+      uploadLeftUrl: "",
+      uploadRightUrl: "",
+      // 默认隐藏左上新增用户的表单
       buttonNewsystem: false,
+      // 默认隐藏右上新增用户的表单
       buttonNewreturnId: false,
+      // 默认隐藏左下编辑的表单
+      buttonEditreturnId: false,
 
       leftData: [],
       rightData: [],
@@ -232,8 +318,6 @@ export default {
         systemId: "",
       },
 
-
-
       // 左下分页
       totalLeft: 0,
       //右下分页
@@ -241,11 +325,11 @@ export default {
       //
       pageConditionLeft: {
         pageNo: 1,
-        pageSize: 3,
+        pageSize: 5,
       },
       pageConditionRight: {
         pageNo: 1,
-        pageSize: 3,
+        pageSize: 5,
       },
       //
 
@@ -260,18 +344,109 @@ export default {
         englishnote: "",
         traditionalchinesenote: "",
       },
+
+      mid: "",
+      titleName: "",
+      wid: "",
+      multipleSelection: [],
+      widList: [],
     };
   },
   created() {
     // created()：生命周期
     this.getleftlist();
-    this.getrightlist();
+
+    //
+  },
+  mounted() {
+    this.uploadLeftUrl = request.baseUrl + "/insertSystemOfExcel";
+    this.uploadRightUrl = request.baseUrl + "/insertSystemInfoOfExcel?mid=";
+    this.downFileOne=request.baseUrl+"/static/系统分组模板.xlsx";
+      this.downFileSecond=request.baseUrl+"/static/系统分组信息表.xlsx";
   },
   methods: {
-    // 右下
+    //分组上传
+    handleAvatarSuccess(res) {
+      this.$message({
+        message: "上传成功",
+        type: "success",
+      });
+      this.getleftlist();
+    },
+    //右下弹出的编辑表单上的Cancel按钮点击事件
+    buttonEditencodingCancel() {
+      this.buttonEditreturnId = false;
+      this.firstitemsysteminfo = new Firstitemsysteminfo();
+    },
+    //右上弹出的新增表单里的Cancel按钮点击事件
+    buttonAddencodingCancel() {
+      this.buttonNewreturnId = false;
+      this.firstitemsysteminfo = new Firstitemsysteminfo();
+    },
+    //右上弹出的新增表单里的ok按钮点击事件
+    buttonAddencodingOk() {
+      this.firstitemsysteminfo.mid = this.mid;
+      insertSystemInfo(this.firstitemsysteminfo).then((res) => {
+        this.buttonNewreturnId = false;
+        this.$message({
+          message: "新增成功",
+          type: "success",
+        });
+        //表单也要绑定firstitemsysteminfo的，再new就可以把这个空出来了
+        this.firstitemsysteminfo = new Firstitemsysteminfo();
+        this.getrightlist(this.mid);
+      });
+    },
+    //右下表格删除方法
+    delRightTable() {
+      this.widList = [];
+      for (let index = 0; index < this.multipleSelection.length; index++) {
+        const element = this.multipleSelection[index];
+        this.widList.push(element.wid);
+      }
+      deleteSystemInfoOfList(this.widList).then((res) => {
+        this.$message({
+          message: "删除成功",
+          type: "success",
+        });
+        //重新获得
+        this.getrightlist(this.mid);
+      });
+    },
+    //右上删除按钮：点击删除多项列表
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    //左下 当某一行被点击时会触发该事件
+    rowclickleft(row) {
+      //console.log(row["id"]) 跟下面效果一样
+      console.log(row.mid); //获取各行id的值
+      this.mid = row.mid;
+      this.getrightlist(this.mid);
+      this.titleName = row.systemname;
+    },
+
+    //点击编辑按钮展示表单信息
+    handleEdit(row) {
+      this.buttonEditreturnId = true;
+      //因为firstitemsysteminfo这个的modle数据new了，就不用在data return 里再写一遍了
+      //scope.row拿出来一整行的数据，但是作用域只在这个点击事件里可以使用，
+      //所以this.firstitemsysteminfo = row;
+      this.firstitemsysteminfo = row;
+    },
+    //点击编辑表单的ok按钮，编辑表单信息
+    buttonEditencodingOk() {
+      updateSystemInfo(this.firstitemsysteminfo).then((res) => {
+        this.buttonEditreturnId = false;
+        this.$message({
+          message: "修改成功",
+          type: "success",
+        });
+        this.firstitemsysteminfo = new Firstitemsysteminfo();
+        this.getrightlist(this.mid);
+      });
+    },
+
     // 左分页，前往第几页
     lefthandleCurrentChange(val) {
       this.pageConditionLeft.pageNo = val;
@@ -286,13 +461,13 @@ export default {
     // 右分页，前往第几页
     righthandleCurrentChange(val) {
       this.pageConditionRight.pageNo = val;
-      this.getrightlist();
+      this.getrightlist(this.mid);
     },
 
     //右共几页
     righthandleSizeChange(val) {
       this.pageConditionRight.pageSize = val;
-      this.getrightlist();
+      this.getrightlist(this.mid);
     },
     // 获取列表显示左下
     getleftlist() {
@@ -301,6 +476,9 @@ export default {
 
       selectSystemList(this.requestPageData).then((res) => {
         this.leftData = res.data.resultPages;
+
+        this.getrightlist(this.leftData[0].mid);
+        this.titleName = this.leftData[0].systemname;
         this.totalLeft = res.data.totalRows;
       });
     },
@@ -320,7 +498,9 @@ export default {
       });
     },
     //右下表单显示
-    getrightlist() {
+    getrightlist(mid) {
+      this.mid = mid;
+      this.firstitemsysteminfo.mid = mid;
       this.requestPageData.condition = this.firstitemsysteminfo;
       this.requestPageData.pageCondition = this.pageConditionRight;
 

@@ -8,12 +8,12 @@
 */
 export default class Firstitemsysteminfo {
     constructor() {
-    this.wid=''
-this.code=''
-this.chinese=''
-this.english=''
-this.fanti=''
-this.infodate=''
-this.mid=''
+        this.wid = ''
+        this.code = ''
+        this.chinese = ''
+        this.english = ''
+        this.fanti = ''
+        this.infodate = ''
+        this.mid = ''
     }
 }
