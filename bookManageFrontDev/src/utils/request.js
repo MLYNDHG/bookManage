@@ -3,11 +3,11 @@ import { Message } from 'element-ui' // 项目用的element ui
 import router from '@/router/index.js'
 
 const service = axios.create({
-    timeout: 7000, // 超过7秒提示超时
-})
-// service.baseUrl = 'http://192.168.0.50:9090';//跨域用的
-//service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
- service.baseUrl = 'http://localhost:9090';
+        timeout: 7000, // 超过7秒提示超时
+    })
+    // service.baseUrl = 'http://192.168.0.50:9090';//跨域用的
+    //service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
+service.baseUrl = 'http://localhost:9090';
 
 // 请求拦截器
 service.interceptors.request.use(

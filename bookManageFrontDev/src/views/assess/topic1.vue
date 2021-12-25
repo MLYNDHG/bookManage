@@ -338,7 +338,6 @@ export default {
 .classall {
   height: 100%;
   background-color: #dae1e5;
-  padding: 20px;
 }
 .el-tabs__content {
   height: 100%;
