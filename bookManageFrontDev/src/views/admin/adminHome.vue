@@ -65,7 +65,7 @@
           <div class="avatar">
               <el-upload
                 class="avatar-uploader"
-                action="http://localhost:9090/uploadImage"
+                action="actionn"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
               >
@@ -234,6 +234,7 @@ export default {
       },
 
       //头像地址
+      actionn: request.baseUrl + '/uploadImage',
       imageUrl: "",
 
       //用户信息
