@@ -99,9 +99,11 @@ CREATE TABLE `flow_source` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `time` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `flow_source` */
+
+insert  into `flow_source`(`id`,`fid`,`sid`,`status`,`time`) values (1,1,1,0,'2021-12-12 12:00:00'),(2,1,3,0,'2021-12-20 13:00:00'),(3,6,1,1,'2021-12-24 19:38:58'),(4,6,4,1,'2021-12-24 19:38:58'),(5,6,6,1,'2021-12-24 19:38:58'),(6,7,1,1,'2021-12-24 19:41:16'),(7,7,4,1,'2021-12-24 19:41:16'),(8,7,5,1,'2021-12-24 19:41:16'),(9,8,1,0,'2021-12-24 23:43:15'),(10,8,4,0,'2021-12-24 23:43:15'),(11,8,5,0,'2021-12-24 23:43:15'),(12,9,1,1,'2021-12-24 23:47:42'),(13,9,2,1,'2021-12-24 23:47:42'),(14,9,4,1,'2021-12-24 23:47:42'),(15,9,5,1,'2021-12-24 23:47:42'),(16,9,6,1,'2021-12-24 23:47:42'),(17,9,7,1,'2021-12-24 23:47:42'),(18,10,1,0,'2021-12-24 23:49:25'),(19,10,3,0,'2021-12-24 23:49:25'),(20,10,4,0,'2021-12-24 23:49:25'),(21,10,7,0,'2021-12-25 00:10:51'),(22,10,8,0,'2021-12-25 00:10:51'),(23,10,9,0,'2021-12-25 00:10:51'),(24,10,11,0,'2021-12-25 00:10:51'),(25,11,1,0,'2021-12-25 00:18:41'),(26,11,2,0,'2021-12-25 00:18:41'),(27,11,3,0,'2021-12-25 00:18:41'),(28,11,4,0,'2021-12-25 00:18:41'),(29,11,5,0,'2021-12-25 00:18:41'),(30,11,6,0,'2021-12-25 00:18:41'),(31,11,7,0,'2021-12-25 00:18:41'),(32,11,8,0,'2021-12-25 00:18:41'),(33,11,9,0,'2021-12-25 00:18:41'),(34,11,10,0,'2021-12-25 00:18:41'),(35,11,11,0,'2021-12-25 00:18:41'),(36,11,12,0,'2021-12-25 00:18:41'),(37,11,13,0,'2021-12-25 00:18:41'),(38,11,14,0,'2021-12-25 00:18:41'),(39,11,15,0,'2021-12-25 00:18:41'),(40,11,16,0,'2021-12-25 00:18:41'),(41,11,17,0,'2021-12-25 00:18:41'),(42,11,18,0,'2021-12-25 00:18:41'),(43,11,19,0,'2021-12-25 00:18:41'),(44,11,20,0,'2021-12-25 00:18:41'),(45,11,21,0,'2021-12-25 00:18:41'),(46,11,22,0,'2021-12-25 00:18:41'),(47,11,23,0,'2021-12-25 00:18:41'),(48,11,24,0,'2021-12-25 00:18:41'),(49,11,25,0,'2021-12-25 00:18:41'),(50,11,26,0,'2021-12-25 00:18:41'),(51,11,27,0,'2021-12-25 00:18:41'),(52,11,28,0,'2021-12-25 00:18:41'),(53,11,29,0,'2021-12-25 00:18:41'),(54,11,30,0,'2021-12-25 00:18:41');
 
 /*Table structure for table `flowrule` */
 
@@ -119,9 +121,11 @@ CREATE TABLE `flowrule` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '流控是否删除',
   `time` datetime NOT NULL COMMENT '流控创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `flowrule` */
+
+insert  into `flowrule`(`id`,`name`,`flowPattern`,`thresholdType`,`threshold`,`thresholdPattern`,`flowEffect`,`requestSource`,`status`,`time`) values (1,'sdasdf','rga','sadfa',0,'asdf','asdf','adsf',0,'2021-12-12 12:00:00'),(3,'fdgg','dfag','dfsghfsdfh',0,'dfgsdg','dfsgsdgsdf','hsdfhsd',0,'2021-12-20 13:00:00'),(6,'gdsfg','dfssg','asdgg',23,'单机','sdgsg','dfsgag',0,'2021-12-24 19:38:58'),(7,'gdsfg','dfssg','asdgg',23,'sadfag','sdgsg','dfsgag',1,'2021-12-24 19:41:16'),(8,'gdsfg','dfssg','asdgg',23,'sadfag','sdgsg','dfsgag',0,'2021-12-24 23:43:15'),(9,'123','直接','QPS',123,'单机','快速失败','xxx系统',1,'2021-12-24 23:47:42'),(10,'芜湖','链路','并发线程数',123,'单机','排队等候','xxx系统',0,'2021-12-24 23:49:25'),(11,'酷酷酷酷酷酷222','直接','QPS',123,'单机','排队等候','xxx系统',0,'2021-12-25 00:18:41'),(12,'1','直接','QPS',1,'单机','快速失败','xxx系统',1,'2021-12-25 00:25:32');
 
 /*Table structure for table `primarytype` */
 
@@ -176,11 +180,11 @@ CREATE TABLE `resources` (
   `time` datetime NOT NULL COMMENT '添加时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '资源是否删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `resources` */
 
-insert  into `resources`(`id`,`sid`,`englishName`,`chineseName`,`description`,`time`,`status`) values (1,15,'tomcat配置','tomcat配置','tomcat配置','2021-12-21 12:12:00',0),(2,14,'dubbo配置','dubbo配置','dubbo配置','2021-12-21 14:00:12',0),(3,4,'Mysql配置','Mysql配置','mysql配置','2021-12-21 15:13:14',0),(4,5,'tdsql配置','tdsql配置','tdsql配置','2021-12-21 15:14:12',1),(5,5,'qwer','qwer','qwer','2021-12-21 15:15:21',0),(6,10,'redis集群','redis集群','redis集群','2021-12-22 14:12:12',0),(7,16,'rocketMQ','rocketMQ','rocketMQ','2021-12-22 15:12:00',0),(8,5,'adsf','爱的色放','adsf','2021-12-23 11:12:29',0);
+insert  into `resources`(`id`,`sid`,`englishName`,`chineseName`,`description`,`time`,`status`) values (1,15,'tomcat配置','tomcat配置','tomcat配置','2021-12-21 12:12:00',0),(2,14,'dubbo配置','dubbo配置','dubbo配置','2021-12-21 14:00:12',0),(3,4,'Mysql配置','Mysql配置','mysql配置','2021-12-21 15:13:14',0),(4,5,'tdsql配置','tdsql配置','tdsql配置','2021-12-21 15:14:12',1),(5,5,'qwer','qwer','qwer','2021-12-21 15:15:21',0),(6,10,'redis集群','redis集群','redis集群','2021-12-22 14:12:12',0),(7,16,'rocketMQ','rocketMQ','rocketMQ','2021-12-22 15:12:00',0),(8,5,'adsf','爱的色放','adsf','2021-12-23 11:12:29',0),(9,1,'asd','asd','asd','2021-12-24 20:09:31',0);
 
 /*Table structure for table `rocketmq` */
 
@@ -227,9 +231,11 @@ CREATE TABLE `sourcelist` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '源是否删除',
   `time` datetime NOT NULL COMMENT '源创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `sourcelist` */
+
+insert  into `sourcelist`(`id`,`name`,`status`,`time`) values (1,'selectBookList',0,'2021-12-24 16:26:33'),(2,'saveBook',0,'2021-12-24 16:26:33'),(3,'deleteBook',0,'2021-12-24 16:26:33'),(4,'selectBookLogList',0,'2021-12-24 16:26:33'),(5,'saveBookLog',0,'2021-12-24 16:26:33'),(6,'insertSystemOfExcel',0,'2021-12-24 16:26:33'),(7,'insertSystem',0,'2021-12-24 16:26:33'),(8,'selectSystemList',0,'2021-12-24 16:26:33'),(9,'deleteByPrimaryKeySystemInfo',0,'2021-12-24 16:26:33'),(10,'deleteSystemInfoOfList',0,'2021-12-24 16:26:33'),(11,'selectSystemInfoList',0,'2021-12-24 16:26:33'),(12,'insertSystemInfoOfExcel',0,'2021-12-24 16:26:33'),(13,'insertSystemInfo',0,'2021-12-24 16:26:33'),(14,'selectRedisByResourcesId',0,'2021-12-24 16:26:33'),(15,'saveRedis',0,'2021-12-24 16:26:33'),(16,'selectResourceBasicList',0,'2021-12-24 16:26:33'),(17,'saveResourcesBasic',0,'2021-12-24 16:26:33'),(18,'selectTypeList',0,'2021-12-24 16:26:33'),(19,'deleteResources',0,'2021-12-24 16:26:33'),(20,'selectRocketmqByResourcesId',0,'2021-12-24 16:26:34'),(21,'saveRocketmq',0,'2021-12-24 16:26:34'),(22,'login',0,'2021-12-24 16:26:34'),(23,'uploadImage',0,'2021-12-24 16:26:34'),(24,'selectUserList',0,'2021-12-24 16:26:34'),(25,'saveUser',0,'2021-12-24 16:26:34'),(26,'updatePassword',0,'2021-12-24 16:26:34'),(27,'selectFlowRuleList',0,'2021-12-24 16:45:03'),(28,'saveFlowRule',0,'2021-12-24 19:17:16'),(29,'deleteFlowRule',0,'2021-12-24 19:50:04'),(30,'selectSourcelist',0,'2021-12-24 20:42:29');
 
 /*Table structure for table `user` */
 
@@ -250,7 +256,7 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`username`,`nickname`,`password`,`head`,`tel`,`email`,`status`,`is_super`) values (1,'root',NULL,'63a9f0ea7bb98050796b649e85481845',NULL,NULL,NULL,0,1),(4,'wang','sb','e08392bb89dedb8ed6fb298f8e729c15',NULL,NULL,NULL,0,1);
+insert  into `user`(`id`,`username`,`nickname`,`password`,`head`,`tel`,`email`,`status`,`is_super`) values (1,'root',NULL,'63a9f0ea7bb98050796b649e85481845','/images/1640361814015.png',NULL,NULL,0,1),(4,'wang','sb','e08392bb89dedb8ed6fb298f8e729c15',NULL,NULL,NULL,0,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
