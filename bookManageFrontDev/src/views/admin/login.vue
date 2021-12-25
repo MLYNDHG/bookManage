@@ -11,7 +11,7 @@
     <!-- 封面图片 -->
     <div class="container">
       <div class="left">
-        <img src="../../assets/img/6.jpg" alt="" class="img-1" />
+        <img src="../../assets/img/9.jpg" alt="" class="img-1" />
       </div>
 
       <!-- 右边的块 -->

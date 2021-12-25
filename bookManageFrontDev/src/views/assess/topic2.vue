@@ -457,7 +457,7 @@ export default {
   flex-wrap: wrap;
 
   .title {
-    width: 1000px;
+    width: 100%;
     margin: 5px;
     display: flex;
     justify-content: space-between;
@@ -467,8 +467,8 @@ export default {
   }
   .el-card {
     transition: all 0.4s;
-    margin: 10px 3px;
-    width: 335px;
+    margin: 0.5px 5px;
+    width: 320px;
     height: 100px;
     cursor: pointer;
     border-radius: 3%;
