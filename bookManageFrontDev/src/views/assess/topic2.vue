@@ -8,36 +8,40 @@
       >
     </div>
     <!-- 卡片区域 -->
-    <el-card
-      shadow="hover"
-      :body-style="{ padding: '0px' }"
-      v-for="s in cardContent"
-      :key="s.id"
-    >
-      <!-- 图片区域 -->
-      <div class="cardImage">
-        <img class="img" :src="imageUrl + s.image" alt="" />
-      </div>
-
-      <div class="log">
-        <p>{{ s.chinesename }}</p>
-
-        <!-- 标签 -->
-        <div>
-          <el-tag size="mini" type="success">{{ s.pname }}</el-tag>
-          <el-tag size="mini" type="warning">{{ s.sname }}</el-tag>
+    
+      <el-card
+        shadow="hover"
+        :body-style="{ padding: '0px' }"
+        v-for="s in cardContent"
+        :key="s.id"
+      >
+        <!-- 图片区域 -->
+        <div class="cardImage">
+          <img class="img" :src="imageUrl + s.image" alt="" />
         </div>
 
-        <!-- 编辑区域 -->
-        <div class="edit">
-          <el-button type="text" @click="sss(s.id)">基本信息</el-button>
-          <el-button type="text" @click="deploy(s.sid, id)">配置信息</el-button>
-          <el-button type="text" class="delete" @click="deletee(s.id)"
-            >删除</el-button
-          >
+        <div class="log">
+          <p>{{ s.chinesename }}</p>
+
+          <!-- 标签 -->
+          <div>
+            <el-tag size="mini" type="success">{{ s.pname }}</el-tag>
+            <el-tag size="mini" type="warning">{{ s.sname }}</el-tag>
+          </div>
+
+          <!-- 编辑区域 -->
+          <div class="edit">
+            <el-button type="text" @click="basicMes(s.id)">基本信息</el-button>
+            <el-button type="text" @click="deploy(s.sid, s.id)"
+              >配置信息</el-button
+            >
+            <el-button type="text" class="delete" @click="deletee(s.id)"
+              >删除</el-button
+            >
+          </div>
         </div>
-      </div>
-    </el-card>
+      </el-card>
+    
     <!-- 新增对话框 -->
     <el-dialog
       title="新建资源"
@@ -63,7 +67,37 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button>取 消</el-button>
+        <el-button @click="addResourcesDialog = false">取 消</el-button>
+        <el-button type="primary" @click="add">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 基本信息对话框 -->
+    <el-dialog
+      title="新建资源"
+      :visible.sync="basicMesDialog"
+      @close="basicMesClose"
+    >
+      <el-form ref="basicMesRef" :model="addForm">
+        <el-form-item label="资源名称" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.englishname"></el-input>
+        </el-form-item>
+        <el-form-item label="中文名称" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.chinesename"></el-input>
+        </el-form-item>
+        <el-form-item label="资源类型" label-width="100px">
+          <el-cascader
+            v-model="addForm.sid"
+            :options="options"
+            :props="{ expandTrigger: 'hover' }"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="资源描述" label-width="100px">
+          <el-input autocomplete="off" v-model="addForm.description"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="basicMesDialog = false">取 消</el-button>
         <el-button type="primary" @click="add">确 定</el-button>
       </div>
     </el-dialog>
@@ -112,21 +146,25 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button>取 消</el-button>
+        <el-button @click="RedisDialog = false">取 消</el-button>
         <el-button type="primary" @click="addRedis">确 定</el-button>
       </div>
     </el-dialog>
 
-    <!-- Redis配置对话框 -->
-    <el-dialog title="Redis配置" :visible.sync="RocketMqDialog">
-      <el-form ref="insertResourcesRef" :model="addForm">
-        <el-form-item label="nameServer地址" label-width="100px">
-          <el-input autocomplete="off" v-model="addForm.englishname"></el-input>
-        </el-form-item>
-      </el-form>
+    <!-- RocketMQ配置对话框 -->
+    <el-dialog title="RocketMQ配置" :visible.sync="RocketMqDialog">
+      <label for="ddd">nameServer地址</label>
+      <el-input
+        class="RocketMQ"
+        id="ddd"
+        label="sss"
+        autocomplete="off"
+        v-model="rocketMQForm"
+      ></el-input>
+
       <div slot="footer" class="dialog-footer">
-        <el-button>取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="RocketMqDialog = false">取 消</el-button>
+        <el-button type="primary" @click="addRocketMQ">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -142,10 +180,15 @@ import {
   selectRedisByResourcesId,
   saveRedis,
 } from "@/services/redisController.js";
+import {
+  selectRocketmqByResourcesId,
+  saveRocketmq,
+} from "@/services/rocketMQController.js";
 import resourcesLog from "@/model/resourcesLogModel.js";
 import request from "@/utils/request";
 import addModel from "@/model/addResourcesModel.js";
 import redisModel from "@/model/redisModel.js";
+import rocketMQModel from "@/model/rocketMQModel.js";
 export default {
   data() {
     return {
@@ -159,6 +202,9 @@ export default {
 
       //新增资源弹框
       addResourcesDialog: false,
+
+      //基本信息弹框
+      basicMesDialog: false,
 
       //新增资源下拉菜单
       options: [],
@@ -183,9 +229,16 @@ export default {
         maxthreadwaits: "",
       },
 
+      //RocketMQ配置模型
+      rocketMQForm: "",
+
       RedisDialog: false,
 
       RocketMqDialog: false,
+
+      //获取当前弹出框id
+      redisId: 0,
+      rocketMQID: 0,
     };
   },
 
@@ -204,8 +257,19 @@ export default {
     },
 
     //获取当前卡片id
-    sss(a) {
-      console.log(a);
+    basicMes(a) {
+      //console.log(a);
+      const log = new resourcesLog();
+      log.id = a;
+      selectResourceBasicList(log).then((res) => {
+        console.log(res);
+        this.addForm.chinesename = res.data[0].chinesename;
+        this.addForm.englishname = res.data[0].englishname;
+        this.addForm.description = res.data[0].description;
+        this.addForm.sid[0] = res.data[0].pid;
+        this.addForm.sid[1] = res.data[0].sid;
+        this.basicMesDialog = true;
+      });
     },
 
     //点击新增资源
@@ -246,6 +310,7 @@ export default {
       saveResourcesBasic(addForm).then((res) => {
         console.log(res);
         this.addResourcesDialog = false;
+        this.basicMesDialog = false;
         this.getAll();
       });
     },
@@ -287,13 +352,31 @@ export default {
     },
 
     //Redis配置
-    deploy(sid) {
+    deploy(sid, id) {
+      //console.log(id)
+      //console.log(this.redisId)
       if (sid == 10) {
-        selectRedisByResourcesId(sid).then((res) => {
-          console.log(res);
+        selectRedisByResourcesId(id).then((res) => {
+          //console.log(res);
+          this.redisId = res.data.id;
+          this.redisForm.cluteraddress = res.data.cluteraddress;
+          this.redisForm.maxjumps = res.data.maxjumps;
+          this.redisForm.password = res.data.password;
+          this.redisForm.timeout = res.data.timeout;
+          this.redisForm.maxthreadactivities = res.data.maxthreadactivities;
+          this.redisForm.maxthreadidles = res.data.maxthreadidles;
+          this.redisForm.minthreadidles = res.data.minthreadidles;
+          this.redisForm.maxthreadwaits = res.data.maxthreadwaits;
+          //console.log(this.redisId)
         });
         this.RedisDialog = true;
       } else {
+        //console.log(id)
+        selectRocketmqByResourcesId(id).then((res) => {
+          console.log(res);
+          this.rocketMQForm = res.data.nameserver;
+          this.rocketMQID = res.data.id;
+        });
         this.RocketMqDialog = true;
       }
     },
@@ -301,6 +384,7 @@ export default {
     //添加redis配置信息
     addRedis() {
       const model = new redisModel();
+      model.id = this.redisId;
       model.cluteraddress = this.redisForm.cluteraddress;
       model.maxjumps = this.redisForm.maxjumps;
       model.password = this.redisForm.password;
@@ -309,10 +393,60 @@ export default {
       model.maxthreadidles = this.redisForm.maxthreadidles;
       model.minthreadidles = this.redisForm.minthreadidles;
       model.maxthreadwaits = this.redisForm.maxthreadwaits;
+      //console.log(model)
 
-      saveRedis(model).then((res) => {
-        console.log(res);
-      });
+      this.$confirm("确定新增或修改配置吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          saveRedis(model).then((res) => {
+            console.log(res);
+            this.$message({ message: "修改成功", type: "success" });
+            this.RedisDialog = false;
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消",
+          });
+        });
+    },
+
+    //新增 Rocket 配置
+    addRocketMQ() {
+      this.$confirm("确定新增或修改配置吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          const rocket = new rocketMQModel();
+          rocket.id = this.rocketMQID;
+          rocket.nameserver = this.rocketMQForm;
+          saveRocketmq(rocket).then((res) => {
+            console.log(res);
+            this.$message({ message: "修改成功", type: "success" });
+            this.RocketMqDialog = false;
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消",
+          });
+        });
+    },
+
+    //监听基本信息对话框关闭
+    basicMesClose() {
+      this.$refs.basicMesRef.resetFields();
+      this.addForm.englishname = "";
+      this.addForm.chinesename = "";
+      this.addForm.sid = [];
+      this.addForm.description = "";
     },
   },
 };
@@ -412,5 +546,21 @@ export default {
 
 .clearfix:after {
   clear: both;
+}
+
+.RocketMQ {
+  width: 500px !important;
+}
+
+.slide-fade-enter-active {
+  transition: opacity 1.8s;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  /* transform: translateY(-100px); */
+  opacity: 0;
 }
 </style>

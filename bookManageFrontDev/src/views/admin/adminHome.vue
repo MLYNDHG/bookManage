@@ -63,15 +63,22 @@
         </div>
         <div class="headRight">
           <div class="avatar">
-            <el-upload
-              class="avatar-uploader"
-              action="http://localhost:9090/uploadImage"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
+              <el-upload
+                class="avatar-uploader"
+                action="http://localhost:9090/uploadImage"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+              >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="点击上传或更新头像"
+              placement="bottom"
             >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+                <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-tooltip>
+              </el-upload>
           </div>
           {{ nickname }}
           <el-button
@@ -79,7 +86,7 @@
             type="primary"
             round
             size="mini"
-            @click="tiaoshi"
+            @click="logOut"
             >退出</el-button
           >
         </div>
@@ -178,7 +185,6 @@
                 :label="item.title"
                 :name="item.name"
                 :closable="item.close"
-                
               >
               </el-tab-pane>
 
@@ -359,9 +365,14 @@ export default {
       //console.log(this.$store.state.list);
     },
 
-    tiaoshi() {
+    logOut() {
       //console.log(this.$route)
       //console.log(this.$store.state.list);
+
+      //退出时清空sessionStorage存的东西
+      sessionStorage.clear()
+      this.$store.dispatch("clearStore")
+      this.$router.push("/")
     },
 
     tabclick(tab) {
