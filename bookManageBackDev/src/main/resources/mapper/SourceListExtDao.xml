@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.SourceListExtDao">
+    <delete id="deleteSourceList">
+        delete from sourcelist
+    </delete>
+
+<!--    根据sid 查询源-->
+    <select id="selectSourceById" parameterType="java.lang.Integer" resultMap="com.Httb.bookManage.mbg.dao.SourcelistDao.BaseResultMap">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.SourcelistDao.Base_Column_List" />
+        from sourcelist
+        <where>
+            id = #{sid}
+        </where>
+    </select>
+
+<!--    源列表-->
+    <select id="selectSourceList" resultMap="com.Httb.bookManage.mbg.dao.SourcelistDao.BaseResultMap">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.SourcelistDao.Base_Column_List" />
+        from sourcelist
+    </select>
+
+<!--    插入源列表-->
+    <insert id="insertSourcelist" parameterType="com.Httb.bookManage.mbg.entity.Sourcelist">
+        insert into sourcelist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="name != null and name != ''">
+                `name`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

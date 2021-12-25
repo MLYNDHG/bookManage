@@ -6,7 +6,7 @@
       href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
       rel="stylesheet"
     />
-<!-- 字体2 -->
+    <!-- 字体2 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,18 +29,56 @@
     <el-container>
       <!-- 头部区域 -->
       <el-header>
-        <div class="headLeft">Book Manage</div>
+        <div class="headLeft">
+          <transition name="slide-fade">
+            <span v-show="Bb">B</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="a">o</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="b">o</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="c">k</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="d">M</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="e">a</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="f">n</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="g">a</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="h">g</span>
+          </transition>
+          <transition name="slide-fade">
+            <span v-show="i">e</span>
+          </transition>
+        </div>
         <div class="headRight">
           <div class="avatar">
-            <el-upload
-              class="avatar-uploader"
-              action="http://localhost:9090/uploadImage"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
+              <el-upload
+                class="avatar-uploader"
+                action="http://localhost:9090/uploadImage"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+              >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="点击上传或更新头像"
+              placement="bottom"
             >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+                <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-tooltip>
+              </el-upload>
           </div>
           {{ nickname }}
           <el-button
@@ -48,7 +86,7 @@
             type="primary"
             round
             size="mini"
-            @click="tiaoshi"
+            @click="logOut"
             >退出</el-button
           >
         </div>
@@ -63,85 +101,96 @@
             text-color="#fff"
             active-text-color="#ffd04b"
           >
-            <el-menu-item index="/home" @click="home('/home')">
-              <span slot="title">HOME</span>
-            </el-menu-item>
-
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>BookManage</span>
-              </template>
-              <el-menu-item
-                index="/home/bookmanage"
-                @click="saveNavState('/home/bookmanage', menuName1)"
-                >{{ menuName1 }}</el-menu-item
-              >
-            </el-submenu>
-
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>MemberManage</span>
-              </template>
-              <el-menu-item
-                index="/home/userlist"
-                @click="saveNavState('/home/userlist', menuName2)"
-                >{{ menuName2 }}</el-menu-item
-              >
-            </el-submenu>
-
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>BorrowManage</span>
-              </template>
-              <el-menu-item index="/home/booklist"  @click="saveNavState('/home/booklist', menuName3)"
-              >{{menuName3}}</el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="4">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>XinChen</span>
-              </template>
-              <el-menu-item
-                index="/home/topic1"
-                @click="saveNavState('/home/topic1', menuName4_1)"
-                >{{ menuName4_1 }}</el-menu-item
-              >
-              <el-menu-item
-                index="/home/topic2"
-                @click="saveNavState('/home/topic2', menuName4_2)"
-                >{{ menuName4_2 }}</el-menu-item
-              >
-              <el-menu-item
-                index="/home/topic3"
-                @click="saveNavState('/home/topic3', menuName4_3)"
-                >{{ menuName4_3 }}</el-menu-item
-              >
-            </el-submenu>
+            <transition name="slide-fade">
+              <el-menu-item index="/home" @click="home('/home')" v-show="show1">
+                <span slot="title">HOME</span>
+              </el-menu-item>
+            </transition>
+            <transition name="slide-fade">
+              <el-submenu index="1" v-show="show2">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>BookManage</span>
+                </template>
+                <el-menu-item
+                  index="/home/bookmanage"
+                  @click="saveNavState('/home/bookmanage', menuName1)"
+                  >{{ menuName1 }}</el-menu-item
+                >
+              </el-submenu>
+            </transition>
+            <transition name="slide-fade">
+              <el-submenu index="2" v-show="show3">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>MemberManage</span>
+                </template>
+                <el-menu-item
+                  index="/home/userlist"
+                  @click="saveNavState('/home/userlist', menuName2)"
+                  >{{ menuName2 }}</el-menu-item
+                >
+              </el-submenu>
+            </transition>
+            <transition name="slide-fade">
+              <el-submenu index="3" v-show="show4">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>BorrowManage</span>
+                </template>
+                <el-menu-item
+                  index="/home/booklist"
+                  @click="saveNavState('/home/booklist', name3)"
+                  >{{ name3 }}</el-menu-item
+                >
+              </el-submenu>
+            </transition>
+            <transition name="slide-fade">
+              <el-submenu index="4" v-show="show5">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>XinChen</span>
+                </template>
+                <el-menu-item
+                  index="/home/topic1"
+                  @click="saveNavState('/home/topic1', menuName4_1)"
+                  >{{ menuName4_1 }}</el-menu-item
+                >
+                <el-menu-item
+                  index="/home/topic2"
+                  @click="saveNavState('/home/topic2', menuName4_2)"
+                  >{{ menuName4_2 }}</el-menu-item
+                >
+                <el-menu-item
+                  index="/home/topic3"
+                  @click="saveNavState('/home/topic3', menuName4_3)"
+                  >{{ menuName4_3 }}</el-menu-item
+                >
+              </el-submenu>
+            </transition>
           </el-menu>
         </el-aside>
 
         <el-main>
-          <el-tabs
-            v-model="editableTabsValue"
-            type="card"
-            @tab-click="tabclick"
-            @tab-remove="removeTab"
-          >
-            <el-tab-pane
-              v-for="item in editableTabs"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
-              :closable="item.close"
+          <transition name="slide-fade">
+            <el-tabs
+              v-model="editableTabsValue"
+              type="card"
+              @tab-click="tabclick"
+              @tab-remove="removeTab"
             >
-            </el-tab-pane>
+              <el-tab-pane
+                v-for="item in editableTabs"
+                :key="item.name"
+                :label="item.title"
+                :name="item.name"
+                :closable="item.close"
+              >
+              </el-tab-pane>
 
-            <router-view></router-view>
-          </el-tabs>
+              <router-view></router-view>
+            </el-tabs>
+          </transition>
         </el-main>
       </el-container>
     </el-container>
@@ -175,6 +224,8 @@ export default {
       //管理员名字
       nickname: sessionStorage.getItem("user"),
 
+      name3: "Borrowing Management",
+
       route: {
         name: "",
         title: "",
@@ -187,9 +238,29 @@ export default {
 
       //用户信息
       userLog: new user(),
+
+      //标题动画
+      Bb: false,
+      a: false,
+      b: false,
+      c: false,
+      d: false,
+      e: false,
+      f: false,
+      g: false,
+      h: false,
+      i: false,
+      //菜单动画
+      show1: false,
+      show2: false,
+      show3: false,
+      show4: false,
+      show5: false,
     };
   },
   created() {
+    this.menuAni();
+    this.headAni();
     this.activePath = sessionStorage.getItem("activePath");
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("storeState", JSON.stringify(this.$store.state));
@@ -212,6 +283,58 @@ export default {
     this.getUser();
   },
   methods: {
+    //标题动画
+    headAni() {
+      setTimeout(() => {
+        this.Bb = true;
+      }, 200);
+      setTimeout(() => {
+        this.a = true;
+      }, 300);
+      setTimeout(() => {
+        this.b = true;
+      }, 400);
+      setTimeout(() => {
+        this.c = true;
+      }, 500);
+      setTimeout(() => {
+        this.d = true;
+      }, 600);
+      setTimeout(() => {
+        this.e = true;
+      }, 700);
+      setTimeout(() => {
+        this.f = true;
+      }, 800);
+      setTimeout(() => {
+        this.g = true;
+      }, 900);
+      setTimeout(() => {
+        this.h = true;
+      }, 1000);
+      setTimeout(() => {
+        this.i = true;
+      }, 1100);
+    },
+    //菜单动画
+    menuAni() {
+      setTimeout(() => {
+        this.show1 = true;
+      }, 200);
+      setTimeout(() => {
+        this.show2 = true;
+      }, 300);
+      setTimeout(() => {
+        this.show3 = true;
+      }, 400);
+      setTimeout(() => {
+        this.show4 = true;
+      }, 500);
+      setTimeout(() => {
+        this.show5 = true;
+      }, 600);
+    },
+
     //删除标签
     removeTab(targetName) {
       console.log(targetName);
@@ -242,9 +365,14 @@ export default {
       //console.log(this.$store.state.list);
     },
 
-    tiaoshi() {
+    logOut() {
       //console.log(this.$route)
       //console.log(this.$store.state.list);
+
+      //退出时清空sessionStorage存的东西
+      sessionStorage.clear()
+      this.$store.dispatch("clearStore")
+      this.$router.push("/")
     },
 
     tabclick(tab) {
@@ -288,8 +416,9 @@ export default {
 
       //console.log(userModel)
       selectUserList(userModel).then((res) => {
-        console.log(res);
+        //console.log(res);
         this.imageUrl = request.baseUrl + res.data.resultPages[0].head;
+        console.log(this.imageUrl);
       });
     },
   },
@@ -379,6 +508,18 @@ export default {
       // /deep/.el-tabs__item:hover {
       //   color: white;
       // }
+    }
+
+    .slide-fade-enter-active {
+      transition: opacity 1.8s;
+    }
+    .slide-fade-leave-active {
+      transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+      /* transform: translateY(-100px); */
+      opacity: 0;
     }
   }
 }

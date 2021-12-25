@@ -9,6 +9,7 @@
         <result column="chineseName" jdbcType="VARCHAR" property="chinesename"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="status" jdbcType="BOOLEAN" property="status" />
         <result column="pid" jdbcType="INTEGER" property="pid"/>
         <result column="sName" jdbcType="VARCHAR" property="sname"/>
         <result column="image" jdbcType="VARCHAR" property="image"/>
@@ -26,13 +27,13 @@
         FROM resources r
                  LEFT JOIN (SELECT * FROM secondarytype) s
                            ON r.sid = s.id
-                            and s.status = 0
                  LEFT JOIN (SELECT * FROM primarytype) p
                            ON s.pid = p.id
         <where>
             <trim prefixOverrides="and">
+                    r.status = 0
                 <if test="id != null">
-                    r.id = #{id}
+                    and r.id = #{id}
                 </if>
                 <if test="sid != null">
                     and r.sid = #{sid}

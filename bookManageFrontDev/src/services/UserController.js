@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 /*
 *@param: user:class com.Httb.bookManage.mbg.entity.User
+<<<<<<< HEAD
 */
 export function login(user) {
     return request({
@@ -16,6 +17,12 @@ export function login(user) {
 export function uploadImage(file) {
     return request({
         url: request.baseUrl + `/uploadImage`,
+=======
+*/
+export function saveUser(user) {
+    return request({
+        url: request.baseUrl + `/saveUser`,
+>>>>>>> 208cdda79aafa590faaf07a6c7bfccd04ce4674c
         method: 'POST',
         data:file
     })
@@ -31,11 +38,31 @@ export function updatePassword(userVO) {
     })
 }
 /*
+*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.mbg.entity.User>
+*/
+export function selectUserList(requestPageData) {
+    return request({
+        url: request.baseUrl + `/selectUserList`,
+        method: 'POST',
+        data:requestPageData
+    })
+}
+/*
+*@param: file:interface org.springframework.web.multipart.MultipartFile
+*/
+export function uploadImage(file) {
+    return request({
+        url: request.baseUrl + `/uploadImage`,
+        method: 'POST',
+        data:file
+    })
+}
+/*
 *@param: user:class com.Httb.bookManage.mbg.entity.User
 */
-export function saveUser(user) {
+export function login(user) {
     return request({
-        url: request.baseUrl + `/saveUser`,
+        url: request.baseUrl + `/login`,
         method: 'POST',
         data:user
     })

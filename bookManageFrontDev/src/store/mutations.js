@@ -45,6 +45,16 @@ export const outList = (state, name) => {
         state.list =  state.list.filter(item => item.name !== name);
     } 
 }
+
+//重置VueStore
+export const clearStore = (state) => {
+    state.list = [{
+        name: "/home/",
+        title: "首页",
+        path: "/home/",
+        close:false,
+      }]
+}
     // 修改token，并将token存入localStorage
 export const changeLogin = (state, token) => {
         state.Authorization = token;

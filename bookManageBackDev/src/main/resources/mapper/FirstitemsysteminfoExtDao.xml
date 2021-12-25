@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.FirstitemsysteminfoExtDao">
+    <select id="selectSystemInfoList" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsysteminfo" resultMap="com.Httb.bookManage.mbg.dao.FirstitemsysteminfoDao.BaseResultMap" >
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.FirstitemsysteminfoDao.Base_Column_List"/>
+        from Firstitemsysteminfo
+        <where>
+            <if test="wid != null and wid != ''">
+                wid = #{wid}
+            </if>
+            <if test="code != null and code != ''">
+                <bind name="codeLike" value="'%' + code + '%'"/>
+                and `code` like #{codeLike}
+            </if>
+            <if test="chinese != null and chinese != ''">
+                <bind name="chineseLike" value="'%' + chinese + '%'"/>
+                and `chinese` like #{chineseLike}
+            </if>
+            <if test="english != null and english != ''">
+                <bind name="englishLike" value="'%' + english + '%'"/>
+                and `english` like #{englishLike}
+            </if>
+            <if test="fanti != null and fanti != ''">
+                <bind name="fantiLike" value="'%' + fanti + '%'"/>
+                and `fanti` like #{fantiLike}
+            </if>
+            <if test="infodate != null and infodate != ''">
+                <bind name="infodateLike" value="'%' + infodate + '%'"/>
+                and `fanti` like #{infodateLike}
+            </if>
+            <if test="mid != null and mid != ''">
+                and mid = #{mid}
+            </if>
+        </where>
+    </select>
+
+    <insert id="SystemInfoInsert" keyColumn="wid" keyProperty="wid" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsysteminfo" useGeneratedKeys="true">
+        insert into firstitemsysteminfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != '' " >
+                code,
+            </if>
+            <if test="chinese != null and chinese != '' ">
+                chinese,
+            </if>
+            <if test="english != null and english != '' ">
+                english,
+            </if>
+            <if test="fanti != null and fanTi != '' ">
+                fanTi,
+            </if>
+            <if test="infodate != null and InfoDate != '' ">
+                InfoDate,
+            </if>
+            <if test="mid != null ">
+                mid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="chinese != null and chinese != ''">
+                #{chinese,jdbcType=VARCHAR},
+            </if>
+            <if test="english != null and english != ''">
+                #{english,jdbcType=VARCHAR},
+            </if>
+            <if test="fanti != null and fanti != ''">
+                #{fanti,jdbcType=VARCHAR},
+            </if>
+            <if test="infodate != null and infodate != ''">
+                #{infodate,jdbcType=VARCHAR},
+            </if>
+            <if test="mid != null ">
+                #{mid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+</mapper>

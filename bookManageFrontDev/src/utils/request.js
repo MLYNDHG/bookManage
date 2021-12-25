@@ -11,7 +11,7 @@ service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
 
 // 请求拦截器
 service.interceptors.request.use(
-    config => {//config配置
+    config => { //config配置
         if (sessionStorage.getItem('Authorization')) {
             config.headers.Authorization = sessionStorage.getItem('Authorization');
         }
@@ -72,4 +72,4 @@ service.interceptors.response.use(
         }
     }
 )
-export default service;//暴露变量，导出，别人可以引用
+export default service; //暴露变量，导出，别人可以引用

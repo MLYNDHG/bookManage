@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.mbg.dao.FirstitemsystemDao">
+  <resultMap id="BaseResultMap" type="com.Httb.bookManage.mbg.entity.Firstitemsystem">
+    <id column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="systemName" jdbcType="VARCHAR" property="systemname" />
+    <result column="systemCOde" jdbcType="VARCHAR" property="systemcode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mid, systemName, systemCOde
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from firstitemsystem
+    where mid = #{mid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from firstitemsystem
+    where mid = #{mid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="mid" keyProperty="mid" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsystem" useGeneratedKeys="true">
+    insert into firstitemsystem (systemName, systemCOde)
+    values (#{systemname,jdbcType=VARCHAR}, #{systemcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="mid" keyProperty="mid" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsystem" useGeneratedKeys="true">
+    insert into firstitemsystem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="systemname != null">
+        systemName,
+      </if>
+      <if test="systemcode != null">
+        systemCOde,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="systemname != null">
+        #{systemname,jdbcType=VARCHAR},
+      </if>
+      <if test="systemcode != null">
+        #{systemcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsystem">
+    update firstitemsystem
+    <set>
+      <if test="systemname != null">
+        systemName = #{systemname,jdbcType=VARCHAR},
+      </if>
+      <if test="systemcode != null">
+        systemCOde = #{systemcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mid = #{mid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsystem">
+    update firstitemsystem
+    set systemName = #{systemname,jdbcType=VARCHAR},
+      systemCOde = #{systemcode,jdbcType=VARCHAR}
+    where mid = #{mid,jdbcType=INTEGER}
+  </update>
+</mapper>

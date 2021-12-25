@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Httb.bookManage.dao.FlowSourceExtDao">
+    <!--    根据流控id 查源列表-->
+    <select id="selectFlowSourceByFlowId" parameterType="com.Httb.bookManage.mbg.entity.FlowSource"
+            resultMap="com.Httb.bookManage.mbg.dao.FlowSourceDao.BaseResultMap">
+        select
+        <include refid="com.Httb.bookManage.mbg.dao.FlowSourceDao.Base_Column_List"/>
+        from flow_source
+        <where>
+            fid = #{fid}
+        </where>
+    </select>
+<!--    修改 流控 源列表-->
+    <update id="updateFlowSource" parameterType="com.Httb.bookManage.mbg.entity.FlowSource">
+        update flow_source
+        <set>
+            <if test="fid != null">
+                fid = #{fid,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                sid = #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <trim prefixOverrides="and">
+                <if test="fid != null">
+                    fid = #{fid}
+                </if>
+                <if test="sid != null">
+                    and sid = #{sid}
+                </if>
+            </trim>
+        </where>
+    </update>
+
+<!--    新增 流控 源信息-->
+    <insert id="insertFlowSource" parameterType="com.Httb.bookManage.mbg.entity.FlowSource">
+        insert into flow_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fid != null">
+                fid,
+            </if>
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fid != null">
+                #{fid,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BOOLEAN},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>
