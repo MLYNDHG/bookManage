@@ -215,8 +215,8 @@ export default {
 
       //菜单名
       menuName1: "图书管理",
-      menuName2: "图书信息",
-      menuName3: "",
+      menuName2: "用户信息",
+      menuName3: "借阅管理",
       menuName4_1: "新晨考核1",
       menuName4_2: "新晨考核2",
       menuName4_3: "新晨考核3",

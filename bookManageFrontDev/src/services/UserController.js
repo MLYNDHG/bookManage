@@ -7,7 +7,7 @@ export function saveUser(user) {
     return request({
         url: request.baseUrl + `/saveUser`,
         method: 'POST',
-        data:user
+        data:file
     })
 }
 /*
@@ -48,5 +48,15 @@ export function login(user) {
         url: request.baseUrl + `/login`,
         method: 'POST',
         data:user
+    })
+}
+/*
+*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.mbg.entity.User>
+*/
+export function selectUserList(requestPageData) {
+    return request({
+        url: request.baseUrl + `/selectUserList`,
+        method: 'POST',
+        data:requestPageData
     })
 }

@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import java.io.IOException;
 
 @RestController
-//@RequestMapping("/user")
 public class UserController {
 
     @Resource
