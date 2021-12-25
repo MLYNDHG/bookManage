@@ -47,6 +47,7 @@
       title="新建资源"
       :visible.sync="addResourcesDialog"
       @close="addDialogColse('insertResourcesRef')"
+      width="350px"
     >
       <el-form ref="insertResourcesRef" :model="addForm">
         <el-form-item label="资源名称" label-width="100px">
@@ -103,9 +104,9 @@
     </el-dialog>
 
     <!-- Redis配置对话框 -->
-    <el-dialog title="Redis配置" :visible.sync="RedisDialog" @close="redisDialogClose">
+    <el-dialog title="Redis配置" :visible.sync="RedisDialog" @close="redisDialogClose" width="700px">
       <el-form :inline="true" ref="insertResourcesRef" :model="redisForm">
-        <el-form-item label="集群主机地址" label-width="100px">
+        <el-form-item label="集群主机地址">
           <el-input
             autocomplete="off"
             v-model="redisForm.cluteraddress"
