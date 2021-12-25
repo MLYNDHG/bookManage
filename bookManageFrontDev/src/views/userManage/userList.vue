@@ -64,6 +64,7 @@
           </template>
         </el-table-column>
       </el-table>
+      
 
       <!-- 用户编辑表单 -->
       <el-dialog title="User Message" :visible.sync="buttonEdit">
@@ -145,7 +146,6 @@ export default {
       },
     };
   },
-
   //打开页面一进来就看得到列表，所以做请求getlist()
   created() {
     // created()：生命周期
