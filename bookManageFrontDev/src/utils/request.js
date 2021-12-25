@@ -7,7 +7,7 @@ const service = axios.create({
     })
     // service.baseUrl = 'http://localhost:9090'; //跨域用的
     // service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
-service.baseUrl = 'http://192.168.1.7:9090';
+service.baseUrl = ' http://192.168.43.145:9090';
 
 // 请求拦截器
 service.interceptors.request.use(
