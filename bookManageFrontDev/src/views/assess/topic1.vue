@@ -514,7 +514,7 @@ export default {
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
 .classall {
   height: 100%;
   background-color: #dae1e5;

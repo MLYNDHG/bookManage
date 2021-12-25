@@ -1,7 +1,6 @@
 package com.Httb.bookManage.service;
 
 import com.Httb.bookManage.dao.FirstitemsysteminfoExtDao;
-import com.Httb.bookManage.mbg.entity.Firstitemsystem;
 import com.Httb.bookManage.mbg.entity.Firstitemsysteminfo;
 import com.Httb.bookManage.util.ExcelUtils;
 import com.Httb.bookManage.util.RequestPageData;
@@ -63,5 +62,11 @@ public class FirstItemSystemInfoService {
             firstitemsysteminfoExtDao.deleteByPrimaryKey((Integer)widList.get(i));
         }
         return 1;
+    }
+
+    // 编辑信息
+    public Integer updateSystemInfo(Firstitemsysteminfo firstitemsysteminfo) {
+
+        return firstitemsysteminfoExtDao.updateSystemInfo(firstitemsysteminfo);
     }
 }

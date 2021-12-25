@@ -6,6 +6,7 @@ const service = axios.create({
     timeout: 7000, // 超过7秒提示超时
 })
 // service.baseUrl = 'http://192.168.0.50:9090';//跨域用的
+<<<<<<< HEAD
 // service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
 // service.baseUrl = 'http://192.168.0.102:9090';
 // service.baseUrl = 'http://192.168.43.145:9090/';
@@ -13,6 +14,10 @@ const service = axios.create({
 service.baseUrl = 'http://192.168.43.145:9090';
 
 
+=======
+//service.baseUrl = 'http://4651639y9h.zicp.vip:51395';
+ service.baseUrl = 'http://localhost:9090';
+>>>>>>> 55cb08f08bb138baaeea1158af1640d541257b1a
 
 // 请求拦截器
 service.interceptors.request.use(
@@ -23,7 +28,6 @@ service.interceptors.request.use(
         return config;
     },
     error => {
-        console.log(error);
         return Promise.reject(error);
     }
 )
@@ -33,42 +37,46 @@ service.interceptors.response.use(
     response => {
         // 接收后台参数状态
         const res = response.data;
-        if (res.code == 20000 || res.status == 200 || res.success || res.ErrorCode == 20000) {
+        if (res.status == 20000 || res.status == 200 || res.status || res.status == 20000) {
             return res;
         } else {
-            let message = (res.error && res.error.message) || res.message || res.msg || '未知错误';
+            let message = res.message || '未知错误';
             Message({
                 message,
                 type: 'error',
                 duration: 5 * 1000
             });
-            console.log('拦截器打印错误:', res);
             // 这里可以设置后台返回状态码是500或者是其他,然后重定向跳转
-            if (res.ErrorCode == 500) {
+            if (res.status == 500) {
                 router.push('/login')
             }
             return Promise.reject(
-                new Error(res.message || (res.error && res.error.message) || '未知错误')
+                new Error(res.message || '未知错误')
             );
         }
     },
     error => {
-        console.log('服务器错误信息:', error);
         if (error.response) {
             // error.response有错误信息,是接口错误,不是取消请求
             // 获取错误码,弹出提示信息,reject()
-            let code = error.response.status;
+            let code = error.response.data.status;
             if (code == 401) {
-                // router.push('/login');
                 return Promise.reject(
                     new Error('登录过期,请重新登录')
                 );
+            } else if (code == 500) {
+                Message({
+                    message: error.response.data.message,
+                    type: 'error',
+                    duration: 3 * 1000
+                });
+            } else {
+                Message({
+                    message: '服务器繁忙, 请稍后再试!  ' + code,
+                    type: 'error',
+                    duration: 3 * 1000
+                });
             }
-            Message({
-                message: '服务器繁忙, 请稍后再试!  ' + code,
-                type: 'error',
-                duration: 3 * 1000
-            });
             return Promise.reject(error.message);
         } else {
             // 是取消请求

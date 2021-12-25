@@ -62,7 +62,7 @@
         <where>
             uid = #{uid}
             and bid = #{bid}
-            and timeEnd = '0000-00-00 00:00:00'
+            and timeEnd = '9999-09-09 00:00:00'
         </where>
     </update>
 

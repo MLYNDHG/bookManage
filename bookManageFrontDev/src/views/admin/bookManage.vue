@@ -31,7 +31,11 @@
       <el-table-column label="BID" prop="id"></el-table-column>
       <el-table-column label="图书名" prop="name"></el-table-column>
       <el-table-column label="作者" prop="author"></el-table-column>
-      <el-table-column label="描述" prop="description"></el-table-column>
+      <el-table-column
+        label="描述"
+        prop="description"
+        show-overflow-tooltip
+      ></el-table-column>
       <el-table-column>
         <template slot-scope="scope">
           <el-button
@@ -84,14 +88,14 @@
       :visible.sync="addBookFormDialog"
       @close="addBookClose"
     >
-      <el-form :model="addBookForm" ref="addBookRef">
-        <el-form-item label="书籍名称" label-width="100px">
+      <el-form :model="addBookForm" ref="addBookForm">
+        <el-form-item label="书籍名称" label-width="100px" prop="name">
           <el-input v-model="addBookForm.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="作者" label-width="100px">
+        <el-form-item label="作者" label-width="100px" prop="author">
           <el-input v-model="addBookForm.author" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="描述" label-width="100px">
+        <el-form-item label="描述" label-width="100px" prop="description">
           <el-input
             v-model="addBookForm.description"
             autocomplete="off"
@@ -99,25 +103,25 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addBookFormDialog = false">取 消</el-button>
+        <el-button @click="resetForm('addBookForm')">取 消</el-button>
         <el-button type="primary" @click="addBook">确 定</el-button>
       </div>
     </el-dialog>
 
     <!-- 编辑图书对话框 -->
     <el-dialog title="新建图书" :visible.sync="editBookDialog">
-      <el-form :model="editBookList">
-        <el-form-item label="书籍名称" label-width="100px">
+      <el-form :model="editBookList" ref="editBookList" >
+        <el-form-item label="书籍名称" label-width="100px" prop="name">
           <el-input
             v-model="editBookList.name"
             autocomplete="off"
             disabled
           ></el-input>
         </el-form-item>
-        <el-form-item label="作者" label-width="100px">
+        <el-form-item label="作者" label-width="100px" prop="author">
           <el-input v-model="editBookList.author" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="描述" label-width="100px">
+        <el-form-item label="描述" label-width="100px" prop="description">
           <el-input
             v-model="editBookList.description"
             autocomplete="off"
@@ -125,7 +129,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="editBookDialog = false">取 消</el-button>
+        <el-button @click="resetForm('editBookList')">取 消</el-button>
         <el-button type="primary" @click="editBook">确 定</el-button>
       </div>
     </el-dialog>
@@ -225,14 +229,17 @@ export default {
       },
     };
   },
-
   created() {
     this.getAll();
-
-    //console.log(this.bookLog)
   },
-
   methods: {
+    resetForm(formName) {
+      this.addBookFormDialog = false;
+      this.editBookDialog = false;
+      this.$nextTick(() => {
+        this.$refs[formName].resetFields();
+      });
+    },
     //条件查询
     getAll() {
       this.requestPageData.condition = this.queryInfo.condition;
@@ -240,31 +247,25 @@ export default {
 
       selectBookList(this.requestPageData)
         .then((res) => {
-          console.log(res);
           this.bookList = res.data.resultPages;
           this.total = res.data.totalRows;
         })
         .catch((res) => {
-          console.log(res);
         });
     },
 
     //点击借阅查询所有用户
     getUser(bid) {
-      //console.log(bid)
       this.userForm.bid = bid;
       this.requestPageData.condition = this.user;
       selectUserList(this.requestPageData)
         .then((res) => {
-          console.log(res);
           this.userList = res.data.resultPages;
         })
         .catch((res) => {
-          console.log(res);
         });
 
       this.borrowBookDialog = true;
-      console.log(this.userForm);
     },
 
     //匹配查询
@@ -281,7 +282,6 @@ export default {
 
     //监听页码大小改变事件
     sizeChange(pageSize) {
-      //console.log(a)
       this.queryInfo.pageCondition.pageSize = pageSize;
       this.getAll();
     },
@@ -290,13 +290,11 @@ export default {
     addBook() {
       saveBook(this.addBookForm)
         .then((res) => {
-          console.log(res);
           this.addBookFormDialog = false;
           this.$message({ message: "添加成功", type: "success" });
           this.getAll();
         })
         .catch((res) => {
-          console.log(res);
         });
     },
 
@@ -315,7 +313,6 @@ export default {
       this.requestPageData.condition.id = bid;
       selectBookList(this.requestPageData)
         .then((res) => {
-          //console.log(res)
           this.editBookList = res.data.resultPages[0];
           this.requestPageData.condition.id = "";
         })
@@ -330,38 +327,30 @@ export default {
     editBook() {
       saveBook(this.editBookList)
         .then((res) => {
-          console.log(res);
           this.editBookDialog = false;
           this.$message({ message: "修改成功", type: "success" });
           this.getAll();
         })
         .catch((res) => {
-          console.log(res);
         });
     },
 
     //点击借书给指定用户
     borrowBook() {
-      //console.log(this.userForm)
       this.bookLog.bid = this.userForm.bid;
       this.bookLog.uid = this.userForm.uid;
-      console.log(this.bookLog);
-      //console.log(this.userForm);
       saveBookLog(this.bookLog)
         .then((res) => {
-          console.log(res);
           this.borrowBookDialog = false;
           this.$message({ message: "借阅成功", type: "success" });
           this.getAll();
         })
         .catch((res) => {
-          console.log(res);
         });
     },
 
     //点击还书
     returnBook(bid, uid) {
-      //console.log(id)
       this.$confirm("确定归还此图书吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -373,11 +362,9 @@ export default {
 
           saveBookLog(this.bookLog)
             .then((res) => {
-              console.log(res);
               this.getAll();
             })
             .catch((res) => {
-              console.log(res);
             });
         })
         .catch(() => {
@@ -390,7 +377,6 @@ export default {
 
     //删除图书
     deleteBook(bid, log) {
-      //console.log(bid)
       if (log == 0) {
         this.$confirm("确定删除此图书吗?", "提示", {
           confirmButtonText: "确定",
@@ -400,13 +386,8 @@ export default {
           .then(() => {
             deleteBook(bid)
               .then((res) => {
-                console.log(res);
-
                 this.getAll();
               })
-              .catch((res) => {
-                console.log(res);
-              });
           })
           .catch(() => {
             this.$message({
@@ -421,7 +402,6 @@ export default {
         });
       }
     },
-
   },
 };
 </script>

@@ -63,22 +63,22 @@
         </div>
         <div class="headRight">
           <div class="avatar">
-              <el-upload
-                class="avatar-uploader"
-                action="http://localhost:9090/uploadImage"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-              >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="点击上传或更新头像"
-              placement="bottom"
+            <el-upload
+              class="avatar-uploader"
+              :action="upImageUrl"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
             >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar"/>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="点击上传或更新头像"
+                placement="bottom"
+              >
+                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-tooltip>
-              </el-upload>
+              </el-tooltip>
+            </el-upload>
           </div>
           {{ nickname }}
           <el-button
@@ -212,7 +212,8 @@ export default {
 
       //被激活的链接地址
       activePath: "",
-
+      //upImage Url
+      upImageUrl:'',      
       //菜单名
       menuName1: "图书管理",
       menuName2: "用户信息",
@@ -220,20 +221,17 @@ export default {
       menuName4_1: "新晨考核1",
       menuName4_2: "新晨考核2",
       menuName4_3: "新晨考核3",
-
       //管理员名字
       nickname: sessionStorage.getItem("user"),
-
       name3: "Borrowing Management",
-
       route: {
         name: "",
         title: "",
         path: "",
         close: true,
       },
-
       //头像地址
+      actionn: request.baseUrl + '/uploadImage',
       imageUrl: "",
 
       //用户信息
@@ -276,11 +274,11 @@ export default {
         )
       );
     }
-    //console.log(this.editableTabs);
     this.editableTabs = this.$store.state.list;
-
     //查询用户信息
     this.getUser();
+  },mounted() {
+    this.upImageUrl=request.baseUrl+'/uploadImage';
   },
   methods: {
     //标题动画
@@ -337,13 +335,11 @@ export default {
 
     //删除标签
     removeTab(targetName) {
-      console.log(targetName);
       let tabs = this.editableTabs;
       this.editableTabs = tabs.filter((item) => item.name !== targetName);
 
       this.$store.dispatch("outList", targetName);
       this.$router.go(-1);
-      //console.log(this.editableTabs);
     },
 
     //保存激活的链接地址
@@ -362,21 +358,17 @@ export default {
       this.$router.push(path);
       //再将Vuex里面的的所有路由信息给data里面要做循环渲染的数据模型
       this.editableTabs = this.$store.state.list;
-      //console.log(this.$store.state.list);
     },
 
     logOut() {
-      //console.log(this.$route)
-      //console.log(this.$store.state.list);
 
       //退出时清空sessionStorage存的东西
-      sessionStorage.clear()
-      this.$store.dispatch("clearStore")
-      this.$router.push("/")
+      sessionStorage.clear();
+      this.$store.dispatch("clearStore");
+      this.$router.push("/");
     },
 
     tabclick(tab) {
-      //console.log(tab)
       this.activePath = tab.name;
       for (var i = 0; i < this.$store.state.list.length; i++) {
         if (tab.label == this.$store.state.list[i].title) {
@@ -392,18 +384,11 @@ export default {
 
     //头像上传
     handleAvatarSuccess(res) {
-      console.log(res);
       this.userLog.head = res.data;
       this.userLog.id = 1;
       this.userLog.username = "root";
-      //console.log(this.userLog)
-      saveUser(this.userLog).then((res) => {
-        console.log(res);
-        //console.log(this.imageUrl)
-      });
-      this.imageUrl = "http://127.0.0.1:9090" + res.data;
-      // console.log(this.imageUrl)
-      // this.imageUrl = "127.0.0.1:9090"
+      saveUser(this.userLog).then();
+      this.imageUrl = request.baseUrl+ res.data;
     },
 
     //页面渲染时查用户数据
@@ -413,12 +398,8 @@ export default {
       userModel.condition = this.userLog;
       userModel.pageCondition.pageNo = 1;
       userModel.pageCondition.pageSize = 1;
-
-      //console.log(userModel)
       selectUserList(userModel).then((res) => {
-        //console.log(res);
         this.imageUrl = request.baseUrl + res.data.resultPages[0].head;
-        console.log(this.imageUrl);
       });
     },
   },
@@ -508,6 +489,13 @@ export default {
       // /deep/.el-tabs__item:hover {
       //   color: white;
       // }
+      .el-tabs {
+        height: 100%;
+
+        /deep/.el-tabs__content {
+          height: calc(100% - 43.4px) !important;
+        }
+      }
     }
 
     .slide-fade-enter-active {

@@ -348,13 +348,11 @@ export default {
       this.FlowRuleVO = val;
       this.transferData = [];
       this.transferValue = [];
-      console.log(this.FlowRuleVO);
       this.getFlowSources();
       for (let index = 0; index < this.FlowRuleVO.flowSources.length; index++) {
         const element = this.FlowRuleVO.flowSources[index];
         this.transferValue.push(element.id);
       }
-      console.log(this.transferValue);
     },
     delFlowRule(val) {
       deleteFlowRule(val.id).then(() => {
@@ -394,7 +392,6 @@ export default {
             this.dialogVisible = false;
           });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -417,14 +414,22 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+
 .topic3 {
+
+
+  margin: 15px;
   background-color: #6984a4;
   border-radius: 10px;
   .head {
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+  }
+  .topic3-table{
+      height: calc(100% - 84px) !important;
   }
   .dialog {
     /deep/.el-dialog__body {

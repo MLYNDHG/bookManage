@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import request from '@/utils/request' 
 
 /*
@@ -50,3 +51,5 @@ export function login(user) {
         data:user
     })
 }
+=======
+>>>>>>> 55cb08f08bb138baaeea1158af1640d541257b1a

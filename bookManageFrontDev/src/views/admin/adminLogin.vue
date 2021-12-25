@@ -64,7 +64,6 @@ export default {
         if (valid) {
           // login(this.user.name, this.user.password).then((res) => {
           //   let token = res.data;
-          //   console.log(token);
           //   this.userToken = token;
 
           //   sessionStorage.setItem("user", this.user.name);
@@ -77,7 +76,6 @@ export default {
           //   // this.changeLogin({ Authorization: token });
           //   this.changeLogin(token);
           //   //打印login状态
-          //   console.log(this.$store.state.isLogin);
           //   this.$router.push("/login");
           //   this.success("登录成功");
           // });

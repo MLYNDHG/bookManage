@@ -78,4 +78,30 @@
             </if>
         </trim>
     </insert>
+
+<!--    编辑信息-->
+    <update id="updateSystemInfo" parameterType="com.Httb.bookManage.mbg.entity.Firstitemsysteminfo">
+        update firstitemsysteminfo
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="chinese != null and chinese != ''">
+                chinese = #{chinese,jdbcType=VARCHAR},
+            </if>
+            <if test="english != null and english != ''">
+                english = #{english,jdbcType=VARCHAR},
+            </if>
+            <if test="fanti != null and fanti != ''">
+                fanTi = #{fanti,jdbcType=VARCHAR},
+            </if>
+            <if test="infodate != null and infodate != ''">
+                InfoDate = #{infodate,jdbcType=VARCHAR},
+            </if>
+            <if test="mid != null">
+                mid = #{mid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where wid = #{wid,jdbcType=INTEGER}
+    </update>
 </mapper>

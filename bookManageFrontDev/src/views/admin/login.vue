@@ -11,7 +11,7 @@
     <!-- 封面图片 -->
     <div class="container">
       <div class="left">
-        <img src="../../assets/img/6.jpg" alt="" class="img-1" />
+        <img src="../../assets/img/9.jpg" alt="" class="img-1" />
       </div>
 
       <!-- 右边的块 -->
@@ -29,6 +29,8 @@
           >
             <el-form-item label="账号" prop="name">
               <el-input
+                @keyup.enter.native="keyDownName"
+                ref="inputName"
                 v-model="ruleForm.name"
                 placeholder="Enter your Name"
               ></el-input>
@@ -36,14 +38,20 @@
 
             <el-form-item label="密码" prop="password">
               <el-input
+                @keyup.enter.native="keyDownPassword"
+                ref="inputPassword"
                 v-model="ruleForm.password"
                 placeholder="Enter your Password"
+                show-password
               ></el-input>
             </el-form-item>
 
             <!-- button按钮 -->
             <el-row>
-              <el-button size="medium" @click="submitForm('ruleForm')"
+              <el-button
+                size="medium"
+                ref="inputButton"
+                @click="submitForm('ruleForm')"
                 >LOGIN</el-button
               >
             </el-row>
@@ -58,21 +66,17 @@
 
 
 <script>
-
-import  {login}  from "@/services/UserController.js"; //services写接口//JS6 解构赋值{login}，login是方法所以需要解构使用
+import { login } from "@/services/UserController.js"; //services写接口//JS6 解构赋值{login}，login是方法所以需要解构使用
 import User from "@/model/User.js"; //modle里写数据
 
 export default {
   data() {
     return {
-
       User: new User(),
-
       ruleForm: {
         name: "",
         password: "",
       },
-
       rules: {
         name: [
           { required: true, message: "请输入用户名", trigger: "blur" },
@@ -85,27 +89,29 @@ export default {
       },
     };
   },
-
   methods: {
+    keyDownName() {
+      this.$refs.inputPassword.focus();
+    },
+    keyDownPassword() {
+      this.submitForm("ruleForm");
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //get不用this,get只请求一两个参数；
           //如果是post会有很多参数，而User是一个对象，所以要用this.调用
-          this.User.username = this.ruleForm.name;         
+          this.User.username = this.ruleForm.name;
           this.User.password = this.ruleForm.password;
-
-          console.log(this.User);
           // debugger
           login(this.User).then((res) => {
             let token = res.data;
-            console.log(token);
             this.userToken = token;
 
             //会话存储
             sessionStorage.setItem("user", this.ruleForm.name);
             sessionStorage.setItem("userToken", token);
-            
+
             //将用户名放入vuex中  actiond调用
             this.$store.dispatch("setUser", this.ruleForm.name);
             this.$store.dispatch("setToken", token);
@@ -115,7 +121,7 @@ export default {
             this.$store.dispatch("setLogin", token);
 
             //打印login状态
-            console.log(this.$store.state.isLogin);
+            // console.log(this.$store.state.isLogin);
             this.$message({
               message: "登录成功",
               type: "success",
@@ -124,7 +130,7 @@ export default {
             this.$router.push("/home");
           });
         } else {
-          this.$message.error("登陆失败");
+          // this.$message.error("登陆失败");
           return false;
         }
       });
