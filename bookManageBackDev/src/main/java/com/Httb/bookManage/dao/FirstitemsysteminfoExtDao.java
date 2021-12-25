@@ -16,4 +16,10 @@ public interface FirstitemsysteminfoExtDao extends FirstitemsysteminfoDao {
      * 新增分组信息
      */
     List<Firstitemsysteminfo> SystemInfoInsert(Firstitemsysteminfo firstitemsysteminfo);
+
+    /**
+     * 编辑信息
+     */
+    Integer updateSystemInfo(Firstitemsysteminfo firstitemsysteminfo);
+
 }

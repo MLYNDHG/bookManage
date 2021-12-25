@@ -231,6 +231,7 @@ export default {
         close: true,
       },
       //头像地址
+      actionn: request.baseUrl + '/uploadImage',
       imageUrl: "",
 
       //用户信息

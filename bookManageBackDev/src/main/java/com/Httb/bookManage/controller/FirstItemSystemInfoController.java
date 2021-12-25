@@ -37,4 +37,10 @@ public class FirstItemSystemInfoController {
     public int deleteSystemInfoOfList(@RequestBody List<Integer> widList) {
         return firstItemSystemInfoService.deleteSystemInfoOfList(widList);
     }
+
+    @PostMapping("/updateSystemInfo")
+    public Integer updateSystemInfo(@RequestBody Firstitemsysteminfo firstitemsysteminfo) {
+
+        return firstItemSystemInfoService.updateSystemInfo(firstitemsysteminfo);
+    }
 }

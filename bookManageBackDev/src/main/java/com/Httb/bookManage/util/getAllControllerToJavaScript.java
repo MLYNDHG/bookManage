@@ -19,8 +19,8 @@ import java.util.*;
 /**
  * 获取本项目所有控制器
  */
-//@Component
 /*
+@Component
 public class getAllControllerToJavaScript implements ApplicationContextAware, CommandLineRunner {
 
     @Resource
