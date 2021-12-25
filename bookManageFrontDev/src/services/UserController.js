@@ -2,27 +2,10 @@ import request from '@/utils/request'
 
 /*
 *@param: user:class com.Httb.bookManage.mbg.entity.User
-<<<<<<< HEAD
-*/
-export function login(user) {
-    return request({
-        url: request.baseUrl + `/login`,
-        method: 'POST',
-        data:user
-    })
-}
-/*
-*@param: file:interface org.springframework.web.multipart.MultipartFile
-*/
-export function uploadImage(file) {
-    return request({
-        url: request.baseUrl + `/uploadImage`,
-=======
 */
 export function saveUser(user) {
     return request({
         url: request.baseUrl + `/saveUser`,
->>>>>>> 208cdda79aafa590faaf07a6c7bfccd04ce4674c
         method: 'POST',
         data:file
     })
