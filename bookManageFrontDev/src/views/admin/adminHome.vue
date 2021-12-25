@@ -401,7 +401,7 @@ export default {
         console.log(res);
         //console.log(this.imageUrl)
       });
-      this.imageUrl = "http://127.0.0.1:9090" + res.data;
+      this.imageUrl = request.baseUrl + res.data;
       // console.log(this.imageUrl)
       // this.imageUrl = "127.0.0.1:9090"
     },
