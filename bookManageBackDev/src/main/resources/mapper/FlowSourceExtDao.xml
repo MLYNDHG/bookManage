@@ -9,6 +9,7 @@
         from flow_source
         <where>
             fid = #{fid}
+            and `status` = 0
         </where>
     </select>
 <!--    修改 流控 源列表-->
