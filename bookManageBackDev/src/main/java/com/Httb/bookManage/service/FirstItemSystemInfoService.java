@@ -64,4 +64,10 @@ public class FirstItemSystemInfoService {
         }
         return 1;
     }
+
+    // 编辑信息
+    public Integer updateSystemInfo(Firstitemsysteminfo firstitemsysteminfo) {
+
+        return firstitemsysteminfoExtDao.updateSystemInfo(firstitemsysteminfo);
+    }
 }
