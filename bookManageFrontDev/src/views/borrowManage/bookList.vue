@@ -91,7 +91,6 @@ export default {
       this.requestPageData.pageCondition = this.pageCondition;
 
       selectBookLogList(this.requestPageData).then((res) => {
-        console.log(res);
         this.tableData = res.data.resultPages;
         this.total = res.data.totalRows;
       });

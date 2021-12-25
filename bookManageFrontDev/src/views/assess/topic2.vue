@@ -251,18 +251,15 @@ export default {
     getAll() {
       const log = new resourcesLog();
       selectResourceBasicList(log).then((res) => {
-        console.log(res);
         this.cardContent = res.data;
       });
     },
 
     //获取当前卡片id
     basicMes(a) {
-      //console.log(a);
       const log = new resourcesLog();
       log.id = a;
       selectResourceBasicList(log).then((res) => {
-        console.log(res);
         this.addForm.chinesename = res.data[0].chinesename;
         this.addForm.englishname = res.data[0].englishname;
         this.addForm.description = res.data[0].description;
@@ -280,7 +277,6 @@ export default {
     //获取二级联动菜单
     getMenu() {
       selectTypeList().then((res) => {
-        console.log(res.data);
         for (var i = 0; i < res.data.length; i++) {
           this.options.push({
             value: res.data[i].id,
@@ -294,21 +290,17 @@ export default {
             });
           }
         }
-        //console.log(this.options)
       });
     },
 
     //点击增加资源
     add() {
-      //console.log(this.addForm)
       const addForm = new addModel();
       addForm.englishname = this.addForm.englishname;
       addForm.chinesename = this.addForm.chinesename;
       addForm.sid = this.addForm.sid[1];
       addForm.description = this.addForm.description;
-      //console.log(addForm)
       saveResourcesBasic(addForm).then((res) => {
-        console.log(res);
         this.addResourcesDialog = false;
         this.basicMesDialog = false;
         this.getAll();
@@ -322,7 +314,6 @@ export default {
 
     //删除资源卡片
     deletee(id) {
-      console.log(id);
       this.$confirm("确定删除此资源吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -331,7 +322,6 @@ export default {
         .then(() => {
           deleteResources(id)
             .then((res) => {
-              console.log(res);
               this.$message({
                 type: "success",
                 message: "删除成功",
@@ -340,7 +330,6 @@ export default {
               this.getAll();
             })
             .catch((res) => {
-              console.log(res);
             });
         })
         .catch(() => {
@@ -353,11 +342,8 @@ export default {
 
     //Redis配置
     deploy(sid, id) {
-      //console.log(id)
-      //console.log(this.redisId)
       if (sid == 10) {
         selectRedisByResourcesId(id).then((res) => {
-          //console.log(res);
           this.redisId = res.data.id;
           this.redisForm.cluteraddress = res.data.cluteraddress;
           this.redisForm.maxjumps = res.data.maxjumps;
@@ -367,13 +353,10 @@ export default {
           this.redisForm.maxthreadidles = res.data.maxthreadidles;
           this.redisForm.minthreadidles = res.data.minthreadidles;
           this.redisForm.maxthreadwaits = res.data.maxthreadwaits;
-          //console.log(this.redisId)
         });
         this.RedisDialog = true;
       } else {
-        //console.log(id)
         selectRocketmqByResourcesId(id).then((res) => {
-          console.log(res);
           this.rocketMQForm = res.data.nameserver;
           this.rocketMQID = res.data.id;
         });
@@ -393,7 +376,6 @@ export default {
       model.maxthreadidles = this.redisForm.maxthreadidles;
       model.minthreadidles = this.redisForm.minthreadidles;
       model.maxthreadwaits = this.redisForm.maxthreadwaits;
-      //console.log(model)
 
       this.$confirm("确定新增或修改配置吗?", "提示", {
         confirmButtonText: "确定",
@@ -402,7 +384,6 @@ export default {
       })
         .then(() => {
           saveRedis(model).then((res) => {
-            console.log(res);
             this.$message({ message: "修改成功", type: "success" });
             this.RedisDialog = false;
           });
@@ -427,7 +408,6 @@ export default {
           rocket.id = this.rocketMQID;
           rocket.nameserver = this.rocketMQForm;
           saveRocketmq(rocket).then((res) => {
-            console.log(res);
             this.$message({ message: "修改成功", type: "success" });
             this.RocketMqDialog = false;
           });

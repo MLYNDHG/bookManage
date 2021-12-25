@@ -27,19 +27,19 @@
       >
       <!-- 增加新用户表单 -->
       <el-dialog title="New User" :visible.sync="dialogFormVisible">
-        <el-form :model="addForm">
-          <el-form-item label="username" label-width="80px">
+        <el-form :model="addForm"  ref="addForm" >
+          <el-form-item label="username" label-width="80px" prop="username">
             <el-input v-model="addForm.username" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="tel" label-width="80px">
+          <el-form-item label="tel" label-width="80px" prop="tel">
             <el-input v-model="addForm.tel" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="email" label-width="80px">
+          <el-form-item label="email" label-width="80px" prop="email">
             <el-input v-model="addForm.email" auto-complete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">Cancel </el-button>
+          <el-button  @click="resetForm('addForm')">Cancel </el-button>
           <el-button type="primary" @click="newlist()">Ok</el-button>
         </div>
       </el-dialog>
@@ -64,6 +64,7 @@
           </template>
         </el-table-column>
       </el-table>
+      
 
       <!-- 用户编辑表单 -->
       <el-dialog title="User Message" :visible.sync="buttonEdit">
@@ -145,15 +146,18 @@ export default {
       },
     };
   },
-
   //打开页面一进来就看得到列表，所以做请求getlist()
   created() {
     // created()：生命周期
     this.getlist();
   },
   methods: {
-    buttonFormVisibleok() {
-      alert("调用接口");
+    resetForm(formName) {
+      this.dialogFormVisible = false;
+      this.dialogFormVisible = false;
+      this.$nextTick(() => {
+        this.$refs[formName].resetFields();
+      });
     },
     //获取用户列表
     getlist() {
@@ -199,8 +203,6 @@ export default {
       this.User.id = val.id;
       this.User.status = 1;
       saveUser(this.User).then((res) => {
-        // this.addForm = res.data.resultPages;
-        console.log(res);
         this.buttonEdit = false;
         this.$message({
           message: "删除成功",
@@ -216,7 +218,6 @@ export default {
       this.editForm.username = val.username;
       this.editForm.tel = val.tel;
       this.editForm.email = val.email;
-      console.log(val);
     },
     //编辑用户
     buttonEdiitOk() {
@@ -226,8 +227,6 @@ export default {
       this.User.email = this.editForm.email;
 
       saveUser(this.User).then((res) => {
-        // this.addForm = res.data.resultPages;
-        console.log(res);
         this.buttonEdit = false;
         this.$message({
           message: "修改成功",
