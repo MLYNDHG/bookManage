@@ -1,6 +1,16 @@
 import request from '@/utils/request' 
 
 /*
+*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.mbg.entity.Firstitemsysteminfo>
+*/
+export function selectSystemInfoList(requestPageData) {
+    return request({
+        url: request.baseUrl + `/selectSystemInfoList`,
+        method: 'POST',
+        data:requestPageData
+    })
+}
+/*
 *@param: file:interface org.springframework.web.multipart.MultipartFile@param: mid:int
 */
 export function insertSystemInfoOfExcel(file,mid) {
@@ -12,16 +22,6 @@ export function insertSystemInfoOfExcel(file,mid) {
             mid:mid,
 
         }
-    })
-}
-/*
-*@param: widList:java.util.List<java.lang.Integer>
-*/
-export function deleteSystemInfoOfList(widList) {
-    return request({
-        url: request.baseUrl + `/deleteSystemInfoOfList`,
-        method: 'POST',
-        data:widList
     })
 }
 /*
@@ -39,13 +39,23 @@ export function deleteByPrimaryKeySystemInfo(wid) {
     })
 }
 /*
-*@param: requestPageData:com.Httb.bookManage.util.RequestPageData<com.Httb.bookManage.mbg.entity.Firstitemsysteminfo>
+*@param: widList:java.util.List<java.lang.Integer>
 */
-export function selectSystemInfoList(requestPageData) {
+export function deleteSystemInfoOfList(widList) {
     return request({
-        url: request.baseUrl + `/selectSystemInfoList`,
+        url: request.baseUrl + `/deleteSystemInfoOfList`,
         method: 'POST',
-        data:requestPageData
+        data:widList
+    })
+}
+/*
+*@param: firstitemsysteminfo:class com.Httb.bookManage.mbg.entity.Firstitemsysteminfo
+*/
+export function updateSystemInfo(firstitemsysteminfo) {
+    return request({
+        url: request.baseUrl + `/updateSystemInfo`,
+        method: 'POST',
+        data:firstitemsysteminfo
     })
 }
 /*
