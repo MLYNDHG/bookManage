@@ -336,6 +336,7 @@ export default {
             console.log(res);
             this.basicMesDialog = false;
             this.$message({ message: "修改成功", type: "success" });
+            this.getAll()
           });
         })
         .catch(() => {
