@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="height:100%;">
     <!-- 搜索栏 -->
-    <div>
+    <div style="height: calc(100% - 50px);">
       <div class="usernameSearchbar">
         <!-- 搜索框 -->
         <div class="wordEnquiries">Borrowing Management</div>
@@ -22,12 +22,9 @@
         >
       </div>
 
-      <!-- 空格 -->
-      <div>&nbsp;</div>
-
       <div>
         <!-- 列表 -->
-        <el-table :data="tableData" stripe style="width: 100%, "  height="618px">
+        <el-table :data="tableData" stripe style="width: 100%;" >
           <el-table-column type="index"> </el-table-column>
           <el-table-column prop="bid" label="bookId"> </el-table-column>
           <el-table-column prop="username" label="userName"> </el-table-column>
@@ -44,7 +41,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pageCondition.pageNo"
-      :page-sizes="[1, 2, 3, 4]"
+      :page-sizes="[5, 10, 15, 20]"
       :page-size="pageCondition.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
@@ -124,6 +121,7 @@ export default {
   display: flex;
   /* width: 598px; */
   width: 54%;
+  margin-bottom: 15px;
 }
 .wordEnquiries {
   font-family: "Open Sans Condensed", sans-serif;

@@ -416,9 +416,6 @@ export default {
 <style lang="less" scoped>
 
 .topic3 {
-
-
-  margin: 15px;
   background-color: #6984a4;
   border-radius: 10px;
   .head {

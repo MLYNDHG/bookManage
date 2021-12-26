@@ -4,44 +4,43 @@
       <!--         左     边     区      域      -->
       <el-aside
         width="33%"
-        height="323%"
         style="background-color: rgb(105, 132, 164); border-radius: 10px"
       >
         <!--     左      上     -->
-        <el-header>
+        <el-header style="height: 50px">
           <div class="leftup">
             <div style="padding: 9px; color: #f2f6fc">系统分组</div>
             <!-- 左上按钮 -->
-            <template>
-              <el-button-group>
-                <el-button
-                  plain
-                  icon="el-icon-folder-add"
-                  round
-                  @click="buttonNewsystem = true"
-                  >新增</el-button
-                >
-                 <el-button plain icon="el-icon-download" 
+            <el-button-group>
+              <el-button
+                plain
+                icon="el-icon-folder-add"
+                size="small"
+                round
+                @click="buttonNewsystem = true"
+                >新增</el-button
+              >
+              <el-button plain icon="el-icon-download" size="small"
                 ><a href="#" :download="downFileOne">下载模板</a></el-button
               >
-                
-                <el-button
-                  style="display: flex"
-                  class="upploadButton"
-                  plain
-                  icon="el-icon-right"
-                  round
-                >
-                  <el-upload
-                    class="upload-demo"
-                    :action="uploadLeftUrl"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    >导入
-                  </el-upload></el-button
-                >
-              </el-button-group>
-            </template>
+
+              <el-button
+                style="display: flex"
+                class="upploadButton"
+                plain
+                icon="el-icon-right"
+                round
+                size="small"
+              >
+                <el-upload
+                  class="upload-demo"
+                  :action="uploadLeftUrl"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  >导入
+                </el-upload></el-button
+              >
+            </el-button-group>
 
             <!-- 新增系统表单 -->
             <el-dialog title="新增系统表单" :visible.sync="buttonNewsystem">
@@ -87,9 +86,8 @@
             @size-change="lefthandleSizeChange"
             @current-change="lefthandleCurrentChange"
             :current-page="pageConditionLeft.pageNo"
-            :page-sizes="[5, 10, 15, 20]"
             :page-size="pageConditionLeft.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, prev, pager, next, jumper"
             :total="totalLeft"
           >
           </el-pagination>
@@ -107,7 +105,7 @@
         "
       >
         <!-- 右上 -->
-        <el-header>
+        <el-header  style="height: 50px">
           <div class="rightup">
             <div style="padding: 9px; color: #f2f6fc">{{ titleName }}</div>
             <!-- 右上按钮 -->
@@ -115,19 +113,29 @@
             <el-button-group>
               <el-button
                 plain
+                size="small"
                 icon="el-icon-folder-add"
                 round
                 @click="buttonNewreturnId = true"
                 >新增</el-button
               >
-              <el-button plain icon="el-icon-close" @click="delRightTable"
+              <el-button
+                plain
+                icon="el-icon-close"
+                @click="delRightTable"
+                size="small"
                 >删除</el-button
               >
-              <el-button plain icon="el-icon-download" 
+              <el-button plain icon="el-icon-download" size="small"
                 ><a href="#" :download="downFileSecond">下载模板</a></el-button
               >
-                
-              <el-button plain icon="el-icon-right" style="display: flex">
+
+              <el-button
+                plain
+                icon="el-icon-right"
+                style="display: flex"
+                size="small"
+              >
                 <el-upload
                   class="upload-demo"
                   :action="uploadRightUrl + mid"
@@ -136,7 +144,9 @@
                   >导入
                 </el-upload></el-button
               >
-              <el-button plain icon="el-icon-upload2" round>导出</el-button>
+              <el-button plain icon="el-icon-upload2" round size="small"
+                >导出</el-button
+              >
             </el-button-group>
 
             <!-- 新增返回编码表单 -->
@@ -175,7 +185,8 @@
                 <el-button type="primary" @click="buttonAddencodingOk()"
                   >Ok</el-button
                 >
-              </div>\
+              </div>
+              \
             </el-dialog>
           </div>
         </el-header>
@@ -220,7 +231,7 @@
               </template>
             </el-table-column>
           </el-table>
-          
+
           <!-- 编辑返回编码表单 -->
           <el-dialog title="编辑返回编码" :visible.sync="buttonEditreturnId">
             <el-form :model="firstitemsysteminfo">
@@ -299,8 +310,8 @@ import Firstitemsysteminfo from "@/model/Firstitemsysteminfo.js";
 export default {
   data() {
     return {
-      downFileOne:'',
-      downFileSecond:'',
+      downFileOne: "",
+      downFileSecond: "",
       uploadLeftUrl: "",
       uploadRightUrl: "",
       // 默认隐藏左上新增用户的表单
@@ -361,8 +372,8 @@ export default {
   mounted() {
     this.uploadLeftUrl = request.baseUrl + "/insertSystemOfExcel";
     this.uploadRightUrl = request.baseUrl + "/insertSystemInfoOfExcel?mid=";
-    this.downFileOne=request.baseUrl+"/static/系统分组模板.xlsx";
-      this.downFileSecond=request.baseUrl+"/static/系统分组信息表.xlsx";
+    this.downFileOne = request.baseUrl + "/static/系统分组模板.xlsx";
+    this.downFileSecond = request.baseUrl + "/static/系统分组信息表.xlsx";
   },
   methods: {
     //分组上传
@@ -515,6 +526,10 @@ export default {
 
 
 <style lang="less" scoped>
+a {
+  color: #606266;
+  text-decoration-line: none;
+}
 .classall {
   height: 100%;
   background-color: #dae1e5;
@@ -523,21 +538,17 @@ export default {
   height: 100%;
 }
 .el-container {
-  height: 738px;
+  height: 100%;
 }
 // 右下背景
 .el-main {
   padding: 0px !important;
 }
 
-// 右边表格
-.rightdown {
-  height: 86.9%;
-}
 
-//左下表格
-.leftdown {
-  height: 86.9%;
+//左下表格   右边表格
+.leftdown ,.rightdown{
+  height: calc(~"100% - 82px") !important;
 }
 
 .el-table {

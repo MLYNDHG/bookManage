@@ -92,7 +92,7 @@
         </div>
       </el-header>
 
-      <el-container>
+      <el-container class="adminhome-container">
         <el-aside width="200px">
           <!-- 侧边栏菜单 -->
           <el-menu
@@ -213,7 +213,7 @@ export default {
       //被激活的链接地址
       activePath: "",
       //upImage Url
-      upImageUrl:'',      
+      upImageUrl: "",
       //菜单名
       menuName1: "图书管理",
       menuName2: "用户信息",
@@ -231,7 +231,7 @@ export default {
         close: true,
       },
       //头像地址
-      actionn: request.baseUrl + '/uploadImage',
+      actionn: request.baseUrl + "/uploadImage",
       imageUrl: "",
 
       //用户信息
@@ -277,8 +277,9 @@ export default {
     this.editableTabs = this.$store.state.list;
     //查询用户信息
     this.getUser();
-  },mounted() {
-    this.upImageUrl=request.baseUrl+'/uploadImage';
+  },
+  mounted() {
+    this.upImageUrl = request.baseUrl + "/uploadImage";
   },
   methods: {
     //标题动画
@@ -361,7 +362,6 @@ export default {
     },
 
     logOut() {
-
       //退出时清空sessionStorage存的东西
       sessionStorage.clear();
       this.$store.dispatch("clearStore");
@@ -388,7 +388,7 @@ export default {
       this.userLog.id = 1;
       this.userLog.username = "root";
       saveUser(this.userLog).then();
-      this.imageUrl = request.baseUrl+ res.data;
+      this.imageUrl = request.baseUrl + res.data;
     },
 
     //页面渲染时查用户数据
@@ -408,8 +408,56 @@ export default {
 <style lang="less" scoped>
 .adminHome {
   height: 100%;
+
   .el-container {
     height: 100% !important;
+    .adminhome-container {
+      height: calc(~"100% - 60px") !important;
+      .el-aside {
+        background-color: #d3dce6;
+        color: #333;
+        text-align: center;
+        height: 100% !important;
+        .el-menu {
+          height: 100%;
+          border-right: solid 0px;
+          background-color: #0c356a87 !important;
+          .el-menu-item {
+            background-color: #6984a4 !important;
+          }
+          // /deep/.el-submenu {
+          //   padding-right: 0px !important;
+          // }
+          /deep/.el-submenu__title {
+            background-color: #6984a4 !important;
+            font-size: 15px;
+            font-family: "Ubuntu", sans-serif;
+            padding-right: 55px !important;
+          }
+        }
+      }
+
+      .el-main {
+        background-color: #e9eef3;
+        color: #333;
+        text-align: center;
+        /deep/.el-tabs__item {
+          color: white;
+          background-color: #4d77a3 !important;
+          border-radius: 20% 10% 0 0 !important;
+        }
+        // /deep/.el-tabs__item:hover {
+        //   color: white;
+        // }
+        .el-tabs {
+          height: 100%;
+
+          /deep/.el-tabs__content {
+            height: calc(100% - 43.4px) !important;
+          }
+        }
+      }
+    }
     .el-header {
       background-color: rgb(56 82 108);
       color: #fff7f7db;
@@ -449,51 +497,6 @@ export default {
           color: #fff;
           background-color: #38526c;
           border-color: #38526c;
-        }
-      }
-    }
-
-    .el-aside {
-      background-color: #d3dce6;
-      color: #333;
-      text-align: center;
-      height: 100% !important;
-      .el-menu {
-        height: 100%;
-        border-right: solid 0px;
-        background-color: #0c356a87 !important;
-        .el-menu-item {
-          background-color: #6984a4 !important;
-        }
-        // /deep/.el-submenu {
-        //   padding-right: 0px !important;
-        // }
-        /deep/.el-submenu__title {
-          background-color: #6984a4 !important;
-          font-size: 15px;
-          font-family: "Ubuntu", sans-serif;
-          padding-right: 55px !important;
-        }
-      }
-    }
-
-    .el-main {
-      background-color: #e9eef3;
-      color: #333;
-      text-align: center;
-      /deep/.el-tabs__item {
-        color: white;
-        background-color: #4d77a3 !important;
-        border-radius: 20% 10% 0 0 !important;
-      }
-      // /deep/.el-tabs__item:hover {
-      //   color: white;
-      // }
-      .el-tabs {
-        height: 100%;
-
-        /deep/.el-tabs__content {
-          height: calc(100% - 43.4px) !important;
         }
       }
     }
